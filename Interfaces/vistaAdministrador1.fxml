@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <MenuBar prefWidth="934.0" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <bottom>
+      <FlowPane alignment="CENTER" prefHeight="34.0" prefWidth="871.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label fx:id="message" text="Texto retroalimentario" />
+         </children>
+      </FlowPane>
+   </bottom>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Sucursal">
+               <content>
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                           <children>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="ID Sucursal" />
+                                    <TextField fx:id="tfIdSucursal" disable="true" editable="false" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Ciudad" />
+                                    <TextField fx:id="tfCiudad" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Codigo Postal" />
+                                    <TextField fx:id="tfCodigoPostal" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Dirección" />
+                                    <TextField fx:id="tfDireccion" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Teléfono" />
+                                    <TextField fx:id="tfTelSucursal" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                           <children>
+                              <Button fx:id="btnInsertarSucursal" mnemonicParsing="false" onAction="#insertarSucursal" text="Insertar" />
+                              <Button fx:id="btnActualizarSucursal" mnemonicParsing="false" onAction="#actualizarSucursal" text="Actualizar" />
+                              <Button fx:id="btnEliminarSucursal" mnemonicParsing="false" text="Eliminar" />
+                           </children>
+                        </FlowPane>
+                        <TableView fx:id="tvSucursal" prefHeight="331.0" prefWidth="870.0">
+                          <columns>
+                            <TableColumn fx:id="tcIDSucursal" prefWidth="75.0" text="ID Sucursal" />
+                            <TableColumn fx:id="tcCiudad" prefWidth="75.0" text="Ciudad" />
+                              <TableColumn fx:id="tcCodPos" prefWidth="75.0" text="Código Postal" />
+                              <TableColumn fx:id="tcDireccion" prefWidth="75.0" text="Dirección" />
+                              <TableColumn fx:id="tcTelSucu" prefWidth="75.0" text="Teléfono" />
+                          </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </FlowPane>
+               </content>
+          </Tab>
+            <Tab text="Reservas">
+               <content>
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                           <children>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="idPista" />
+                                    <TextField fx:id="tfidPistaReserva" disable="true" editable="false" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="DNI" />
+                                    <TextField fx:id="tfDNIReserva" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Hora de inicio" />
+                                    <TextField fx:id="tfHoraIni" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Duración" />
+                                    <TextField fx:id="tfDuracion" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Fecha" />
+                                    <TextField fx:id="tfFecha" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                           <children>
+                              <Button fx:id="btnInsertarReserva" mnemonicParsing="false" onAction="#insertarReserva" text="Insertar" />
+                              <Button fx:id="btnActualizarReserva" mnemonicParsing="false" onAction="#actualizarReserva" text="Actualizar" />
+                              <Button fx:id="btnEliminarReserva" mnemonicParsing="false" onAction="#eliminarReserva" text="Eliminar" />
+                           </children>
+                        </FlowPane>
+                        <TableView fx:id="tvReservas" prefHeight="331.0" prefWidth="870.0">
+                           <columns>
+                              <TableColumn fx:id="tcIDPistaReserva" prefWidth="75.0" text="ID Pista" />
+                              <TableColumn fx:id="tcDNIReserva" prefWidth="75.0" text="DNI" />
+                              <TableColumn fx:id="tcHoraIni" prefWidth="75.0" text="Hora de Inicio" />
+                              <TableColumn fx:id="tcDuracion" prefWidth="75.0" text="Duración" />
+                              <TableColumn fx:id="tcfecha" prefWidth="75.0" text="Fecha" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </FlowPane>
+               </content>
+            </Tab>
+            <Tab text="Pistas">
+               <content>
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                           <children>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="idPista" />
+                                    <TextField fx:id="tfIdPista" disable="true" editable="false" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Precio / Hora" />
+                                    <TextField fx:id="tfPrecioH" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Actividad" />
+                                    <TextField fx:id="tfActividad" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                           <children>
+                              <Button fx:id="btnInsertarPista" mnemonicParsing="false" onAction="#insertarPista" text="Insertar" />
+                              <Button fx:id="btnActualizarPista" mnemonicParsing="false" onAction="#actualizarPista" text="Actualizar" />
+                              <Button fx:id="btnEliminarPista" mnemonicParsing="false" onAction="#eliminarPista" text="Eliminar" />
+                           </children>
+                        </FlowPane>
+                        <TableView fx:id="tvPistas" prefHeight="331.0" prefWidth="870.0">
+                           <columns>
+                              <TableColumn fx:id="tcIdPista" prefWidth="75.0" text="ID Pista" />
+                              <TableColumn fx:id="tcPrecioH" prefWidth="75.0" text="Precio / Hora" />
+                              <TableColumn fx:id="tcActividad" prefWidth="75.0" text="Actividad" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </FlowPane>
+               </content>
+            </Tab>
+            <Tab text="Usuarios">
+               <content>
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                           <children>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="DNI" />
+                                    <TextField fx:id="tfDNIUsu" disable="true" editable="false" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Nombre" />
+                                    <TextField fx:id="tfNombreUsu" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Apellidos" />
+                                    <TextField fx:id="tfApellidosUsu" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Correo" />
+                                    <TextField fx:id="tfCorreoUsu" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Teléfono" />
+                                    <TextField fx:id="tfTelUsu" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Nombre Usuario" />
+                                    <TextField fx:id="tfUsuario" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                           <children>
+                              <Button fx:id="btnInsertarUsuario" mnemonicParsing="false" onAction="#insertarUsuario" text="Insertar" />
+                              <Button fx:id="btnActualizarUsuario" mnemonicParsing="false" onAction="#actualizarUsuario" text="Actualizar" />
+                              <Button fx:id="btnEliminarUsuario" mnemonicParsing="false" onAction="#eliminarUsuario" text="Eliminar" />
+                           </children>
+                        </FlowPane>
+                        <TableView fx:id="tvUsuarios" prefHeight="331.0" prefWidth="870.0">
+                           <columns>
+                              <TableColumn fx:id="tcDNIUsu" prefWidth="75.0" text="DNI" />
+                              <TableColumn fx:id="tcNombreUsu" prefWidth="75.0" text="Nombre" />
+                              <TableColumn fx:id="tcApellidosUsu" prefWidth="75.0" text="Apellidos" />
+                              <TableColumn fx:id="tcCorreoUsu" prefWidth="75.0" text="Correo" />
+                              <TableColumn fx:id="tcTelUsu" prefWidth="75.0" text="Teléfono" />
+                              <TableColumn fx:id="tcUsu" prefWidth="75.0" text="Nombre de usuario" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </FlowPane>
+               </content>
+            </Tab>
+            <Tab text="Empleados">
+               <content>
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                           <children>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="DNI" />
+                                    <TextField fx:id="tfDNIEmple" disable="true" editable="false" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Nombre" />
+                                    <TextField fx:id="tfNombreEmple" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Apellidos" />
+                                    <TextField fx:id="tfApellidosEmple" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Correo" />
+                                    <TextField fx:id="tfCorreoEmple" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Teléfono" />
+                                    <TextField fx:id="tfTelEmple" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Sueldo" />
+                                    <TextField fx:id="tfSueldo" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                           <children>
+                              <Button fx:id="btnInsertarEmple" mnemonicParsing="false" onAction="#insertarEmple" text="Insertar" />
+                              <Button fx:id="btnActualizarEmple" mnemonicParsing="false" onAction="#actualizarEmple" text="Actualizar" />
+                              <Button fx:id="btnEliminarEmple" mnemonicParsing="false" onAction="#eliminarEmple" text="Eliminar" />
+                           </children>
+                        </FlowPane>
+                        <TableView fx:id="tvEmpleados" prefHeight="331.0" prefWidth="870.0">
+                           <columns>
+                              <TableColumn fx:id="tcDNIEmple" prefWidth="75.0" text="DNI" />
+                              <TableColumn fx:id="tcNombreEmple" prefWidth="75.0" text="Nombre" />
+                              <TableColumn fx:id="tcApellidosEmple" prefWidth="75.0" text="Apellidos" />
+                              <TableColumn fx:id="tcCorreoEmple" prefWidth="75.0" text="Correo" />
+                              <TableColumn fx:id="tcTelefonoEmple" prefWidth="75.0" text="Teléfono" />
+                              <TableColumn fx:id="tcSueldo" prefWidth="75.0" text="Sueldo" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </FlowPane>
+               </content>
+            </Tab>
+            <Tab text="Mantenimiento">
+               <content>
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                           <children>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="DNI" />
+                                    <TextField fx:id="tfDNIManteni" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="idPista" />
+                                    <TextField fx:id="tfIdPistaManteni" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Tipo de trabajo" />
+                                    <TextField fx:id="tfTipoT" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                           <children>
+                              <Button fx:id="btnInsertarManteni" mnemonicParsing="false" onAction="#insertarManteni" text="Insertar" />
+                              <Button fx:id="btnActualizarManteni" mnemonicParsing="false" onAction="#actualizarManteni" text="Actualizar" />
+                              <Button fx:id="btnEliminarManteni" mnemonicParsing="false" onAction="#eliminarManteni" text="Eliminar" />
+                           </children>
+                        </FlowPane>
+                        <TableView fx:id="tvMantenimiento" prefHeight="331.0" prefWidth="870.0">
+                           <columns>
+                              <TableColumn fx:id="tcDNIManteni" prefWidth="75.0" text="DNI" />
+                              <TableColumn fx:id="tcIdPistaManteni" prefWidth="75.0" text="ID Pista" />
+                              <TableColumn fx:id="tcTipoT" prefWidth="75.0" text="Tipo de trabajo" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </FlowPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
