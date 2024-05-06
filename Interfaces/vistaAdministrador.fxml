@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Sucursal">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0">
+                     <children>
+                        <VBox prefHeight="295.0" prefWidth="600.0">
+                           <children>
+                              <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="15.0" prefHeight="80.0" prefWidth="600.0" vgap="4.0">
+                                 <children>
+                                    <Button fx:id="btnInsertarSucursal" mnemonicParsing="false" onAction="#insertarSucursal" text="Insertar" />
+                                    <Button fx:id="btnActualizarSucursal" mnemonicParsing="false" onAction="#actualizarSucursal" text="Actualizar" />
+                                    <Button fx:id="btnEliminarSucursal" mnemonicParsing="false" onAction="#eliminarSucursal" text="Eliminar" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                              </FlowPane>
+                              <TableView fx:id="tvSucursal" prefHeight="200.0" prefWidth="200.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="C1" />
+                                  <TableColumn prefWidth="75.0" text="C2" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Reservas">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="295.0" prefWidth="600.0">
+                           <children>
+                              <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="15.0" prefHeight="80.0" prefWidth="600.0" vgap="4.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Insertar" />
+                                    <Button mnemonicParsing="false" text="Actualizar" />
+                                    <Button mnemonicParsing="false" text="Eliminar" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                              </FlowPane>
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn prefWidth="75.0" text="C1" />
+                                    <TableColumn prefWidth="75.0" text="C2" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Pistas">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="295.0" prefWidth="600.0">
+                           <children>
+                              <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="15.0" prefHeight="80.0" prefWidth="600.0" vgap="4.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Insertar" />
+                                    <Button mnemonicParsing="false" text="Actualizar" />
+                                    <Button mnemonicParsing="false" text="Eliminar" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                              </FlowPane>
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn prefWidth="75.0" text="C1" />
+                                    <TableColumn prefWidth="75.0" text="C2" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Usuarios">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="295.0" prefWidth="600.0">
+                           <children>
+                              <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="15.0" prefHeight="80.0" prefWidth="600.0" vgap="4.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Insertar" />
+                                    <Button mnemonicParsing="false" text="Actualizar" />
+                                    <Button mnemonicParsing="false" text="Eliminar" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                              </FlowPane>
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn prefWidth="75.0" text="C1" />
+                                    <TableColumn prefWidth="75.0" text="C2" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Empleados">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="295.0" prefWidth="600.0">
+                           <children>
+                              <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="15.0" prefHeight="80.0" prefWidth="600.0" vgap="4.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Insertar" />
+                                    <Button mnemonicParsing="false" text="Actualizar" />
+                                    <Button mnemonicParsing="false" text="Eliminar" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                              </FlowPane>
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn prefWidth="75.0" text="C1" />
+                                    <TableColumn prefWidth="75.0" text="C2" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Mantenimiento">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <VBox prefHeight="295.0" prefWidth="600.0">
+                           <children>
+                              <FlowPane alignment="CENTER_LEFT" columnHalignment="CENTER" hgap="15.0" prefHeight="80.0" prefWidth="600.0" vgap="4.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" text="Insertar" />
+                                    <Button mnemonicParsing="false" text="Actualizar" />
+                                    <Button mnemonicParsing="false" text="Eliminar" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                              </FlowPane>
+                              <TableView prefHeight="200.0" prefWidth="200.0">
+                                 <columns>
+                                    <TableColumn prefWidth="75.0" text="C1" />
+                                    <TableColumn prefWidth="75.0" text="C2" />
+                                 </columns>
+                              </TableView>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>
