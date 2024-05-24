@@ -10,6 +10,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
@@ -194,9 +196,16 @@
                               </VBox>
                            </children>
                         </FlowPane>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                        <FlowPane alignment="CENTER_LEFT" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
                            <children>
-                              <Button fx:id="btnInsertarPista" mnemonicParsing="false" onAction="#insertarPista" text="Insertar" />
+                              <Button fx:id="btnInsertarPista" mnemonicParsing="false" onAction="#insertarPista">
+                                 <graphic>
+                                    <ImageView fitHeight="69.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/mas.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                               <Button fx:id="btnActualizarPista" mnemonicParsing="false" onAction="#actualizarPista" text="Actualizar" />
                               <Button fx:id="btnEliminarPista" mnemonicParsing="false" onAction="#eliminarPista" text="Eliminar" />
                            </children>
