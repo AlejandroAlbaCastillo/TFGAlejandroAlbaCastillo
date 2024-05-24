@@ -21,7 +21,7 @@ public class Main extends Application {
         
 
         
-        Parent root = FXMLLoader.load(getClass().getResource("/Vista/vistaLogin.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Vista/vistaAdministrador1.fxml"));
 
         Scene scene = new Scene(root);
          //Cargar el archivo CSS

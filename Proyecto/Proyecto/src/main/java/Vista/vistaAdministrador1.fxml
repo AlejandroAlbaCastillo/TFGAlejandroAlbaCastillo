@@ -49,6 +49,15 @@
       <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
           <Tab text="Sucursal">
+              <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="/Imagenes/Iconos/sucursal.png"/>
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -110,6 +119,15 @@
                </content>
           </Tab>
             <Tab text="Reservas">
+                <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="/Imagenes/Iconos/reserva.png"/>
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -171,6 +189,15 @@
                </content>
             </Tab>
             <Tab text="Pistas">
+                <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="/Imagenes/Iconos/pista.png"/>
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -225,6 +252,15 @@
                </content>
             </Tab>
             <Tab text="Usuarios">
+                <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="/Imagenes/Iconos/usuario.png"/>
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -293,6 +329,15 @@
                </content>
             </Tab>
             <Tab text="Empleados">
+                <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="/Imagenes/Iconos/empleado.png"/>
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -361,6 +406,15 @@
                </content>
             </Tab>
             <Tab text="Mantenimiento">
+                <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="/Imagenes/Iconos/mantenimiento.png"/>
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>

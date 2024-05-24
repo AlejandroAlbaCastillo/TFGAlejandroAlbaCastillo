@@ -49,8 +49,8 @@ public class controladorLogin implements Initializable{
                 Pane nuevoContenidoPane = loader.load();
 
                 cvfc = loader.getController();
-                this.cvfc.enviaAverFoto(sacarFoto(cas.getIdCasa()));
-                cvfc.setControladorEnlace(this);
+                //this.cvfc.enviaAverFoto(sacarFoto(cas.getIdCasa()));
+                //cvfc.setControladorEnlace(this);
 
                 // Crear una nueva ventana para mostrar el contenido
                 Stage nuevoContenidoStage = new Stage();
