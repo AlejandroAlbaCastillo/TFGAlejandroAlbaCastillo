@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="582.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.controladorAdmin">
    <top>
@@ -46,9 +47,18 @@
       </FlowPane>
    </bottom>
    <center>
-      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tbGeneral" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab text="Sucursal">
+          <Tab fx:id="tabSucursal" text="Sucursal">
+              <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="@../Imagenes/Iconos/sucursal.png" />
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -86,11 +96,32 @@
                               </VBox>
                            </children>
                         </FlowPane>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                        <FlowPane fx:id="accionesSucursal" alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
                            <children>
-                              <Button fx:id="btnInsertarSucursal" mnemonicParsing="false" onAction="#insertarSucursal" text="Insertar" />
-                              <Button fx:id="btnActualizarSucursal" mnemonicParsing="false" onAction="#actualizarSucursal" text="Actualizar" />
-                              <Button fx:id="btnEliminarSucursal" mnemonicParsing="false" text="Eliminar" />
+                              <Button fx:id="btnInsertarSucursal" mnemonicParsing="false" onAction="#insertarSucursal" text="Insertar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button fx:id="btnActualizarSucursal" mnemonicParsing="false" onAction="#actualizarSucursal" text="Actualizar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button fx:id="btnEliminarSucursal" mnemonicParsing="false" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                            </children>
                         </FlowPane>
                         <TableView fx:id="tvSucursal" prefHeight="331.0" prefWidth="870.0">
@@ -110,6 +141,15 @@
                </content>
           </Tab>
             <Tab text="Reservas">
+                <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="@../Imagenes/Iconos/reserva.png" />
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -149,9 +189,30 @@
                         </FlowPane>
                         <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
                            <children>
-                              <Button fx:id="btnInsertarReserva" mnemonicParsing="false" onAction="#insertarReserva" text="Insertar" />
-                              <Button fx:id="btnActualizarReserva" mnemonicParsing="false" onAction="#actualizarReserva" text="Actualizar" />
-                              <Button fx:id="btnEliminarReserva" mnemonicParsing="false" onAction="#eliminarReserva" text="Eliminar" />
+                              <Button fx:id="btnInsertarReserva" mnemonicParsing="false" onAction="#insertarReserva" text="Insertar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button fx:id="btnActualizarReserva" mnemonicParsing="false" onAction="#actualizarReserva" text="Actualizar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button fx:id="btnEliminarReserva" mnemonicParsing="false" onAction="#eliminarReserva" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="150.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                            </children>
                         </FlowPane>
                         <TableView fx:id="tvReservas" prefHeight="331.0" prefWidth="870.0">
@@ -171,43 +232,82 @@
                </content>
             </Tab>
             <Tab text="Pistas">
+                <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="@../Imagenes/Iconos/pista.png" />
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                        <FlowPane prefHeight="155.0" prefWidth="870.0" rowValignment="TOP">
                            <children>
-                              <VBox prefWidth="100.0">
+                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" orientation="VERTICAL" prefHeight="83.0" prefWidth="870.0">
                                  <children>
-                                    <Label text="idPista" />
-                                    <TextField fx:id="tfIdPista" disable="true" editable="false" />
+                                    <VBox prefWidth="100.0">
+                                       <children>
+                                          <Label text="idPista" />
+                                          <TextField fx:id="tfIdPista" disable="true" editable="false" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefWidth="100.0">
+                                       <children>
+                                          <Label text="Precio / Hora" />
+                                          <TextField fx:id="tfPrecioH" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefWidth="100.0">
+                                       <children>
+                                          <Label text="Actividad" />
+                                          <TextField fx:id="tfActividad" />
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </VBox>
-                              <VBox prefWidth="100.0">
+                              </FlowPane>
+                              <FlowPane alignment="CENTER_LEFT" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="77.0" prefWidth="638.0">
                                  <children>
-                                    <Label text="Precio / Hora" />
-                                    <TextField fx:id="tfPrecioH" />
+                                    <Button fx:id="btnInsertarPista" mnemonicParsing="false" onAction="#insertarPista" text="Insertar">
+                                       <graphic>
+                                          <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btnActualizarPista" mnemonicParsing="false" onAction="#actualizarPista" text="Actualizar">
+                                       <graphic>
+                                          <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="btnEliminarPista" mnemonicParsing="false" onAction="#eliminarPista" text="Eliminar">
+                                       <graphic>
+                                          <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                             </image>
+                                          </ImageView>
+                                       </graphic>
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Button>
                                  </children>
-                              </VBox>
-                              <VBox prefWidth="100.0">
-                                 <children>
-                                    <Label text="Actividad" />
-                                    <TextField fx:id="tfActividad" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </FlowPane>
-                        <FlowPane alignment="CENTER_LEFT" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
-                           <children>
-                              <Button fx:id="btnInsertarPista" mnemonicParsing="false" onAction="#insertarPista">
-                                 <graphic>
-                                    <ImageView fitHeight="69.0" fitWidth="195.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../Imagenes/mas.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic></Button>
-                              <Button fx:id="btnActualizarPista" mnemonicParsing="false" onAction="#actualizarPista" text="Actualizar" />
-                              <Button fx:id="btnEliminarPista" mnemonicParsing="false" onAction="#eliminarPista" text="Eliminar" />
+                              </FlowPane>
                            </children>
                         </FlowPane>
                         <TableView fx:id="tvPistas" prefHeight="331.0" prefWidth="870.0">
@@ -225,6 +325,15 @@
                </content>
             </Tab>
             <Tab text="Usuarios">
+                <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="@../Imagenes/Iconos/usuario.png" />
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -270,9 +379,30 @@
                         </FlowPane>
                         <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
                            <children>
-                              <Button fx:id="btnInsertarUsuario" mnemonicParsing="false" onAction="#insertarUsuario" text="Insertar" />
-                              <Button fx:id="btnActualizarUsuario" mnemonicParsing="false" onAction="#actualizarUsuario" text="Actualizar" />
-                              <Button fx:id="btnEliminarUsuario" mnemonicParsing="false" onAction="#eliminarUsuario" text="Eliminar" />
+                              <Button fx:id="btnInsertarUsuario" mnemonicParsing="false" onAction="#insertarUsuario" text="Insertar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button fx:id="btnActualizarUsuario" mnemonicParsing="false" onAction="#actualizarUsuario" text="Actualizar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button fx:id="btnEliminarUsuario" mnemonicParsing="false" onAction="#eliminarUsuario" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                            </children>
                         </FlowPane>
                         <TableView fx:id="tvUsuarios" prefHeight="331.0" prefWidth="870.0">
@@ -293,6 +423,15 @@
                </content>
             </Tab>
             <Tab text="Empleados">
+                <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="@../Imagenes/Iconos/empleado.png" />
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -338,9 +477,30 @@
                         </FlowPane>
                         <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
                            <children>
-                              <Button fx:id="btnInsertarEmple" mnemonicParsing="false" onAction="#insertarEmple" text="Insertar" />
-                              <Button fx:id="btnActualizarEmple" mnemonicParsing="false" onAction="#actualizarEmple" text="Actualizar" />
-                              <Button fx:id="btnEliminarEmple" mnemonicParsing="false" onAction="#eliminarEmple" text="Eliminar" />
+                              <Button fx:id="btnInsertarEmple" mnemonicParsing="false" onAction="#insertarEmple" text="Insertar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button fx:id="btnActualizarEmple" mnemonicParsing="false" onAction="#actualizarEmple" text="Actualizar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button fx:id="btnEliminarEmple" mnemonicParsing="false" onAction="#eliminarEmple" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                            </children>
                         </FlowPane>
                         <TableView fx:id="tvEmpleados" prefHeight="331.0" prefWidth="870.0">
@@ -361,6 +521,15 @@
                </content>
             </Tab>
             <Tab text="Mantenimiento">
+                <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="@../Imagenes/Iconos/mantenimiento.png" />
+                      </image>
+                  </ImageView>
+              </graphic>
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -388,9 +557,30 @@
                         </FlowPane>
                         <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
                            <children>
-                              <Button fx:id="btnInsertarManteni" mnemonicParsing="false" onAction="#insertarManteni" text="Insertar" />
-                              <Button fx:id="btnActualizarManteni" mnemonicParsing="false" onAction="#actualizarManteni" text="Actualizar" />
-                              <Button fx:id="btnEliminarManteni" mnemonicParsing="false" onAction="#eliminarManteni" text="Eliminar" />
+                              <Button fx:id="btnInsertarManteni" mnemonicParsing="false" onAction="#insertarManteni" text="Insertar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button fx:id="btnActualizarManteni" mnemonicParsing="false" onAction="#actualizarManteni" text="Actualizar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
+                              <Button fx:id="btnEliminarManteni" mnemonicParsing="false" onAction="#eliminarManteni" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                            </children>
                         </FlowPane>
                         <TableView fx:id="tvMantenimiento" prefHeight="331.0" prefWidth="870.0">
@@ -398,6 +588,226 @@
                               <TableColumn fx:id="tcDNIManteni" prefWidth="75.0" text="DNI" />
                               <TableColumn fx:id="tcIdPistaManteni" prefWidth="75.0" text="ID Pista" />
                               <TableColumn fx:id="tcTipoT" prefWidth="75.0" text="Tipo de trabajo" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </FlowPane>
+               </content>
+            </Tab>
+            <Tab text="Roles">
+               <graphic>
+                  <ImageView fitWidth="16" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Iconos/rol.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <content>
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                           <children>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="idRol" />
+                                    <TextField fx:id="tfIdRol" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Denominacion" />
+                                    <TextField fx:id="tfDenominacion" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                           <children>
+                              <Button fx:id="btnInsertarRol" mnemonicParsing="false" onAction="#insertarRol" text="Insertar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnActualizarRol" mnemonicParsing="false" onAction="#actualizarRol" text="Actualizar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnEliminarRol" mnemonicParsing="false" onAction="#eliminarRol" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </FlowPane>
+                        <TableView fx:id="tvRol" prefHeight="331.0" prefWidth="870.0">
+                           <columns>
+                              <TableColumn fx:id="tcIdRol" prefWidth="75.0" text="idRol" />
+                              <TableColumn fx:id="tcDenominacion" prefWidth="75.0" text="Denominacion" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </FlowPane>
+               </content>
+            </Tab>
+            <Tab text="Modulos">
+               <graphic>
+                  <ImageView fitWidth="16" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Iconos/modulo.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <content>
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                           <children>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="idModulo" />
+                                    <TextField fx:id="tfIdModulo" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Modulo" />
+                                    <TextField fx:id="tfModulo" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                           <children>
+                              <Button fx:id="btnInsertarModulo" mnemonicParsing="false" onAction="#insertarModulo" text="Insertar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnActualizarModulo" mnemonicParsing="false" onAction="#actualizarModulo" text="Actualizar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnEliminarModulo" mnemonicParsing="false" onAction="#eliminarModulo" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </FlowPane>
+                        <TableView fx:id="tvModulo" prefHeight="331.0" prefWidth="870.0">
+                           <columns>
+                              <TableColumn fx:id="tcIdModulo" prefWidth="75.0" text="idModulo" />
+                              <TableColumn fx:id="tcModulo" prefWidth="75.0" text="Modulo" />
+                           </columns>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
+                        </TableView>
+                     </children>
+                  </FlowPane>
+               </content>
+            </Tab>
+            <Tab text="Permisos">
+               <graphic>
+                  <ImageView fitWidth="16" preserveRatio="true">
+                     <image>
+                        <Image url="@../Imagenes/Iconos/permisos.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <content>
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                           <children>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="idRol" />
+                                    <TextField fx:id="tfIdRolPer" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="idModulo" />
+                                    <TextField fx:id="tfIdModuloPer" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Permisos" />
+                                    <TextField fx:id="tfPermisos" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </FlowPane>
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="79.0">
+                           <children>
+                              <Button fx:id="btnInsertarPermiso" mnemonicParsing="false" onAction="#insertarPermiso" text="Insertar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnActualizarPermiso" mnemonicParsing="false" onAction="#actualizarPermiso" text="Actualizar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button fx:id="btnEliminarPermiso" mnemonicParsing="false" onAction="#eliminarPermiso" text="Eliminar">
+                                 <graphic>
+                                    <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </children>
+                        </FlowPane>
+                        <TableView fx:id="tvPermisos" prefHeight="331.0" prefWidth="870.0">
+                           <columns>
+                              <TableColumn fx:id="tcIdRolPer" prefWidth="75.0" text="idRol" />
+                              <TableColumn fx:id="tcIdModuloPer" prefWidth="75.0" text="idModulo" />
+                              <TableColumn fx:id="tcPermisos" prefWidth="75.0" text="Permisos" />
                            </columns>
                            <columnResizePolicy>
                               <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

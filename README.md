@@ -1,2 +1,5 @@
-# De que trata el proyecto
- El proyecto trata sobre la gestión y administracion de pistas de una cadena de centros deportivos
+# Mejoras
+
+- Mostrar bien los datos de:
+    - Permisos (en vez de las claves de roles y modulos mostrar el nombre para que sea mas intuitivo)
+- Quitar la vista de login una vez esta dentro de la aplicacion

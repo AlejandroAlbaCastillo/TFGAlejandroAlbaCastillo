@@ -1,10 +1,15 @@
 package controlador;
 
+import Modelo.Modulo;
+import Modelo.Permiso;
+import Modelo.Persona;
 import Modelo.Pista;
+import Modelo.Rol;
 import Modelo.Sucursal;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -17,20 +22,46 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.FlowPane;
 
 public class controladorAdmin implements Initializable {
 
     Connection conexion;
-
+    controladorLogin cl;
+    
+    int rol = 1;
+    Persona persona;
+    
+    public boolean visible(int rol){
+        if(rol == 1){
+            return true;
+        }else{
+            return false;
+        } 
+    }
+    
     ///////////////////////////Elementos de la vista///////////////////////////
     @FXML
     private Label message;
-
+    
+    @FXML
+    private TabPane tbGeneral;
+    
     //################################Sucursal################################//
+    
+    
+    @FXML
+    private Tab tabSucursal;
+
+    @FXML
+    private FlowPane accionesSucursal;
+    
     @FXML
     private TextField tfIdSucursal;
 
@@ -269,6 +300,86 @@ public class controladorAdmin implements Initializable {
     @FXML
     private TableColumn<?, ?> tcTipoT;
 
+    //################################Rol################################//
+    @FXML
+    private TextField tfIdRol;
+
+    @FXML
+    private TextField tfDenominacion;
+
+    @FXML
+    private Button btnInsertarRol;
+    
+    @FXML
+    private Button btnActualizarRol;
+
+    @FXML
+    private Button btnEliminarRol;
+
+    @FXML
+    private TableView<Rol> tvRol;
+
+    @FXML
+    private TableColumn<Rol, Integer> tcIdRol;
+
+    @FXML
+    private TableColumn<Rol, String> tcDenominacion;
+
+//################################Modulo################################//
+    @FXML
+    private TextField tfIdModulo;
+
+    @FXML
+    private TextField tfModulo;
+
+    @FXML
+    private Button btnInsertarModulo;
+    
+    @FXML
+    private Button btnActualizarModulo;
+
+    @FXML
+    private Button btnEliminarModulo;
+
+    @FXML
+    private TableView<Modulo> tvModulo;
+
+    @FXML
+    private TableColumn<Modulo, Integer> tcIdModulo;
+
+    @FXML
+    private TableColumn<Modulo, String> tcModulo;
+
+    //################################Modulo################################//
+    @FXML
+    private TextField tfIdModuloPer;
+
+    @FXML
+    private TextField tfIdRolPer;
+
+    @FXML
+    private TextField tfPermisos;
+    
+    @FXML
+    private Button btnInsertarPermiso;
+    
+    @FXML
+    private Button btnActualizarPermiso;
+
+    @FXML
+    private Button btnEliminarPermiso;
+
+    @FXML
+    private TableView<Permiso> tvPermisos;
+
+    @FXML
+    private TableColumn<Permiso, Integer> tcIdModuloPer;
+
+    @FXML
+    private TableColumn<Permiso, Integer> tcIdRolPer;
+    
+    @FXML
+    private TableColumn<Permiso, String> tcPermisos;
     ///////////////////////////Eventos de la vista///////////////////////////
     @FXML
     void actualizarEmple(ActionEvent event) {
@@ -355,6 +466,50 @@ public class controladorAdmin implements Initializable {
 
     }
 
+    @FXML
+    void insertarRol(ActionEvent event) {
+
+    }
+
+    @FXML
+    void actualizarRol(ActionEvent event) {
+
+    }
+
+    @FXML
+    void eliminarRol(ActionEvent event) {
+
+    }
+
+    @FXML
+    void insertarModulo(ActionEvent event) {
+
+    }
+
+    @FXML
+    void actualizarModulo(ActionEvent event) {
+
+    }
+
+    @FXML
+    void eliminarModulo(ActionEvent event) {
+
+    }
+
+    @FXML
+    void insertarPermiso(ActionEvent event) {
+
+    }
+
+    @FXML
+    void actualizarPermiso(ActionEvent event) {
+
+    }
+
+    @FXML
+    void eliminarPermiso(ActionEvent event) {
+
+    }
         ///////////////////////////Funciones///////////////////////////
 
     
@@ -362,7 +517,7 @@ public class controladorAdmin implements Initializable {
         Connection conn;
         try {
             //conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libreria", "root", "root");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfg", "admin", "gwo47BRcHwGE");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfg2", "admin", "gwo47BRcHwGE");
             return conn;
         } catch (SQLException e) {
             System.out.println("Error SQL: " + e.getMessage());
@@ -375,6 +530,78 @@ public class controladorAdmin implements Initializable {
         }
     }
 
+    public ObservableList<Permiso> dameListaPermisos() {
+        ObservableList<Permiso> listaPermisos = FXCollections.observableArrayList();
+        Connection connection = getConnection();
+        if (connection != null) {
+            String query = "SELECT * FROM permisos";
+            Statement st;
+            ResultSet rs;
+
+            try {
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+                Permiso permiso;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    permiso = new Permiso(rs.getInt("id_rol"), rs.getInt("id_modulo"), rs.getString("permisos"));
+                    
+                    listaPermisos.add(permiso);
+                }
+            } catch (SQLException e) {
+            }
+            return listaPermisos;
+        }
+        return null;
+    }
+    
+    public ObservableList<Modulo> dameListaModulo() {
+        ObservableList<Modulo> listaModulos = FXCollections.observableArrayList();
+        Connection connection = getConnection();
+        if (connection != null) {
+            String query = "SELECT * FROM modulos";
+            Statement st;
+            ResultSet rs;
+
+            try {
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+                Modulo modulo;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    modulo = new Modulo(rs.getInt("id_modulo"), rs.getString("modulo"));
+                    
+                    listaModulos.add(modulo);
+                }
+            } catch (SQLException e) {
+            }
+            return listaModulos;
+        }
+        return null;
+    }
+    
+    public ObservableList<Rol> dameListaRol() {
+        ObservableList<Rol> listaRoles = FXCollections.observableArrayList();
+        Connection connection = getConnection();
+        if (connection != null) {
+            String query = "SELECT * FROM rol";
+            Statement st;
+            ResultSet rs;
+
+            try {
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+                Rol rol;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    rol = new Rol(rs.getInt("id_rol"), rs.getString("denominacion"));
+                    System.out.println(rol.toString());
+                    listaRoles.add(rol);
+                }
+            } catch (SQLException e) {
+            }
+            return listaRoles;
+        }
+        return null;
+    }
+    
     public ObservableList<Sucursal> dameListaSucursal() {
         ObservableList<Sucursal> listaSucursales = FXCollections.observableArrayList();
         Connection connection = getConnection();
@@ -421,8 +648,34 @@ public class controladorAdmin implements Initializable {
         return null;
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    /*
+    public String sacarRol(int id){
+        String retorno = null;
+            try {
+                Connection connection = getConnection();
+                String query = "SELECT denominacion FROM rol WHERE id_rol = ?";
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setInt(1, id);
+                ResultSet resultado = preparedStatement.executeQuery();
+
+                if (resultado.next()) {
+                     retorno = resultado.getString("denominacion");
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getLocalizedMessage());
+            }
+            return retorno;
+    }
+    
+    */
+    public void enviaAControlador(Persona per) {
+        this.persona = per;
+    }
+    
+    public void setControladorEnlace(controladorLogin c) {
+        //System.out.println("pERMISOS FALTANTES: "+permisosFaltantes("CR--"));
+        //tbGeneral.getTabs().remove(tabSucursal);
+        //accionesSucursal.getChildren().remove(btnInsertarSucursal);
         message.setText("Bienvenido");
 
         ObservableList<Sucursal> listaS = dameListaSucursal();
@@ -444,6 +697,48 @@ public class controladorAdmin implements Initializable {
         tcActividad.setCellValueFactory(new PropertyValueFactory<Pista, String>("actividad"));
 
         tvPistas.setItems(listaP);
+        
+        ObservableList<Rol> listaRol = dameListaRol();
+
+        //Los campos han de coincidir con los campos del objeto Libros
+        tcIdRol.setCellValueFactory(new PropertyValueFactory<Rol, Integer>("idRol"));
+        tcDenominacion.setCellValueFactory(new PropertyValueFactory<Rol, String>("denominacion"));
+
+        tvRol.setItems(listaRol);
+        
+        
+        ObservableList<Modulo> listaModulo = dameListaModulo();
+
+        //Los campos han de coincidir con los campos del objeto Libros
+        tcIdModulo.setCellValueFactory(new PropertyValueFactory<Modulo, Integer>("idModulo"));
+        tcModulo.setCellValueFactory(new PropertyValueFactory<Modulo, String>("modulo"));
+
+        tvModulo.setItems(listaModulo);
+        
+        ObservableList<Permiso> listaPermisos = dameListaPermisos();
+
+        //Los campos han de coincidir con los campos del objeto Libros
+        tcIdRolPer.setCellValueFactory(new PropertyValueFactory<Permiso, Integer>("idRol"));
+        tcIdModuloPer.setCellValueFactory(new PropertyValueFactory<Permiso, Integer>("idModulo"));
+        tcPermisos.setCellValueFactory(new PropertyValueFactory<Permiso, String>("permiso"));
+
+        tvPermisos.setItems(listaPermisos);
+    }
+    
+    public String permisosFaltantes(String permisos){
+        String aux = "";
+        String todos = "CRUD";
+        for (char p : todos.toCharArray()){
+            if (!permisos.contains(String.valueOf(p))) {
+                aux=aux+p;
+            }
+        }
+        return aux;
+    }
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        
     }
 
 }
