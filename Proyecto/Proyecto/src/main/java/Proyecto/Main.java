@@ -8,6 +8,7 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -21,7 +22,7 @@ public class Main extends Application {
         
 
         
-        Parent root = FXMLLoader.load(getClass().getResource("/Vista/vistaAdministrador1.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Vista/vistaLogin.fxml"));
 
         Scene scene = new Scene(root);
          //Cargar el archivo CSS
@@ -30,6 +31,7 @@ public class Main extends Application {
 
         stage.setScene(scene);
         stage.setTitle("Sportify");
+        stage.getIcons().add(new Image("/Imagenes/Miscelanea/tenis.png"));
         stage.show(); 
         
         

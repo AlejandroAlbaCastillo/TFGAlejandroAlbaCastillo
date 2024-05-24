@@ -39,34 +39,53 @@ public class controladorLogin implements Initializable{
     private TextField tfDNI;
 
     @FXML
-    void btnEntrar(ActionEvent event) {
+    void btnEntrar() {
         String dni = tfDNI.getText();
         String contra = pfContrasena.getText();
         
-       try {
-                // Cargar el nuevo contenido desde el archivo FXML
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/vista/verFotoCasa.fxml"));
-                Pane nuevoContenidoPane = loader.load();
+        String cadena = existeUsuario(dni,contra);
+        
+        switch (cadena){
+            case "OK":
+                Persona per = sacarPersona(dni);
+        
+                if (per != null) {
+                    try {
+                    // Cargar el nuevo contenido desde el archivo FXML
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Vista/vistaAdministrador1.fxml"));
+                    Pane nuevoContenidoPane = loader.load();
 
-                cvfc = loader.getController();
-                //this.cvfc.enviaAverFoto(sacarFoto(cas.getIdCasa()));
-                //cvfc.setControladorEnlace(this);
+                    cvfc = loader.getController();
+                    this.cvfc.enviaAControlador(per);
+                    cvfc.setControladorEnlace(this);
 
-                // Crear una nueva ventana para mostrar el contenido
-                Stage nuevoContenidoStage = new Stage();
-                nuevoContenidoStage.setTitle("Nuevo Alquiler");
-                nuevoContenidoStage.initModality(Modality.WINDOW_MODAL);
+                    // Crear una nueva ventana para mostrar el contenido
+                    Stage nuevoContenidoStage = new Stage();
+                    nuevoContenidoStage.setTitle("Nuevo Alquiler");
+                    nuevoContenidoStage.initModality(Modality.WINDOW_MODAL);
 
-                // Configurar la escena con el contenido cargado
-                Scene nuevoContenidoScene = new Scene(nuevoContenidoPane);
+                    // Configurar la escena con el contenido cargado
+                    Scene nuevoContenidoScene = new Scene(nuevoContenidoPane);
 
-                nuevoContenidoStage.setScene(nuevoContenidoScene);
+                    nuevoContenidoStage.setScene(nuevoContenidoScene);
 
-                // Mostrar la nueva ventana
-                nuevoContenidoStage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                    // Mostrar la nueva ventana
+                    nuevoContenidoStage.show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                }else{
+                    System.out.println("Ha ocurrido un problema");
+                }
+                break;
+            case "WRONGPASS" :
+                System.out.println("Contraseña incorrecta");
+                break;
+            case "NOUSER":
+                System.out.println("El usuario no existe");
+        }
+
+        
         
         System.out.println(existeUsuario(dni,contra));
     }
@@ -83,7 +102,16 @@ public class controladorLogin implements Initializable{
                 if (resultado.next()) {
 
                     //Rellenar datos de persona para pasarla al siguiente controlador
+                    Persona p = new Persona();
+                    p.setDni(dni);
+                    p.setNombre(resultado.getString("nombre"));
+                    p.setApellidos(resultado.getString("apellidos"));
+                    p.setCorreo(resultado.getString("correo"));
+                    p.setTelefono(resultado.getInt("telefono"));
+                    p.setPassword(resultado.getString("contrasena"));
+                    p.setRol(resultado.getInt("rol"));
 
+                    retorno = p;
                 }
             } catch (SQLException e) {
                 System.out.println(e.getLocalizedMessage());
@@ -136,7 +164,8 @@ public class controladorLogin implements Initializable{
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       
+       tfDNI.setText("21027174E");
+       pfContrasena.setText("abcd");
     }
 
 }
