@@ -21,7 +21,7 @@ public class Main extends Application {
         
 
         
-        Parent root = FXMLLoader.load(getClass().getResource("/Vista/vistaAdministrador1.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/Vista/vistaLogin.fxml"));
 
         Scene scene = new Scene(root);
          //Cargar el archivo CSS
@@ -29,7 +29,7 @@ public class Main extends Application {
         //scene.getStylesheets().add(getClass().getResource("/estilos/inmotion.css").toExternalForm());
 
         stage.setScene(scene);
-        stage.setTitle("Inmotion");
+        stage.setTitle("Sportify");
         stage.show(); 
         
         
