@@ -8,12 +8,17 @@
 
 Los iconos se han puesto en el TabPane poniendo el siguiente código
 
-    <graphic>
-        <ImageView>
-            <fitWidth>16</fitWidth>
-            <preserveRatio>true</preserveRatio>
-            <image>
-                <Image url="/Imagenes/Iconos/sucursal.png"/>
-            </image>
-        </ImageView>
-    </graphic>
+    <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Sucursal">
+              <graphic>
+                  <ImageView>
+                      <fitWidth>16</fitWidth>
+                      <preserveRatio>true</preserveRatio>
+                      <image>
+                          <Image url="/Imagenes/Iconos/sucursal.png"/>
+                      </image>
+                  </ImageView>
+              </graphic>
+               <content>
+               ...
