@@ -5,6 +5,7 @@ import Modelo.Modulo;
 import Modelo.Permiso;
 import Modelo.Persona;
 import Modelo.Pista;
+import Modelo.Reserva;
 import Modelo.Rol;
 import Modelo.Sucursal;
 import Modelo.Usuario;
@@ -15,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -132,22 +134,22 @@ public class controladorAdmin implements Initializable {
     private Button btnEliminarReserva;
 
     @FXML
-    private TableView<?> tvReservas;
+    private TableView<Reserva> tvReservas;
 
     @FXML
-    private TableColumn<?, ?> tcIDPistaReserva;
+    private TableColumn<Reserva, Integer> tcIDPistaReserva;
 
     @FXML
-    private TableColumn<?, ?> tcDNIReserva;
+    private TableColumn<Reserva, String> tcDNIReserva;
 
     @FXML
-    private TableColumn<?, ?> tcHoraIni;
+    private TableColumn<Reserva, String> tcHoraIni;
 
     @FXML
-    private TableColumn<?, ?> tcDuracion;
+    private TableColumn<Reserva, Float> tcDuracion;
 
     @FXML
-    private TableColumn<?, ?> tcfecha;
+    private TableColumn<Reserva, Date> tcfecha;
 
     //################################Pistas################################//
     @FXML
@@ -676,7 +678,7 @@ public class controladorAdmin implements Initializable {
         return null;
     }
 
-      public ObservableList<Empleado> dameListaEmpleados() {
+    public ObservableList<Empleado> dameListaEmpleados() {
         ObservableList<Empleado> listaEmpleados = FXCollections.observableArrayList();
         Connection connection = getConnection();
         if (connection != null) {
@@ -698,6 +700,32 @@ public class controladorAdmin implements Initializable {
             } catch (SQLException e) {
             }
             return listaEmpleados;
+        }
+        return null;
+    }
+
+    public ObservableList<Reserva> dameListaReservas() {
+        ObservableList<Reserva> listaReservas = FXCollections.observableArrayList();
+        Connection connection = getConnection();
+        if (connection != null) {
+            String query = "SELECT * FROM reservas";
+            Statement st;
+            ResultSet rs;
+
+            try {
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+                Reserva reserva;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    
+                    
+                    reserva = new Reserva(rs.getInt("id_pista"),rs.getString("dni"), rs.getString("hora_inicio"), rs.getFloat("duracion"), rs.getDate("fecha"));
+                    
+                    listaReservas.add(reserva);
+                }
+            } catch (SQLException e) {
+            }
+            return listaReservas;
         }
         return null;
     }
@@ -802,6 +830,16 @@ public class controladorAdmin implements Initializable {
         tcSueldo.setCellValueFactory(new PropertyValueFactory<Empleado, Float>("sueldo"));
 
         tvEmpleados.setItems(listaEmpleados);
+        
+        ObservableList<Reserva> listaReservas = dameListaReservas();
+
+        //Los campos han de coincidir con los campos del objeto Libros
+        tcIDPistaReserva.setCellValueFactory(new PropertyValueFactory<Reserva, Integer>("idPista"));
+        tcDNIReserva.setCellValueFactory(new PropertyValueFactory<Reserva, String>("dni"));
+        tcHoraIni.setCellValueFactory(new PropertyValueFactory<Reserva, String>("horaIni"));
+        tcDuracion.setCellValueFactory(new PropertyValueFactory<Reserva, Float>("duracion"));
+        tcfecha.setCellValueFactory(new PropertyValueFactory<Reserva, Date>("fecha"));
+        tvReservas.setItems(listaReservas);
     }
     
     public String permisosFaltantes(String permisos){
