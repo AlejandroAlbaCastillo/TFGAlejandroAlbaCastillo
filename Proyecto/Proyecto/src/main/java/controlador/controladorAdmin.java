@@ -1,11 +1,13 @@
 package controlador;
 
+import Modelo.Empleado;
 import Modelo.Modulo;
 import Modelo.Permiso;
 import Modelo.Persona;
 import Modelo.Pista;
 import Modelo.Rol;
 import Modelo.Sucursal;
+import Modelo.Usuario;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -207,25 +209,25 @@ public class controladorAdmin implements Initializable {
     private Button btnEliminarUsuario;
 
     @FXML
-    private TableView<?> tvUsuarios;
+    private TableView<Usuario> tvUsuarios;
 
     @FXML
-    private TableColumn<?, ?> tcDNIUsu;
+    private TableColumn<Usuario, String> tcDNIUsu;
 
     @FXML
-    private TableColumn<?, ?> tcNombreUsu;
+    private TableColumn<Usuario, String> tcNombreUsu;
 
     @FXML
-    private TableColumn<?, ?> tcApellidosUsu;
+    private TableColumn<Usuario, String> tcApellidosUsu;
 
     @FXML
-    private TableColumn<?, ?> tcCorreoUsu;
+    private TableColumn<Usuario, String> tcCorreoUsu;
 
     @FXML
-    private TableColumn<?, ?> tcTelUsu;
+    private TableColumn<Usuario, Integer> tcTelUsu;
 
     @FXML
-    private TableColumn<?, ?> tcUsu;
+    private TableColumn<Usuario, String> tcUsu;
 
     //################################Empleados################################//
     @FXML
@@ -252,22 +254,22 @@ public class controladorAdmin implements Initializable {
     private Button btnEliminarEmple;
 
     @FXML
-    private TableView<?> tvEmpleados;
+    private TableView<Empleado> tvEmpleados;
     @FXML
-    private TableColumn<?, ?> tcDNIEmple;
+    private TableColumn<Empleado, String> tcDNIEmple;
     @FXML
-    private TableColumn<?, ?> tcNombreEmple;
+    private TableColumn<Empleado, String> tcNombreEmple;
     @FXML
-    private TableColumn<?, ?> tcApellidosEmple;
+    private TableColumn<Empleado, String> tcApellidosEmple;
 
     @FXML
-    private TableColumn<?, ?> tcCorreoEmple;
+    private TableColumn<Empleado, String> tcCorreoEmple;
 
     @FXML
-    private TableColumn<?, ?> tcTelefonoEmple;
+    private TableColumn<Empleado, Integer> tcTelefonoEmple;
 
     @FXML
-    private TableColumn<?, ?> tcSueldo;
+    private TableColumn<Empleado, Float> tcSueldo;
 
     //################################Mantenimiento################################//
     @FXML
@@ -615,7 +617,7 @@ public class controladorAdmin implements Initializable {
                 rs = st.executeQuery(query);
                 Sucursal sucursal;
                 while (rs.next()) { //Se usan los identificadores propios en la BBDD
-                    sucursal = new Sucursal(rs.getInt("idSucursal"), rs.getString("ciudad"), rs.getInt("codigoPostal"), rs.getString("direccion"), rs.getInt("telefono"));
+                    sucursal = new Sucursal(rs.getInt("id_sucursal"), rs.getString("ciudad"), rs.getInt("codigo_postal"), rs.getString("direccion"), rs.getInt("telefono"));
                     listaSucursales.add(sucursal);
                 }
             } catch (SQLException e) {
@@ -638,12 +640,64 @@ public class controladorAdmin implements Initializable {
                 rs = st.executeQuery(query);
                 Pista pista;
                 while (rs.next()) { //Se usan los identificadores propios en la BBDD
-                    pista = new Pista(rs.getInt("id_pista"), (int) rs.getDouble("precioHora"), rs.getString("actividad"), rs.getInt("idSucursal"));
+                    pista = new Pista(rs.getInt("id_pista"), (int) rs.getDouble("precioHora"), rs.getString("actividad"), rs.getInt("id_sucursal"));
                     listaPistas.add(pista);
                 }
             } catch (SQLException e) {
             }
             return listaPistas;
+        }
+        return null;
+    }
+
+    public ObservableList<Usuario> dameListaUsuarios() {
+        ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
+        Connection connection = getConnection();
+        if (connection != null) {
+            String query = "SELECT * FROM usuarios, personas where usuarios.dni_usuario = personas.dni";
+            Statement st;
+            ResultSet rs;
+
+            try {
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+                Usuario usuario;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    
+                    
+                    usuario = new Usuario(rs.getString("personas.dni"), rs.getString("nombre"), rs.getString("apellidos"), rs.getString("correo"), rs.getInt("telefono"), rs.getString("contrasena"), rs.getInt("rol"),rs.getString("usuario"));
+                    
+                    listaUsuarios.add(usuario);
+                }
+            } catch (SQLException e) {
+            }
+            return listaUsuarios;
+        }
+        return null;
+    }
+
+      public ObservableList<Empleado> dameListaEmpleados() {
+        ObservableList<Empleado> listaEmpleados = FXCollections.observableArrayList();
+        Connection connection = getConnection();
+        if (connection != null) {
+            String query = "SELECT * FROM empleados, personas where empleados.dni_empleado = personas.dni";
+            Statement st;
+            ResultSet rs;
+
+            try {
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+                Empleado empleado;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    
+                    
+                    empleado = new Empleado(rs.getString("personas.dni"), rs.getString("nombre"), rs.getString("apellidos"), rs.getString("correo"), rs.getInt("telefono"), rs.getString("contrasena"), rs.getInt("rol"),rs.getFloat("sueldo"));
+                    
+                    listaEmpleados.add(empleado);
+                }
+            } catch (SQLException e) {
+            }
+            return listaEmpleados;
         }
         return null;
     }
@@ -723,6 +777,31 @@ public class controladorAdmin implements Initializable {
         tcPermisos.setCellValueFactory(new PropertyValueFactory<Permiso, String>("permiso"));
 
         tvPermisos.setItems(listaPermisos);
+        
+        ObservableList<Usuario> listaUsuarios = dameListaUsuarios();
+
+        //Los campos han de coincidir con los campos del objeto Libros
+        tcDNIUsu.setCellValueFactory(new PropertyValueFactory<Usuario, String>("dni"));
+        tcNombreUsu.setCellValueFactory(new PropertyValueFactory<Usuario, String>("nombre"));
+        tcApellidosUsu.setCellValueFactory(new PropertyValueFactory<Usuario, String>("apellidos"));
+        tcCorreoUsu.setCellValueFactory(new PropertyValueFactory<Usuario, String>("correo"));
+        tcTelUsu.setCellValueFactory(new PropertyValueFactory<Usuario, Integer>("telefono"));
+        tcUsu.setCellValueFactory(new PropertyValueFactory<Usuario, String>("usuario"));
+
+        tvUsuarios.setItems(listaUsuarios);
+        
+        
+        ObservableList<Empleado> listaEmpleados = dameListaEmpleados();
+
+        //Los campos han de coincidir con los campos del objeto Libros
+        tcDNIEmple.setCellValueFactory(new PropertyValueFactory<Empleado, String>("dni"));
+        tcNombreEmple.setCellValueFactory(new PropertyValueFactory<Empleado, String>("nombre"));
+        tcApellidosEmple.setCellValueFactory(new PropertyValueFactory<Empleado, String>("apellidos"));
+        tcCorreoEmple.setCellValueFactory(new PropertyValueFactory<Empleado, String>("correo"));
+        tcTelefonoEmple.setCellValueFactory(new PropertyValueFactory<Empleado, Integer>("telefono"));
+        tcSueldo.setCellValueFactory(new PropertyValueFactory<Empleado, Float>("sueldo"));
+
+        tvEmpleados.setItems(listaEmpleados);
     }
     
     public String permisosFaltantes(String permisos){
