@@ -50,7 +50,7 @@ public class controladorAdmin implements Initializable {
         } 
     }
     
-    ///////////////////////////Elementos de la vista///////////////////////////
+///////////////////////////Elementos de la vista///////////////////////////
     @FXML
     private Label message;
     
@@ -58,333 +58,371 @@ public class controladorAdmin implements Initializable {
     private TabPane tbGeneral;
     
     //################################Sucursal################################//
-    
-    
-    @FXML
-    private Tab tabSucursal;
+        @FXML
+        private Tab tabSucursal;
 
-    @FXML
-    private FlowPane accionesSucursal;
-    
-    @FXML
-    private TextField tfIdSucursal;
+        @FXML
+        private FlowPane accionesSucursal;
+        
+        @FXML
+        private TextField tfIdSucursal;
 
-    @FXML
-    private TextField tfCiudad;
+        @FXML
+        private TextField tfCiudad;
 
-    @FXML
-    private TextField tfCodigoPostal;
+        @FXML
+        private TextField tfCodigoPostal;
 
-    @FXML
-    private TextField tfDireccion;
+        @FXML
+        private TextField tfDireccion;
 
-    @FXML
-    private TextField tfTelSucursal;
+        @FXML
+        private TextField tfTelSucursal;
 
-    @FXML
-    private Button btnInsertarSucursal;
+        @FXML
+        private Button btnInsertarSucursal;
 
-    @FXML
-    private Button btnActualizarSucursal;
+        @FXML
+        private Button btnActualizarSucursal;
 
-    @FXML
-    private Button btnEliminarSucursal;
+        @FXML
+        private Button btnEliminarSucursal;
 
-    @FXML
-    private TableView<Sucursal> tvSucursal;
+        @FXML
+        private TableView<Sucursal> tvSucursal;
 
-    @FXML
-    private TableColumn<Sucursal, String> tcCiudad;
+        @FXML
+        private TableColumn<Sucursal, String> tcCiudad;
 
-    @FXML
-    private TableColumn<Sucursal, Integer> tcCodPos;
+        @FXML
+        private TableColumn<Sucursal, Integer> tcCodPos;
 
-    @FXML
-    private TableColumn<Sucursal, Integer> tcTelSucu;
+        @FXML
+        private TableColumn<Sucursal, Integer> tcTelSucu;
 
-    @FXML
-    private TableColumn<Sucursal, String> tcDireccion;
+        @FXML
+        private TableColumn<Sucursal, String> tcDireccion;
 
-    @FXML
-    private TableColumn<Sucursal, Integer> tcIDSucursal;
+        @FXML
+        private TableColumn<Sucursal, Integer> tcIDSucursal;
 
     //################################Reservas################################//
-    @FXML
-    private TextField tfidPistaReserva;
+        @FXML
+        private TextField tfidPistaReserva;
 
-    @FXML
-    private TextField tfDNIReserva;
+        @FXML
+        private TextField tfDNIReserva;
 
-    @FXML
-    private TextField tfHoraIni;
+        @FXML
+        private TextField tfHoraIni;
 
-    @FXML
-    private TextField tfDuracion;
+        @FXML
+        private TextField tfDuracion;
 
-    @FXML
-    private TextField tfFecha;
+        @FXML
+        private TextField tfFecha;
 
-    @FXML
-    private Button btnInsertarReserva;
+        @FXML
+        private Button btnInsertarReserva;
 
-    @FXML
-    private Button btnActualizarReserva;
+        @FXML
+        private Button btnActualizarReserva;
 
-    @FXML
-    private Button btnEliminarReserva;
+        @FXML
+        private Button btnEliminarReserva;
 
-    @FXML
-    private TableView<Reserva> tvReservas;
+        @FXML
+        private TableView<Reserva> tvReservas;
 
-    @FXML
-    private TableColumn<Reserva, Integer> tcIDPistaReserva;
+        @FXML
+        private TableColumn<Reserva, Integer> tcIDPistaReserva;
 
-    @FXML
-    private TableColumn<Reserva, String> tcDNIReserva;
+        @FXML
+        private TableColumn<Reserva, String> tcDNIReserva;
 
-    @FXML
-    private TableColumn<Reserva, String> tcHoraIni;
+        @FXML
+        private TableColumn<Reserva, String> tcHoraIni;
 
-    @FXML
-    private TableColumn<Reserva, Float> tcDuracion;
+        @FXML
+        private TableColumn<Reserva, Float> tcDuracion;
 
-    @FXML
-    private TableColumn<Reserva, Date> tcfecha;
+        @FXML
+        private TableColumn<Reserva, Date> tcfecha;
+        @FXML
+        private TableColumn<Reserva, Float> tcPrecioReserva;
 
     //################################Pistas################################//
-    @FXML
-    private TextField tfIdPista;
+        @FXML
+        private TextField tfIdPista;
 
-    @FXML
-    private TextField tfActividad;
+        @FXML
+        private TextField tfActividad;
 
-    @FXML
-    private TextField tfPrecioH;
+        @FXML
+        private TextField tfPrecioH;
 
-    @FXML
-    private Button btnActualizarPista;
+        @FXML
+        private Button btnActualizarPista;
 
-    @FXML
-    private Button btnEliminarPista;
+        @FXML
+        private Button btnEliminarPista;
 
-    @FXML
-    private Button btnInsertarPista;
+        @FXML
+        private Button btnInsertarPista;
 
-    @FXML
-    private TableView<Pista> tvPistas;
+        @FXML
+        private TableView<Pista> tvPistas;
 
-    @FXML
-    private TableColumn<Pista, Integer> tcIdPista;
+        @FXML
+        private TableColumn<Pista, Integer> tcIdPista;
 
-    @FXML
-    private TableColumn<Pista, Integer> tcPrecioH;
+        @FXML
+        private TableColumn<Pista, Integer> tcPrecioH;
 
-    @FXML
-    private TableColumn<Pista, String> tcActividad;
+        @FXML
+        private TableColumn<Pista, String> tcActividad;
 
     //################################Usuarios################################//
-    @FXML
-    private TextField tfDNIUsu;
+        @FXML
+        private TextField tfDNIUsu;
 
-    @FXML
-    private TextField tfNombreUsu;
+        @FXML
+        private TextField tfNombreUsu;
 
-    @FXML
-    private TextField tfApellidosUsu;
+        @FXML
+        private TextField tfApellidosUsu;
 
-    @FXML
-    private TextField tfCorreoUsu;
+        @FXML
+        private TextField tfCorreoUsu;
 
-    @FXML
-    private TextField tfTelUsu;
+        @FXML
+        private TextField tfTelUsu;
 
-    @FXML
-    private TextField tfUsuario;
+        @FXML
+        private TextField tfUsuario;
 
-    @FXML
-    private Button btnInsertarUsuario;
+        @FXML
+        private Button btnInsertarUsuario;
 
-    @FXML
-    private Button btnActualizarUsuario;
+        @FXML
+        private Button btnActualizarUsuario;
 
-    @FXML
-    private Button btnEliminarUsuario;
+        @FXML
+        private Button btnEliminarUsuario;
 
-    @FXML
-    private TableView<Usuario> tvUsuarios;
+        @FXML
+        private TableView<Usuario> tvUsuarios;
 
-    @FXML
-    private TableColumn<Usuario, String> tcDNIUsu;
+        @FXML
+        private TableColumn<Usuario, String> tcDNIUsu;
 
-    @FXML
-    private TableColumn<Usuario, String> tcNombreUsu;
+        @FXML
+        private TableColumn<Usuario, String> tcNombreUsu;
 
-    @FXML
-    private TableColumn<Usuario, String> tcApellidosUsu;
+        @FXML
+        private TableColumn<Usuario, String> tcApellidosUsu;
 
-    @FXML
-    private TableColumn<Usuario, String> tcCorreoUsu;
+        @FXML
+        private TableColumn<Usuario, String> tcCorreoUsu;
 
-    @FXML
-    private TableColumn<Usuario, Integer> tcTelUsu;
+        @FXML
+        private TableColumn<Usuario, Integer> tcTelUsu;
 
-    @FXML
-    private TableColumn<Usuario, String> tcUsu;
+        @FXML
+        private TableColumn<Usuario, String> tcUsu;
 
     //################################Empleados################################//
-    @FXML
-    private TextField tfDNIEmple;
-    @FXML
-    private TextField tfNombreEmple;
-    @FXML
-    private TextField tfApellidosEmple;
+        @FXML
+        private TextField tfDNIEmple;
+        @FXML
+        private TextField tfNombreEmple;
+        @FXML
+        private TextField tfApellidosEmple;
 
-    @FXML
-    private TextField tfCorreoEmple;
+        @FXML
+        private TextField tfCorreoEmple;
 
-    @FXML
-    private TextField tfTelEmple;
+        @FXML
+        private TextField tfTelEmple;
 
-    @FXML
-    private TextField tfSueldo;
-    @FXML
-    private Button btnInsertarEmple;
-    @FXML
-    private Button btnActualizarEmple;
+        @FXML
+        private TextField tfSueldo;
+        @FXML
+        private Button btnInsertarEmple;
+        @FXML
+        private Button btnActualizarEmple;
 
-    @FXML
-    private Button btnEliminarEmple;
+        @FXML
+        private Button btnEliminarEmple;
 
-    @FXML
-    private TableView<Empleado> tvEmpleados;
-    @FXML
-    private TableColumn<Empleado, String> tcDNIEmple;
-    @FXML
-    private TableColumn<Empleado, String> tcNombreEmple;
-    @FXML
-    private TableColumn<Empleado, String> tcApellidosEmple;
+        @FXML
+        private TableView<Empleado> tvEmpleados;
+        @FXML
+        private TableColumn<Empleado, String> tcDNIEmple;
+        @FXML
+        private TableColumn<Empleado, String> tcNombreEmple;
+        @FXML
+        private TableColumn<Empleado, String> tcApellidosEmple;
 
-    @FXML
-    private TableColumn<Empleado, String> tcCorreoEmple;
+        @FXML
+        private TableColumn<Empleado, String> tcCorreoEmple;
 
-    @FXML
-    private TableColumn<Empleado, Integer> tcTelefonoEmple;
+        @FXML
+        private TableColumn<Empleado, Integer> tcTelefonoEmple;
 
-    @FXML
-    private TableColumn<Empleado, Float> tcSueldo;
+        @FXML
+        private TableColumn<Empleado, Float> tcSueldo;
 
     //################################Mantenimiento################################//
-    @FXML
-    private TextField tfDNIManteni;
+        @FXML
+        private TextField tfDNIManteni;
 
-    @FXML
-    private TextField tfIdPistaManteni;
+        @FXML
+        private TextField tfIdPistaManteni;
 
-    @FXML
-    private TextField tfTipoT;
+        @FXML
+        private TextField tfTipoT;
 
-    @FXML
-    private Button btnInsertarManteni;
+        @FXML
+        private Button btnInsertarManteni;
 
-    @FXML
-    private Button btnActualizarManteni;
+        @FXML
+        private Button btnActualizarManteni;
 
-    @FXML
-    private Button btnEliminarManteni;
+        @FXML
+        private Button btnEliminarManteni;
 
-    @FXML
-    private TableView<?> tvMantenimiento;
+        @FXML
+        private TableView<?> tvMantenimiento;
 
-    @FXML
-    private TableColumn<?, ?> tcDNIManteni;
+        @FXML
+        private TableColumn<?, ?> tcDNIManteni;
 
-    @FXML
-    private TableColumn<?, ?> tcIdPistaManteni;
+        @FXML
+        private TableColumn<?, ?> tcIdPistaManteni;
 
-    @FXML
-    private TableColumn<?, ?> tcTipoT;
+        @FXML
+        private TableColumn<?, ?> tcTipoT;
 
     //################################Rol################################//
-    @FXML
-    private TextField tfIdRol;
+        @FXML
+        private TextField tfIdRol;
 
-    @FXML
-    private TextField tfDenominacion;
+        @FXML
+        private TextField tfDenominacion;
 
-    @FXML
-    private Button btnInsertarRol;
-    
-    @FXML
-    private Button btnActualizarRol;
+        @FXML
+        private Button btnInsertarRol;
+        
+        @FXML
+        private Button btnActualizarRol;
 
-    @FXML
-    private Button btnEliminarRol;
+        @FXML
+        private Button btnEliminarRol;
 
-    @FXML
-    private TableView<Rol> tvRol;
+        @FXML
+        private TableView<Rol> tvRol;
 
-    @FXML
-    private TableColumn<Rol, Integer> tcIdRol;
+        @FXML
+        private TableColumn<Rol, Integer> tcIdRol;
 
-    @FXML
-    private TableColumn<Rol, String> tcDenominacion;
-
-//################################Modulo################################//
-    @FXML
-    private TextField tfIdModulo;
-
-    @FXML
-    private TextField tfModulo;
-
-    @FXML
-    private Button btnInsertarModulo;
-    
-    @FXML
-    private Button btnActualizarModulo;
-
-    @FXML
-    private Button btnEliminarModulo;
-
-    @FXML
-    private TableView<Modulo> tvModulo;
-
-    @FXML
-    private TableColumn<Modulo, Integer> tcIdModulo;
-
-    @FXML
-    private TableColumn<Modulo, String> tcModulo;
+        @FXML
+        private TableColumn<Rol, String> tcDenominacion;
 
     //################################Modulo################################//
+        @FXML
+        private TextField tfIdModulo;
+
+        @FXML
+        private TextField tfModulo;
+
+        @FXML
+        private Button btnInsertarModulo;
+        
+        @FXML
+        private Button btnActualizarModulo;
+
+        @FXML
+        private Button btnEliminarModulo;
+
+        @FXML
+        private TableView<Modulo> tvModulo;
+
+        @FXML
+        private TableColumn<Modulo, Integer> tcIdModulo;
+
+        @FXML
+        private TableColumn<Modulo, String> tcModulo;
+
+    //################################Permisos################################//
+        @FXML
+        private TextField tfIdModuloPer;
+
+        @FXML
+        private TextField tfIdRolPer;
+
+        @FXML
+        private TextField tfPermisos;
+        
+        @FXML
+        private Button btnInsertarPermiso;
+        
+        @FXML
+        private Button btnActualizarPermiso;
+
+        @FXML
+        private Button btnEliminarPermiso;
+
+        @FXML
+        private TableView<Permiso> tvPermisos;
+
+        @FXML
+        private TableColumn<Permiso, Integer> tcIdModuloPer;
+
+        @FXML
+        private TableColumn<Permiso, Integer> tcIdRolPer;
+        
+        @FXML
+        private TableColumn<Permiso, String> tcPermisos;
+
+    //################################Trabajan################################//
     @FXML
-    private TextField tfIdModuloPer;
+    private TextField tfDNITrabajan;
 
     @FXML
-    private TextField tfIdRolPer;
+    private TextField tfIDSucursalTrabajan;
 
     @FXML
-    private TextField tfPermisos;
-    
-    @FXML
-    private Button btnInsertarPermiso;
-    
-    @FXML
-    private Button btnActualizarPermiso;
+    private TextField tfInicioTrabajan;
 
     @FXML
-    private Button btnEliminarPermiso;
+    private TextField tfFinTrabajan;
 
     @FXML
-    private TableView<Permiso> tvPermisos;
+    private Button btnInsertarTrabajan;
 
     @FXML
-    private TableColumn<Permiso, Integer> tcIdModuloPer;
+    private Button btnEliminarTrabajan;
 
     @FXML
-    private TableColumn<Permiso, Integer> tcIdRolPer;
-    
+    private Button btnActualizarTrabajan;
+
     @FXML
-    private TableColumn<Permiso, String> tcPermisos;
-    ///////////////////////////Eventos de la vista///////////////////////////
+    private TableView<?> tvTrabajan;
+
+    @FXML
+    private TableColumn<?, ?> tcIdSucursalTrabajan;
+
+    @FXML
+    private TableColumn<?, ?> tcDNITrabaja;
+
+    @FXML
+    private TableColumn<?, ?> tcInicioTrabajan;
+
+    @FXML
+    private TableColumn<?, ?> tcFinTrabajan;
+
+///////////////////////////Eventos de la vista///////////////////////////
     @FXML
     void actualizarEmple(ActionEvent event) {
 
@@ -514,9 +552,24 @@ public class controladorAdmin implements Initializable {
     void eliminarPermiso(ActionEvent event) {
 
     }
-        ///////////////////////////Funciones///////////////////////////
 
-    
+    @FXML
+    void insertarTrabajan(ActionEvent event) {
+
+    }
+
+    @FXML
+    void actualizarTrabajan(ActionEvent event) {
+
+    }
+
+    @FXML
+    void eliminarTrabajan(ActionEvent event) {
+
+    }
+///////////////////////////Funciones///////////////////////////
+
+    //Fuera
     public Connection getConnection() {
         Connection conn;
         try {
@@ -533,7 +586,7 @@ public class controladorAdmin implements Initializable {
             return null;
         }
     }
-
+    
     public ObservableList<Permiso> dameListaPermisos() {
         ObservableList<Permiso> listaPermisos = FXCollections.observableArrayList();
         Connection connection = getConnection();
@@ -719,7 +772,7 @@ public class controladorAdmin implements Initializable {
                 while (rs.next()) { //Se usan los identificadores propios en la BBDD
                     
                     
-                    reserva = new Reserva(rs.getInt("id_pista"),rs.getString("dni"), rs.getString("hora_inicio"), rs.getFloat("duracion"), rs.getDate("fecha"));
+                    reserva = new Reserva(rs.getInt("id_pista"),rs.getString("dni"), rs.getString("hora_inicio"), rs.getFloat("duracion"), rs.getDate("fecha"), rs.getInt("precio_reserva"));
                     
                     listaReservas.add(reserva);
                 }
@@ -839,6 +892,7 @@ public class controladorAdmin implements Initializable {
         tcHoraIni.setCellValueFactory(new PropertyValueFactory<Reserva, String>("horaIni"));
         tcDuracion.setCellValueFactory(new PropertyValueFactory<Reserva, Float>("duracion"));
         tcfecha.setCellValueFactory(new PropertyValueFactory<Reserva, Date>("fecha"));
+        tcPrecioReserva.setCellValueFactory(new PropertyValueFactory<Reserva, Float>("precioReserva"));
         tvReservas.setItems(listaReservas);
     }
     
@@ -857,5 +911,6 @@ public class controladorAdmin implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         
     }
+
 
 }

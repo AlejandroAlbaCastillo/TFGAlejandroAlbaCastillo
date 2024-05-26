@@ -80,7 +80,7 @@ CREATE TABLE mantienen (
   id_mantenimiento INT UNSIGNED AUTO_INCREMENT,
   dni VARCHAR(9) NOT NULL,
   id_pista INT UNSIGNED NOT NULL,
-  tipo_pista VARCHAR(50) NOT NULL,
+  tipo_trabajo VARCHAR(50) NOT NULL,
   fecha_ini DATE NOT NULL,
   duracion DECIMAL(4,2) UNSIGNED NOT NULL,
   PRIMARY KEY (id_mantenimiento),
@@ -91,9 +91,10 @@ CREATE TABLE mantienen (
 CREATE TABLE reservas (
   id_pista INT UNSIGNED,
   dni VARCHAR(9),
-  hora_inicio DATE,
+  hora_inicio VARCHAR(50),
   duracion DECIMAL(4,2) UNSIGNED NOT NULL,
   fecha DATE,
+  precio_reserva DECIMAL(4,2) UNSIGNED NOT NULL,
   PRIMARY KEY (id_pista,dni,hora_inicio,fecha),
   FOREIGN KEY (dni) REFERENCES usuarios (dni_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (id_pista) REFERENCES pistas (id_pista) ON DELETE CASCADE ON UPDATE CASCADE
