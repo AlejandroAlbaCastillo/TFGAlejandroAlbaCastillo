@@ -16,13 +16,15 @@ public class Reserva {
     private String horaIni;
     private float duracion;
     private Date fecha;
+    private float precioReserva;
 
-    public Reserva(int idPista, String dni, String horaIni, float duracion, Date fecha) {
+    public Reserva(int idPista, String dni, String horaIni, float duracion, Date fecha, float precioReserva) {
         this.idPista = idPista;
         this.dni = dni;
         this.horaIni = horaIni;
         this.duracion = duracion;
         this.fecha = fecha;
+        this.precioReserva = precioReserva;
     }
     public Reserva() {
         this.idPista = 0;
@@ -30,6 +32,7 @@ public class Reserva {
         this.horaIni = "";
         this.duracion = 0;
         this.fecha = new Date();
+        this.precioReserva = 0;
     }
 
     public int getIdPista() {
@@ -39,8 +42,6 @@ public class Reserva {
     public void setIdPista(int idPista) {
         this.idPista = idPista;
     }
-
-    
 
     public String getDni() {
         return dni;
@@ -72,6 +73,14 @@ public class Reserva {
 
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    public float getPrecioReserva() {
+        return precioReserva;
+    }
+
+    public void setPrecioReserva(float precioReserva) {
+        this.precioReserva = precioReserva;
     }
     
     
