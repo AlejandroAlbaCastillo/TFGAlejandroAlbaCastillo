@@ -1,9 +1,8 @@
 # To do list
 
-- Hacer documento de SQL donde se cree bien la BBDD y que inserte campos por defecto.
-- Añadir Elementos de tabla Trabajan.
-- Añadir TableColumn faltantes para que tengan los mismos datos que sus tablas.
+- Cambiar distribución de la interfaz.
 - Cambiar los ids que se muestran en las tablas por los nombres para que sea mas intuitivo.
+- Juntar pestañas para hacer los filtros
 - Terminar con el CRUD completo de las tablas.
-- Hacer lo de los permisos.
-- Mejorar estilos y distribución de la interfaz.
+- Hacer inicio de sesion con servicios.
+- Mejorar estilos 
