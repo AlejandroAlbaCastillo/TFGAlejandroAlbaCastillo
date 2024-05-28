@@ -5,4 +5,6 @@
 - Juntar pestañas para hacer los filtros
 - Terminar con el CRUD completo de las tablas.
 - Hacer inicio de sesion con servicios.
-- Mejorar estilos 
+- Mejorar estilos
+- Manual de usuario (pdf y web)
+- Documentación del proyecto
