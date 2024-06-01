@@ -11,25 +11,36 @@ import java.util.Date;
  * @author Alejandro
  */
 public class Mantenimiento {
+    private int idMantenimiento;
     private int idPista;
     private String dni;
-    private String horaIni;
+    private String tipoTrabajo;
     private float duracion;
     private Date fecha;
 
-    public Mantenimiento(int idPista, String dni, String horaIni, float duracion, Date fecha) {
+    public Mantenimiento(int idMantenimiento, int idPista, String dni, String tipoTrabajo, float duracion, Date fecha) {
+        this.idMantenimiento=idMantenimiento;
         this.idPista = idPista;
         this.dni = dni;
-        this.horaIni = horaIni;
+        this.tipoTrabajo = tipoTrabajo;
         this.duracion = duracion;
         this.fecha = fecha;
     }
     public Mantenimiento() {
+        this.idMantenimiento = 0;
         this.idPista = 0;
         this.dni = "";
-        this.horaIni = "";
+        this.tipoTrabajo = "";
         this.duracion = 0;
         this.fecha = new Date();
+    }
+
+    public int getIdMantenimiento() {
+        return idMantenimiento;
+    }
+
+    public void setIdMantenimiento(int idMantenimiento) {
+        this.idMantenimiento = idMantenimiento;
     }
 
     public int getIdPista() {
@@ -48,12 +59,12 @@ public class Mantenimiento {
         this.dni = dni;
     }
 
-    public String getHoraIni() {
-        return horaIni;
+    public String getTipoTrabajo() {
+        return tipoTrabajo;
     }
 
-    public void setHoraIni(String horaIni) {
-        this.horaIni = horaIni;
+    public void setTipoTrabajo(String tipoTrabajo) {
+        this.tipoTrabajo = tipoTrabajo;
     }
 
     public float getDuracion() {

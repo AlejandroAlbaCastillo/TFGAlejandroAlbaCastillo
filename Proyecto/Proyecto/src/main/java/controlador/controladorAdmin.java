@@ -1,6 +1,7 @@
 package controlador;
 
 import Modelo.Empleado;
+import Modelo.Mantenimiento;
 import Modelo.Modulo;
 import Modelo.Permiso;
 import Modelo.Persona;
@@ -8,6 +9,7 @@ import Modelo.Pista;
 import Modelo.Reserva;
 import Modelo.Rol;
 import Modelo.Sucursal;
+import Modelo.Trabajan;
 import Modelo.Usuario;
 import java.net.URL;
 import java.sql.Connection;
@@ -293,16 +295,20 @@ public class controladorAdmin implements Initializable {
         private Button btnEliminarManteni;
 
         @FXML
-        private TableView<?> tvMantenimiento;
+        private TableView<Mantenimiento> tvMantenimiento;
 
         @FXML
-        private TableColumn<?, ?> tcDNIManteni;
+        private TableColumn<Mantenimiento, String> tcDNIManteni;
 
         @FXML
-        private TableColumn<?, ?> tcIdPistaManteni;
+        private TableColumn<Mantenimiento, Integer> tcIdPistaManteni;
 
         @FXML
-        private TableColumn<?, ?> tcTipoT;
+        private TableColumn<Mantenimiento, String> tcTipoT;
+        @FXML
+        private TableColumn<Mantenimiento, Date> tcInicioMantenimiento;
+        @FXML
+        private TableColumn<Mantenimiento, Float> tcDuracionMantenimiento;
 
     //################################Rol################################//
         @FXML
@@ -408,19 +414,19 @@ public class controladorAdmin implements Initializable {
     private Button btnActualizarTrabajan;
 
     @FXML
-    private TableView<?> tvTrabajan;
+    private TableView<Trabajan> tvTrabajan;
 
     @FXML
-    private TableColumn<?, ?> tcIdSucursalTrabajan;
+    private TableColumn<Trabajan, Integer> tcIdSucursalTrabajan;
 
     @FXML
-    private TableColumn<?, ?> tcDNITrabaja;
+    private TableColumn<Trabajan, String> tcDNITrabaja;
 
     @FXML
-    private TableColumn<?, ?> tcInicioTrabajan;
+    private TableColumn<Trabajan, Date> tcInicioTrabajan;
 
     @FXML
-    private TableColumn<?, ?> tcFinTrabajan;
+    private TableColumn<Trabajan, Date> tcFinTrabajan;
 
 ///////////////////////////Eventos de la vista///////////////////////////
     @FXML
@@ -500,7 +506,7 @@ public class controladorAdmin implements Initializable {
 
     @FXML
     void insertarSucursal(ActionEvent event) {
-
+        
     }
 
     @FXML
@@ -783,6 +789,57 @@ public class controladorAdmin implements Initializable {
         return null;
     }
 
+    public ObservableList<Mantenimiento> dameListaMantenimiento() {
+        ObservableList<Mantenimiento> listaMantenimientos = FXCollections.observableArrayList();
+        Connection connection = getConnection();
+        if (connection != null) {
+            String query = "SELECT * FROM mantienen";
+            Statement st;
+            ResultSet rs;
+
+            try {
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+                Mantenimiento mantenimiento;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    
+                    
+                    mantenimiento = new Mantenimiento(rs.getInt("id_mantenimiento"), rs.getInt("id_pista"),rs.getString("dni"), rs.getString("tipo_trabajo"), rs.getFloat("duracion"), rs.getDate("fecha_ini"));
+                    
+                    listaMantenimientos.add(mantenimiento);
+                }
+            } catch (SQLException e) {
+            }
+            return listaMantenimientos;
+        }
+        return null;
+    }
+    
+    public ObservableList<Trabajan> dameListaTrabajan() {
+        ObservableList<Trabajan> listaTrabajan = FXCollections.observableArrayList();
+        Connection connection = getConnection();
+        if (connection != null) {
+            String query = "SELECT * FROM trabajan";
+            Statement st;
+            ResultSet rs;
+
+            try {
+                st = connection.createStatement();
+                rs = st.executeQuery(query);
+                Trabajan trabajan;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    
+                    trabajan = new Trabajan(rs.getString("dni_empleado"), rs.getInt("id_sucursal"),rs.getDate("fecha_ini"),rs.getDate("fecha_fin"));
+                    
+                    listaTrabajan.add(trabajan);
+                }
+            } catch (SQLException e) {
+            }
+            return listaTrabajan;
+        }
+        return null;
+    }
+    
     /*
     public String sacarRol(int id){
         String retorno = null;
@@ -894,6 +951,25 @@ public class controladorAdmin implements Initializable {
         tcfecha.setCellValueFactory(new PropertyValueFactory<Reserva, Date>("fecha"));
         tcPrecioReserva.setCellValueFactory(new PropertyValueFactory<Reserva, Float>("precioReserva"));
         tvReservas.setItems(listaReservas);
+        
+        ObservableList<Mantenimiento> listaMantenimientos = dameListaMantenimiento();
+
+        //Los campos han de coincidir con los campos del objeto Libros
+        tcIdPistaManteni.setCellValueFactory(new PropertyValueFactory<Mantenimiento, Integer>("idPista"));
+        tcDNIManteni.setCellValueFactory(new PropertyValueFactory<Mantenimiento, String>("dni"));
+        tcTipoT.setCellValueFactory(new PropertyValueFactory<Mantenimiento, String>("tipoTrabajo"));
+        tcDuracionMantenimiento.setCellValueFactory(new PropertyValueFactory<Mantenimiento, Float>("duracion"));
+        tcInicioMantenimiento.setCellValueFactory(new PropertyValueFactory<Mantenimiento, Date>("fecha"));
+        tvMantenimiento.setItems(listaMantenimientos);
+        
+        ObservableList<Trabajan> listaTrabajan = dameListaTrabajan();
+
+        //Los campos han de coincidir con los campos del objeto Libros Integer>("idPista"));
+        tcDNITrabaja.setCellValueFactory(new PropertyValueFactory<Trabajan, String>("dni"));
+        tcIdSucursalTrabajan.setCellValueFactory(new PropertyValueFactory<Trabajan, Integer>("idSucursal"));
+        tcInicioTrabajan.setCellValueFactory(new PropertyValueFactory<Trabajan, Date>("fechaInicio"));
+        tcFinTrabajan.setCellValueFactory(new PropertyValueFactory<Trabajan, Date>("fechaFin"));
+        tvTrabajan.setItems(listaTrabajan);
     }
     
     public String permisosFaltantes(String permisos){
