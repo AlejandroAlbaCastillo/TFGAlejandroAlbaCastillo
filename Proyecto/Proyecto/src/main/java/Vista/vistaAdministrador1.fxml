@@ -2,7 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -19,6 +21,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
@@ -282,6 +285,12 @@
                                           <TextField fx:id="tfActividad" />
                                        </children>
                                     </VBox>
+                                    <VBox prefWidth="100.0">
+                                       <children>
+                                          <Label text="Sucursal" />
+                                          <ComboBox fx:id="cbSucursalPista" prefWidth="150.0" />
+                                       </children>
+                                    </VBox>
                                  </children>
                               </FlowPane>
                               <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="145.0" prefWidth="459.0" vgap="5.0" GridPane.columnIndex="1">
@@ -372,7 +381,7 @@
                               <VBox prefWidth="100.0">
                                  <children>
                                     <Label text="DNI" />
-                                    <TextField fx:id="tfDNIUsu" disable="true" editable="false" />
+                                    <TextField fx:id="tfDNIUsu" />
                                  </children>
                               </VBox>
                               <VBox prefWidth="100.0">
@@ -465,12 +474,12 @@
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="84.0" prefWidth="1001.0">
                            <children>
                               <VBox prefWidth="100.0">
                                  <children>
                                     <Label text="DNI" />
-                                    <TextField fx:id="tfDNIEmple" disable="true" editable="false" />
+                                    <TextField fx:id="tfDNIEmple" />
                                  </children>
                               </VBox>
                               <VBox prefWidth="100.0">
@@ -501,6 +510,12 @@
                                  <children>
                                     <Label text="Sueldo" />
                                     <TextField fx:id="tfSueldo" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Rol" />
+                                    <ComboBox fx:id="cbRolEmple" prefWidth="150.0" />
                                  </children>
                               </VBox>
                            </children>
@@ -568,19 +583,31 @@
                               <VBox prefWidth="100.0">
                                  <children>
                                     <Label text="DNI" />
-                                    <TextField fx:id="tfDNIManteni" />
+                                    <ComboBox fx:id="cbDniManteni" prefWidth="150.0" />
                                  </children>
                               </VBox>
                               <VBox prefWidth="100.0">
                                  <children>
                                     <Label text="idPista" />
-                                    <TextField fx:id="tfIdPistaManteni" />
+                                    <ComboBox fx:id="cbIdPistaManteni" prefWidth="150.0" />
                                  </children>
                               </VBox>
                               <VBox prefWidth="100.0">
                                  <children>
                                     <Label text="Tipo de trabajo" />
                                     <TextField fx:id="tfTipoT" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Fecha" />
+                                    <DatePicker fx:id="dpFechaManteni" />
+                                 </children>
+                              </VBox>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <Label text="Duracion" />
+                                    <TextField fx:id="tfDuracionManteni" />
                                  </children>
                               </VBox>
                            </children>
@@ -867,24 +894,31 @@
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
                            <children>
-                              <VBox prefWidth="100.0">
+                              <VBox alignment="CENTER_LEFT" prefWidth="100.0">
                                  <children>
-                                    <Label text="idRol" />
-                                    <TextField fx:id="tfIdRolPer" />
+                                    <Label text="Rol" />
+                                    <ComboBox fx:id="cbIdRolPer" prefWidth="150.0" />
                                  </children>
                               </VBox>
-                              <VBox prefWidth="100.0">
+                              <VBox alignment="CENTER_LEFT" prefWidth="100.0">
                                  <children>
-                                    <Label text="idModulo" />
-                                    <TextField fx:id="tfIdModuloPer" />
+                                    <Label text="Modulo" />
+                                    <ComboBox fx:id="cbModuloPer" prefWidth="150.0" />
                                  </children>
                               </VBox>
-                              <VBox prefWidth="100.0">
+                              <VBox alignment="CENTER_LEFT" prefHeight="85.0" prefWidth="289.0">
                                  <children>
                                     <Label text="Permisos" />
-                                    <TextField fx:id="tfPermisos" />
+                                    <HBox prefHeight="26.0" prefWidth="290.0" spacing="15.0">
+                                       <children>
+                                          <CheckBox fx:id="cbxCrear" mnemonicParsing="false" text="Crear" />
+                                          <CheckBox fx:id="cbxListar" mnemonicParsing="false" text="Listar" />
+                                          <CheckBox fx:id="cbxActualizar" mnemonicParsing="false" text="Actualizar" />
+                                          <CheckBox fx:id="cbxEliminar" mnemonicParsing="false" text="Eliminar" />
+                                       </children>
+                                    </HBox>
                                  </children>
                               </VBox>
                            </children>
