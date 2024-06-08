@@ -1,10 +1,7 @@
 # To do list
-
-- Cambiar distribución de la interfaz.
+- Pensar que poner en los menu item
 - Cambiar los ids que se muestran en las tablas por los nombres para que sea mas intuitivo.
-- Juntar pestañas para hacer los filtros
-- Terminar con el CRUD completo de las tablas.
-- Hacer inicio de sesion con servicios.
+- Hacer inicio de sesion con permisos.
 - Mejorar estilos
 - Manual de usuario (pdf y web)
 - Documentación del proyecto
