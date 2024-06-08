@@ -9,14 +9,15 @@ package Modelo;
  * @author Alejandro
  */
 public class Empleado extends Persona {
-    
+
     private float sueldo;
 
     public Empleado(String dni, String nombre, String apellidos, String correo, int telefono, String contrasena, int rol, float sueldo) {
-        super(dni, nombre, apellidos, correo, telefono, contrasena,rol);
+        super(dni, nombre, apellidos, correo, telefono, contrasena, rol);
         this.sueldo = sueldo;
     }
-     public Empleado() {
+
+    public Empleado() {
         super();
         this.sueldo = 0;
     }
@@ -27,6 +28,11 @@ public class Empleado extends Persona {
 
     public void setSueldo(float sueldo) {
         this.sueldo = sueldo;
+    }
+
+    @Override
+    public String toString() {
+        return getDni() + " - " + getNombre() + ", " + getApellidos();
     }
 
 }

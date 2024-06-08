@@ -29,6 +29,11 @@ public class Usuario extends Persona {
         this.usuario = usuario;
     }
 
+    @Override
+    public String toString() {
+        return getDni() + " - " + usuario;
+    }
+
     
     
     

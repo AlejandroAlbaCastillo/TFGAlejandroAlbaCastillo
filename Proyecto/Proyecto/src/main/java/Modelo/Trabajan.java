@@ -14,10 +14,10 @@ public class Trabajan {
  
     private String dni;
     private int idSucursal;
-    private Date fechaInicio;
-    private Date fechaFin;
+    private String fechaInicio;
+    private String fechaFin;
 
-    public Trabajan(String dni, int idSucursal, Date fechaInicio, Date fechaFin) {
+    public Trabajan(String dni, int idSucursal, String fechaInicio, String fechaFin) {
         this.dni = dni;
         this.idSucursal = idSucursal;
         this.fechaInicio = fechaInicio;
@@ -26,8 +26,8 @@ public class Trabajan {
     public Trabajan() {
         this.dni = "";
         this.idSucursal = 0;
-        this.fechaInicio = new Date();
-        this.fechaFin = new Date();
+        this.fechaInicio = "";
+        this.fechaFin = "";
     }
     public String getDni() {
         return dni;
@@ -45,19 +45,19 @@ public class Trabajan {
         this.idSucursal = idSucursal;
     }
 
-    public Date getFechaInicio() {
+    public String getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(String fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public String getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(String fechaFin) {
         this.fechaFin = fechaFin;
     }
     

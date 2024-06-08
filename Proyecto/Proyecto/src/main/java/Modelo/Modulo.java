@@ -36,5 +36,10 @@ public class Modulo {
     public void setModulo(String modulo) {
         this.modulo = modulo;
     }
+
+    @Override
+    public String toString() {
+        return idModulo + " - " + modulo ;
+    }
     
 }

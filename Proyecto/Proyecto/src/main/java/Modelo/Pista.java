@@ -60,6 +60,9 @@ public class Pista {
     public void setIdSucursal(int idSucursal) {
         this.idSucursal = idSucursal;
     }
-    
-    
+
+    @Override
+    public String toString(){
+        return idPista+"-"+actividad;
+    }
 }
