@@ -6,12 +6,12 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.Pane?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="175.0" prefWidth="191.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.controladorLogin">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="177.0" prefWidth="246.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.controladorLogin">
    <children>
-      <TextField fx:id="tfDNI" layoutX="21.0" layoutY="31.0" />
-      <PasswordField fx:id="pfContrasena" layoutX="21.0" layoutY="88.0" />
+      <TextField fx:id="tfDNI" layoutX="21.0" layoutY="31.0" prefHeight="25.0" prefWidth="206.0" />
+      <PasswordField fx:id="pfContrasena" layoutX="21.0" layoutY="88.0" prefHeight="25.0" prefWidth="206.0" />
       <Label layoutX="21.0" layoutY="14.0" text="DNI" />
       <Label layoutX="21.0" layoutY="71.0" text="Contraseña" />
-      <Button fx:id="btnEntrar" layoutX="21.0" layoutY="124.0" mnemonicParsing="false" onAction="#btnEntrar" prefHeight="25.0" prefWidth="149.0" text="Entrar" />
+      <Button fx:id="btnEntrar" layoutX="21.0" layoutY="124.0" mnemonicParsing="false" onAction="#btnEntrar" prefHeight="25.0" prefWidth="206.0" text="Entrar" />
    </children>
 </Pane>

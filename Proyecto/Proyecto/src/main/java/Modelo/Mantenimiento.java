@@ -16,9 +16,9 @@ public class Mantenimiento {
     private String dni;
     private String tipoTrabajo;
     private float duracion;
-    private Date fecha;
+    private String fecha;
 
-    public Mantenimiento(int idMantenimiento, int idPista, String dni, String tipoTrabajo, float duracion, Date fecha) {
+    public Mantenimiento(int idMantenimiento, int idPista, String dni, String tipoTrabajo, float duracion, String fecha) {
         this.idMantenimiento=idMantenimiento;
         this.idPista = idPista;
         this.dni = dni;
@@ -32,7 +32,7 @@ public class Mantenimiento {
         this.dni = "";
         this.tipoTrabajo = "";
         this.duracion = 0;
-        this.fecha = new Date();
+        this.fecha = "";
     }
 
     public int getIdMantenimiento() {
@@ -75,11 +75,11 @@ public class Mantenimiento {
         this.duracion = duracion;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
     

@@ -11,14 +11,16 @@ import java.util.Date;
  * @author Alejandro
  */
 public class Reserva {
+    private int idReserva;
     private int idPista;
     private String dni;
     private String horaIni;
     private float duracion;
-    private Date fecha;
+    private String fecha;
     private float precioReserva;
 
-    public Reserva(int idPista, String dni, String horaIni, float duracion, Date fecha, float precioReserva) {
+    public Reserva(int idReserva, int idPista, String dni, String horaIni, float duracion, String fecha, float precioReserva) {
+        this.idReserva = idReserva;
         this.idPista = idPista;
         this.dni = dni;
         this.horaIni = horaIni;
@@ -27,12 +29,21 @@ public class Reserva {
         this.precioReserva = precioReserva;
     }
     public Reserva() {
+        this.idReserva = 0;
         this.idPista = 0;
         this.dni = "";
         this.horaIni = "";
         this.duracion = 0;
-        this.fecha = new Date();
+        this.fecha = "";
         this.precioReserva = 0;
+    }
+
+    public int getIdReserva() {
+        return idReserva;
+    }
+
+    public void setIdReserva(int idReserva) {
+        this.idReserva = idReserva;
     }
 
     public int getIdPista() {
@@ -67,11 +78,11 @@ public class Reserva {
         this.duracion = duracion;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

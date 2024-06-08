@@ -89,13 +89,14 @@ CREATE TABLE mantienen (
 );
 
 CREATE TABLE reservas (
+  id_reserva INT UNSIGNED AUTO_INCREMENT,
   id_pista INT UNSIGNED,
   dni VARCHAR(9),
   hora_inicio VARCHAR(50),
   duracion DECIMAL(4,2) UNSIGNED NOT NULL,
   fecha DATE,
   precio_reserva DECIMAL(4,2) UNSIGNED NOT NULL,
-  PRIMARY KEY (id_pista,dni,hora_inicio,fecha),
+  PRIMARY KEY (id_reserva, id_pista,dni,hora_inicio,fecha),
   FOREIGN KEY (dni) REFERENCES usuarios (dni_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (id_pista) REFERENCES pistas (id_pista) ON DELETE CASCADE ON UPDATE CASCADE
 );

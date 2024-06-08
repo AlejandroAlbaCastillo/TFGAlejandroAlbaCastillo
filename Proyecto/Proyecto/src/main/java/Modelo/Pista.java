@@ -62,9 +62,7 @@ public class Pista {
     }
 
     @Override
-    public String toString() {
-        return idPista+"" ;
+    public String toString(){
+        return idPista+"-"+actividad;
     }
-    
-    
 }
