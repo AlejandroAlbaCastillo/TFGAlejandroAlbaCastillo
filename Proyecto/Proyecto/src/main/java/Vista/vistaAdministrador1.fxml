@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -18,9 +19,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="843.0" prefWidth="1168.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controlador.controladorAdmin">
    <top>
@@ -65,9 +64,9 @@
                   </ImageView>
               </graphic>
                <content>
-                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="748.0" prefWidth="1131.0">
                      <children>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="1160.0">
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="84.0">
                            <children>
                               <VBox prefWidth="100.0">
                                  <children>
@@ -100,10 +99,16 @@
                                  </children>
                               </VBox>
                            </children>
+                           <FlowPane.margin>
+                              <Insets />
+                           </FlowPane.margin>
+                           <padding>
+                              <Insets left="20.0" right="20.0" />
+                           </padding>
                         </FlowPane>
-                        <HBox prefHeight="120.0" prefWidth="1160.0" spacing="50.0">
+                        <HBox prefHeight="100.0" spacing="50.0">
                            <children>
-                              <FlowPane fx:id="accionesSucursal" alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="120.0" prefWidth="552.0">
+                              <FlowPane fx:id="accionesSucursal" alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefWidth="554.0">
                                  <children>
                                     <Button fx:id="btnInsertarSucursal" mnemonicParsing="false" onAction="#insertarSucursal" text="Insertar">
                                        <graphic>
@@ -123,7 +128,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarSucursal" mnemonicParsing="false" text="Eliminar">
+                                    <Button fx:id="btnEliminarSucursal" mnemonicParsing="false" onAction="#eliminarSucursal" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -143,26 +148,35 @@
                                     </Button>
                                  </children>
                               </FlowPane>
-                              <Pane cache="true" prefHeight="120.0" prefWidth="337.0">
+                              <HBox prefHeight="100.0" prefWidth="384.0" spacing="10.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Buscar por: " />
-                                    <ComboBox fx:id="cbBuscarSucursales" layoutX="14.0" layoutY="33.0" prefWidth="150.0" />
-                                    <Button fx:id="btnBuscarSucursal" layoutX="176.0" layoutY="59.0" mnemonicParsing="false" onAction="#buscarSucursal">
-                                       <graphic>
-                                          <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Imagenes/Iconos/buscar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                    <TextField fx:id="tfBuscarSucursales" layoutX="15.0" layoutY="60.0" />
-                                    <Button fx:id="btnRestSuc" layoutX="176.0" layoutY="33.0" mnemonicParsing="false" onAction="#restSuc" text="Restablecer Filtros" />
+                                    <VBox prefHeight="100.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Buscar por: " />
+                                          <ComboBox fx:id="cbBuscarSucursales" prefWidth="150.0" />
+                                          <TextField fx:id="tfBuscarSucursales" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="100.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label />
+                                          <Button fx:id="btnRestSuc" mnemonicParsing="false" onAction="#restSuc" prefHeight="25.0" prefWidth="132.0" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarSucursal" mnemonicParsing="false" onAction="#buscarSucursal" prefHeight="8.0" prefWidth="16.0">
+                                             <graphic>
+                                                <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </Pane>
+                              </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvSucursal" prefHeight="543.0" prefWidth="1160.0">
+                        <TableView fx:id="tvSucursal" prefHeight="550.0" prefWidth="1130.0">
                           <columns>
                             <TableColumn fx:id="tcIDSucursal" prefWidth="75.0" text="ID Sucursal" />
                             <TableColumn fx:id="tcCiudad" prefWidth="75.0" text="Ciudad" />
@@ -189,9 +203,9 @@
                   </ImageView>
               </graphic>
                <content>
-                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
+                  <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="748.0" prefWidth="1058.0">
                      <children>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="870.0">
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="84.0" prefWidth="870.0">
                            <children>
                               <VBox prefWidth="100.0">
                                  <children>
@@ -225,9 +239,9 @@
                               </VBox>
                            </children>
                         </FlowPane>
-                        <HBox prefHeight="148.0" prefWidth="1151.0" spacing="50.0">
+                        <HBox prefHeight="100.0" spacing="50.0">
                            <children>
-                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="119.0" prefWidth="566.0">
+                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefWidth="554.0">
                                  <children>
                                     <Button fx:id="btnInsertarReserva" mnemonicParsing="false" onAction="#insertarReserva" text="Insertar">
                                        <graphic>
@@ -267,26 +281,35 @@
                                     </Button>
                                  </children>
                               </FlowPane>
-                              <Pane prefHeight="148.0" prefWidth="493.0">
+                              <HBox prefHeight="100.0" prefWidth="318.0" spacing="10.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Busca por:" />
-                                    <ComboBox fx:id="cbBuscarReservas" layoutX="14.0" layoutY="37.0" prefWidth="150.0" />
-                                    <Button fx:id="btnBuscarReservas" layoutX="174.0" layoutY="64.0" mnemonicParsing="false" onAction="#buscarReservas">
-                                       <graphic>
-                                          <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Imagenes/Iconos/buscar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                    <TextField fx:id="tfBuscarReservas" layoutX="15.0" layoutY="65.0" />
-                                    <Button fx:id="btnRestReservas" layoutX="174.0" layoutY="39.0" mnemonicParsing="false" onAction="#restReservas" text="Restablecer Filtros" />
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Busca por:" />
+                                          <ComboBox fx:id="cbBuscarReservas" prefWidth="150.0" />
+                                          <TextField fx:id="tfBuscarReservas" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label />
+                                          <Button fx:id="btnRestReservas" mnemonicParsing="false" onAction="#restReservas" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarReservas" mnemonicParsing="false" onAction="#buscarReservas">
+                                             <graphic>
+                                                <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </Pane>
+                              </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvReservas" prefHeight="448.0" prefWidth="1151.0">
+                        <TableView fx:id="tvReservas" prefHeight="550.0" prefWidth="1130.0">
                            <columns>
                               <TableColumn fx:id="tcIDPistaReserva" prefWidth="75.0" text="ID Pista" />
                               <TableColumn fx:id="tcDNIReserva" prefWidth="75.0" text="DNI" />
@@ -316,7 +339,7 @@
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="158.0" prefWidth="871.0">
                      <children>
-                        <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="15.0" maxWidth="1.7976931348623157E308" prefHeight="85.0" prefWidth="1146.0">
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="15.0" maxWidth="1.7976931348623157E308" prefHeight="84.0">
                            <children>
                               <VBox prefWidth="100.0">
                                  <children>
@@ -344,11 +367,11 @@
                               </VBox>
                            </children>
                         </FlowPane>
-                        <HBox prefHeight="109.0" prefWidth="1146.0">
+                        <HBox prefHeight="100.0" spacing="50.0">
                            <children>
-                              <FlowPane alignment="CENTER" hgap="15.0" prefHeight="127.0" prefWidth="636.0">
+                              <FlowPane alignment="CENTER" hgap="50.0" prefHeight="127.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarPista" minWidth="-Infinity" mnemonicParsing="false" onAction="#insertarPista" prefWidth="150.0" text="Insertar">
+                                    <Button fx:id="btnInsertarPista" minWidth="-Infinity" mnemonicParsing="false" onAction="#insertarPista" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -356,11 +379,8 @@
                                              </image>
                                           </ImageView>
                                        </graphic>
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
                                     </Button>
-                                    <Button fx:id="btnActualizarPista" mnemonicParsing="false" onAction="#actualizarPista" prefWidth="150.0" text="Actualizar">
+                                    <Button fx:id="btnActualizarPista" mnemonicParsing="false" onAction="#actualizarPista" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -368,11 +388,8 @@
                                              </image>
                                           </ImageView>
                                        </graphic>
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
                                     </Button>
-                                    <Button fx:id="btnEliminarPista" mnemonicParsing="false" onAction="#eliminarPista" prefWidth="150.0" text="Eliminar">
+                                    <Button fx:id="btnEliminarPista" mnemonicParsing="false" onAction="#eliminarPista" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -380,9 +397,6 @@
                                              </image>
                                           </ImageView>
                                        </graphic>
-                                       <font>
-                                          <Font size="15.0" />
-                                       </font>
                                     </Button>
                                     <Button fx:id="btnCargarPista" mnemonicParsing="false" onAction="#cargarPista" text="Cargar">
                                        <graphic>
@@ -395,26 +409,35 @@
                                     </Button>
                                  </children>
                               </FlowPane>
-                              <Pane prefHeight="148.0" prefWidth="493.0">
+                              <HBox prefHeight="100.0" prefWidth="353.0" spacing="10.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Busca por:" />
-                                    <ComboBox fx:id="cbBuscarPistas" layoutX="14.0" layoutY="37.0" prefWidth="150.0" />
-                                    <Button fx:id="btnBuscarPistas" layoutX="174.0" layoutY="64.0" mnemonicParsing="false" onAction="#buscarPistas">
-                                       <graphic>
-                                          <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Imagenes/Iconos/buscar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                    <TextField fx:id="tfBuscarPistas" layoutX="15.0" layoutY="65.0" />
-                                    <Button fx:id="btnRestPistas" layoutX="174.0" layoutY="39.0" mnemonicParsing="false" onAction="#restPistas" text="Restablecer Filtros" />
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Busca por:" />
+                                          <ComboBox fx:id="cbBuscarPistas" prefWidth="150.0" />
+                                          <TextField fx:id="tfBuscarPistas" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label />
+                                          <Button fx:id="btnRestPistas" mnemonicParsing="false" onAction="#restPistas" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarPistas" mnemonicParsing="false" onAction="#buscarPistas">
+                                             <graphic>
+                                                <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </Pane>
+                              </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvPistas" prefHeight="520.0" prefWidth="1146.0">
+                        <TableView fx:id="tvPistas" prefHeight="550.0" prefWidth="1130.0">
                            <columns>
                               <TableColumn fx:id="tcIdPista" prefWidth="75.0" text="ID Pista" />
                               <TableColumn fx:id="tcPrecioH" prefWidth="75.0" text="Precio / Hora" />
@@ -441,7 +464,7 @@
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="1150.0">
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="84.0">
                            <children>
                               <VBox prefWidth="100.0">
                                  <children>
@@ -481,9 +504,9 @@
                               </VBox>
                            </children>
                         </FlowPane>
-                        <HBox prefHeight="133.0" prefWidth="1150.0">
+                        <HBox prefHeight="100.0" spacing="50.0">
                            <children>
-                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="615.0">
+                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="554.0">
                                  <children>
                                     <Button fx:id="btnInsertarUsuario" mnemonicParsing="false" onAction="#insertarUsuario" text="Insertar">
                                        <graphic>
@@ -523,26 +546,35 @@
                                     </Button>
                                  </children>
                               </FlowPane>
-                              <Pane prefHeight="148.0" prefWidth="493.0">
+                              <HBox prefHeight="100.0" prefWidth="391.0" spacing="10.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Busca por:" />
-                                    <ComboBox fx:id="cbBuscarUsuarios" layoutX="14.0" layoutY="37.0" prefWidth="150.0" />
-                                    <Button fx:id="btnBuscarUsuarios" layoutX="174.0" layoutY="64.0" mnemonicParsing="false" onAction="#buscarUsuarios">
-                                       <graphic>
-                                          <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Imagenes/Iconos/buscar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                    <TextField fx:id="tfBuscarUsuarios" layoutX="15.0" layoutY="65.0" />
-                                    <Button fx:id="btnRestUsuarios" layoutX="174.0" layoutY="39.0" mnemonicParsing="false" onAction="#restUsuarios" text="Restablecer Filtros" />
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Busca por:" />
+                                          <ComboBox fx:id="cbBuscarUsuarios" prefWidth="150.0" />
+                                          <TextField fx:id="tfBuscarUsuarios" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Label" />
+                                          <Button fx:id="btnRestUsuarios" mnemonicParsing="false" onAction="#restUsuarios" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarUsuarios" mnemonicParsing="false" onAction="#buscarUsuarios">
+                                             <graphic>
+                                                <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </Pane>
+                              </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvUsuarios" prefHeight="469.0" prefWidth="1150.0">
+                        <TableView fx:id="tvUsuarios" prefHeight="550.0" prefWidth="1130.0">
                            <columns>
                               <TableColumn fx:id="tcDNIUsu" prefWidth="75.0" text="DNI" />
                               <TableColumn fx:id="tcNombreUsu" prefWidth="75.0" text="Nombre" />
@@ -572,7 +604,7 @@
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="84.0" prefWidth="1109.0">
+                        <FlowPane alignment="CENTER" hgap="50.0" prefHeight="84.0" prefWidth="1130.0">
                            <children>
                               <VBox prefWidth="100.0">
                                  <children>
@@ -618,9 +650,9 @@
                               </VBox>
                            </children>
                         </FlowPane>
-                        <HBox prefHeight="125.0" prefWidth="1109.0">
+                        <HBox prefHeight="100.0" spacing="50.0">
                            <children>
-                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="121.0" prefWidth="631.0">
+                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="121.0" prefWidth="554.0">
                                  <children>
                                     <Button fx:id="btnInsertarEmple" mnemonicParsing="false" onAction="#insertarEmple" text="Insertar">
                                        <graphic>
@@ -660,26 +692,35 @@
                                     </Button>
                                  </children>
                               </FlowPane>
-                              <Pane prefHeight="148.0" prefWidth="493.0">
+                              <HBox prefHeight="100.0" prefWidth="387.0" spacing="10.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Busca por:" />
-                                    <ComboBox fx:id="cbBuscarEmpleados" layoutX="14.0" layoutY="37.0" prefWidth="150.0" />
-                                    <Button fx:id="btnBuscarEmpleados" layoutX="174.0" layoutY="64.0" mnemonicParsing="false" onAction="#buscarEmpleados">
-                                       <graphic>
-                                          <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Imagenes/Iconos/buscar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                    <TextField fx:id="tfBuscarEmpleados" layoutX="15.0" layoutY="65.0" />
-                                    <Button fx:id="btnRestEmpleados" layoutX="174.0" layoutY="39.0" mnemonicParsing="false" onAction="#restEmpleados" text="Restablecer Filtros" />
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Busca por:" />
+                                          <ComboBox fx:id="cbBuscarEmpleados" prefWidth="150.0" />
+                                          <TextField fx:id="tfBuscarEmpleados" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Label" />
+                                          <Button fx:id="btnRestEmpleados" mnemonicParsing="false" onAction="#restEmpleados" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarEmpleados" mnemonicParsing="false" onAction="#buscarEmpleados">
+                                             <graphic>
+                                                <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </Pane>
+                              </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvEmpleados" prefHeight="518.0" prefWidth="1154.0">
+                        <TableView fx:id="tvEmpleados" prefHeight="550.0" prefWidth="1130.0">
                            <columns>
                               <TableColumn fx:id="tcDNIEmple" prefWidth="75.0" text="DNI" />
                               <TableColumn fx:id="tcNombreEmple" prefWidth="75.0" text="Nombre" />
@@ -709,7 +750,7 @@
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="1052.0">
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="84.0">
                            <children>
                               <VBox prefHeight="42.0" prefWidth="169.0">
                                  <children>
@@ -743,9 +784,9 @@
                               </VBox>
                            </children>
                         </FlowPane>
-                        <HBox prefHeight="150.0" prefWidth="1052.0">
+                        <HBox prefHeight="100.0" spacing="50.0">
                            <children>
-                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="618.0">
+                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="554.0">
                                  <children>
                                     <Button fx:id="btnInsertarManteni" mnemonicParsing="false" onAction="#insertarManteni" text="Insertar">
                                        <graphic>
@@ -785,26 +826,35 @@
                                     </Button>
                                  </children>
                               </FlowPane>
-                              <Pane prefHeight="148.0" prefWidth="493.0">
+                              <HBox prefHeight="100.0" prefWidth="394.0" spacing="10.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Busca por:" />
-                                    <ComboBox fx:id="cbBuscarMantienen" layoutX="14.0" layoutY="37.0" prefWidth="150.0" />
-                                    <Button fx:id="btnBuscarMantienen" layoutX="174.0" layoutY="64.0" mnemonicParsing="false" onAction="#buscarMantienen">
-                                       <graphic>
-                                          <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Imagenes/Iconos/buscar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                    <TextField fx:id="tfBuscarMantienen" layoutX="15.0" layoutY="65.0" />
-                                    <Button fx:id="btnRestMantienen" layoutX="174.0" layoutY="39.0" mnemonicParsing="false" onAction="#restMantienen" text="Restablecer Filtros" />
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Busca por:" />
+                                          <ComboBox fx:id="cbBuscarMantienen" prefWidth="150.0" />
+                                          <TextField fx:id="tfBuscarMantienen" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Label" />
+                                          <Button fx:id="btnRestMantienen" mnemonicParsing="false" onAction="#restMantienen" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarMantienen" mnemonicParsing="false" onAction="#buscarMantienen">
+                                             <graphic>
+                                                <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </Pane>
+                              </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvMantenimiento" prefHeight="465.0" prefWidth="1122.0">
+                        <TableView fx:id="tvMantenimiento" prefHeight="550.0" prefWidth="1130.0">
                            <columns>
                               <TableColumn fx:id="tcDNIManteni" prefWidth="75.0" text="DNI" />
                               <TableColumn fx:id="tcIdPistaManteni" prefWidth="75.0" text="ID Pista" />
@@ -831,7 +881,7 @@
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="1130.0">
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="84.0">
                            <children>
                               <VBox prefHeight="42.0" prefWidth="164.0">
                                  <children>
@@ -859,9 +909,9 @@
                               </VBox>
                            </children>
                         </FlowPane>
-                        <HBox prefHeight="125.0" prefWidth="1130.0">
+                        <HBox prefHeight="100.0" spacing="50.0">
                            <children>
-                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="597.0">
+                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="554.0">
                                  <children>
                                     <Button fx:id="btnInsertarTrabajan" mnemonicParsing="false" onAction="#insertarTrabajan" text="Insertar">
                                        <graphic>
@@ -901,26 +951,35 @@
                                     </Button>
                                  </children>
                               </FlowPane>
-                              <Pane prefHeight="148.0" prefWidth="493.0">
+                              <HBox prefHeight="100.0" prefWidth="376.0" spacing="10.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Busca por:" />
-                                    <ComboBox fx:id="cbBuscarTrabajan" layoutX="14.0" layoutY="37.0" prefWidth="150.0" />
-                                    <Button fx:id="btnBuscarTrabajan" layoutX="174.0" layoutY="64.0" mnemonicParsing="false" onAction="#buscarTrabajan">
-                                       <graphic>
-                                          <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Imagenes/Iconos/buscar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                    <TextField fx:id="tfBuscarTrabajan" layoutX="15.0" layoutY="65.0" />
-                                    <Button fx:id="btnRestTrabajan" layoutX="174.0" layoutY="39.0" mnemonicParsing="false" onAction="#restTrabajan" text="Restablecer Filtros" />
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Busca por:" />
+                                          <ComboBox fx:id="cbBuscarTrabajan" prefWidth="150.0" />
+                                          <TextField fx:id="tfBuscarTrabajan" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Label" />
+                                          <Button fx:id="btnRestTrabajan" mnemonicParsing="false" onAction="#restTrabajan" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarTrabajan" mnemonicParsing="false" onAction="#buscarTrabajan">
+                                             <graphic>
+                                                <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </Pane>
+                              </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvTrabajan" prefHeight="331.0" prefWidth="870.0">
+                        <TableView fx:id="tvTrabajan" prefHeight="550.0" prefWidth="1130.0">
                            <columns>
                               <TableColumn fx:id="tcDNITrabaja" prefWidth="75.0" text="DNI" />
                               <TableColumn fx:id="tcIdSucursalTrabajan" prefWidth="75.0" text="ID Sucursal" />
@@ -946,7 +1005,7 @@
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="83.0" prefWidth="1157.0">
+                        <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="84.0">
                            <children>
                               <VBox prefWidth="100.0">
                                  <children>
@@ -962,9 +1021,9 @@
                               </VBox>
                            </children>
                         </FlowPane>
-                        <HBox prefHeight="74.0" prefWidth="1157.0">
+                        <HBox alignment="CENTER" prefHeight="100.0">
                            <children>
-                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="568.0">
+                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="554.0">
                                  <children>
                                     <Button fx:id="btnInsertarRol" mnemonicParsing="false" onAction="#insertarRol" text="Insertar">
                                        <graphic>
@@ -1006,7 +1065,7 @@
                               </FlowPane>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvRol" prefHeight="569.0" prefWidth="1157.0">
+                        <TableView fx:id="tvRol" prefHeight="550.0" prefWidth="1130.0">
                            <columns>
                               <TableColumn fx:id="tcIdRol" prefWidth="75.0" text="idRol" />
                               <TableColumn fx:id="tcDenominacion" prefWidth="75.0" text="Denominacion" />
@@ -1054,7 +1113,7 @@
                <content>
                   <FlowPane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="85.0" prefWidth="1132.0">
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="84.0" prefWidth="1130.0">
                            <children>
                               <VBox alignment="CENTER_LEFT" prefWidth="100.0">
                                  <children>
@@ -1083,9 +1142,9 @@
                               </VBox>
                            </children>
                         </FlowPane>
-                        <HBox prefHeight="141.0" prefWidth="1132.0">
+                        <HBox prefHeight="100.0" spacing="50.0">
                            <children>
-                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="578.0">
+                              <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="120.0" prefWidth="554.0">
                                  <children>
                                     <Button fx:id="btnInsertarPermiso" mnemonicParsing="false" onAction="#insertarPermiso" text="Insertar">
                                        <graphic>
@@ -1125,26 +1184,35 @@
                                     </Button>
                                  </children>
                               </FlowPane>
-                              <Pane prefHeight="148.0" prefWidth="493.0">
+                              <HBox prefHeight="100.0" prefWidth="371.0" spacing="10.0">
                                  <children>
-                                    <Label layoutX="14.0" layoutY="14.0" text="Busca por:" />
-                                    <ComboBox fx:id="cbBuscarPermisos" layoutX="14.0" layoutY="37.0" prefWidth="150.0" />
-                                    <Button fx:id="btnBuscarPermisos" layoutX="174.0" layoutY="64.0" mnemonicParsing="false" onAction="#buscarPermisos">
-                                       <graphic>
-                                          <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../Imagenes/Iconos/buscar.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
-                                    <TextField fx:id="tfBuscarPermisos" layoutX="15.0" layoutY="65.0" />
-                                    <Button fx:id="btnRestPermisos" layoutX="174.0" layoutY="39.0" mnemonicParsing="false" onAction="#restPermisos" text="Restablecer Filtros" />
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Busca por:" />
+                                          <ComboBox fx:id="cbBuscarPermisos" prefWidth="150.0" />
+                                          <TextField fx:id="tfBuscarPermisos" />
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
+                                       <children>
+                                          <Label text="Label" />
+                                          <Button fx:id="btnRestPermisos" mnemonicParsing="false" onAction="#restPermisos" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarPermisos" mnemonicParsing="false" onAction="#buscarPermisos">
+                                             <graphic>
+                                                <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                                   <image>
+                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                   </image>
+                                                </ImageView>
+                                             </graphic>
+                                          </Button>
+                                       </children>
+                                    </VBox>
                                  </children>
-                              </Pane>
+                              </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvPermisos" prefHeight="494.0" prefWidth="1132.0">
+                        <TableView fx:id="tvPermisos" prefHeight="550.0" prefWidth="1130.0">
                            <columns>
                               <TableColumn fx:id="tcIdRolPer" prefWidth="75.0" text="idRol" />
                               <TableColumn fx:id="tcIdModuloPer" prefWidth="75.0" text="idModulo" />
