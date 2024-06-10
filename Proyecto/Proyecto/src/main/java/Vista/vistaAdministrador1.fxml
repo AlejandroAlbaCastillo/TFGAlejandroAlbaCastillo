@@ -44,16 +44,16 @@
       </MenuBar>
    </top>
    <bottom>
-      <FlowPane alignment="CENTER" prefHeight="41.0" prefWidth="876.0" BorderPane.alignment="CENTER">
+      <FlowPane alignment="CENTER" prefHeight="41.0" prefWidth="876.0" styleClass="fondo2" stylesheets="@../Styles/style.css" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="message" text="Texto retroalimentario" />
          </children>
       </FlowPane>
    </bottom>
    <center>
-      <TabPane fx:id="tbGeneral" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tbGeneral" prefHeight="200.0" prefWidth="200.0" styleClass="fondo" stylesheets="@../Styles/style.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab fx:id="tabSucursal" text="Sucursal">
+          <Tab fx:id="tabSucursal" styleClass="fondo" text="Sucursal">
               <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
@@ -110,7 +110,7 @@
                            <children>
                               <FlowPane fx:id="accionesSucursal" alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarSucursal" mnemonicParsing="false" onAction="#insertarSucursal" text="Insertar">
+                                    <Button fx:id="btnInsertarSucursal" mnemonicParsing="false" onAction="#insertarSucursal" styleClass="boton" stylesheets="@../Styles/style.css" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -119,7 +119,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarSucursal" mnemonicParsing="false" onAction="#actualizarSucursal" text="Actualizar">
+                                    <Button fx:id="btnActualizarSucursal" mnemonicParsing="false" onAction="#actualizarSucursal" styleClass="boton" stylesheets="@../Styles/style.css" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -128,7 +128,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarSucursal" mnemonicParsing="false" onAction="#eliminarSucursal" text="Eliminar">
+                                    <Button fx:id="btnEliminarSucursal" mnemonicParsing="false" onAction="#eliminarSucursal" styleClass="boton" stylesheets="@../Styles/style.css" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -137,7 +137,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarSucursal" mnemonicParsing="false" onAction="#cargarSucursal" text="Cargar">
+                                    <Button fx:id="btnCargarSucursal" mnemonicParsing="false" onAction="#cargarSucursal" styleClass="boton" stylesheets="@../Styles/style.css" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -160,8 +160,8 @@
                                     <VBox prefHeight="100.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label />
-                                          <Button fx:id="btnRestSuc" mnemonicParsing="false" onAction="#restSuc" prefHeight="25.0" prefWidth="132.0" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarSucursal" mnemonicParsing="false" onAction="#buscarSucursal" prefHeight="8.0" prefWidth="16.0">
+                                          <Button fx:id="btnRestSuc" mnemonicParsing="false" onAction="#restSuc" prefHeight="25.0" prefWidth="132.0" styleClass="boton" stylesheets="@../Styles/style.css" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarSucursal" mnemonicParsing="false" onAction="#buscarSucursal" prefHeight="8.0" prefWidth="16.0" styleClass="boton" stylesheets="@../Styles/style.css">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -176,7 +176,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvSucursal" prefHeight="550.0" prefWidth="1130.0">
+                        <TableView fx:id="tvSucursal" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2" stylesheets="@../Styles/style.css">
                           <columns>
                             <TableColumn fx:id="tcIDSucursal" prefWidth="75.0" text="ID Sucursal" />
                             <TableColumn fx:id="tcCiudad" prefWidth="75.0" text="Ciudad" />
@@ -192,7 +192,7 @@
                   </FlowPane>
                </content>
           </Tab>
-            <Tab text="Reservas">
+            <Tab fx:id="tabReservas" styleClass="fondo" text="Reservas">
                 <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
@@ -243,7 +243,7 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarReserva" mnemonicParsing="false" onAction="#insertarReserva" text="Insertar">
+                                    <Button fx:id="btnInsertarReserva" mnemonicParsing="false" onAction="#insertarReserva" styleClass="boton" stylesheets="@../Styles/style.css" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -252,7 +252,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarReserva" mnemonicParsing="false" onAction="#actualizarReserva" text="Actualizar">
+                                    <Button fx:id="btnActualizarReserva" mnemonicParsing="false" onAction="#actualizarReserva" styleClass="boton" stylesheets="@../Styles/style.css" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -261,7 +261,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarReserva" mnemonicParsing="false" onAction="#eliminarReserva" text="Eliminar">
+                                    <Button fx:id="btnEliminarReserva" mnemonicParsing="false" onAction="#eliminarReserva" styleClass="boton" stylesheets="@../Styles/style.css" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="150.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -270,7 +270,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarReserva" mnemonicParsing="false" onAction="#cargarReserva" text="Cargar">
+                                    <Button fx:id="btnCargarReserva" mnemonicParsing="false" onAction="#cargarReserva" styleClass="boton" stylesheets="@../Styles/style.css" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -293,8 +293,8 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label />
-                                          <Button fx:id="btnRestReservas" mnemonicParsing="false" onAction="#restReservas" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarReservas" mnemonicParsing="false" onAction="#buscarReservas">
+                                          <Button fx:id="btnRestReservas" mnemonicParsing="false" onAction="#restReservas" styleClass="boton" stylesheets="@../Styles/style.css" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarReservas" mnemonicParsing="false" onAction="#buscarReservas" styleClass="boton" stylesheets="@../Styles/style.css">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -309,7 +309,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvReservas" prefHeight="550.0" prefWidth="1130.0">
+                        <TableView fx:id="tvReservas" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2">
                            <columns>
                               <TableColumn fx:id="tcIDPistaReserva" prefWidth="75.0" text="ID Pista" />
                               <TableColumn fx:id="tcDNIReserva" prefWidth="75.0" text="DNI" />
@@ -326,7 +326,7 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab text="Pistas">
+            <Tab fx:id="tabPistas" styleClass="fondo" text="Pistas">
                 <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
@@ -371,7 +371,7 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" prefHeight="127.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarPista" minWidth="-Infinity" mnemonicParsing="false" onAction="#insertarPista" text="Insertar">
+                                    <Button fx:id="btnInsertarPista" minWidth="-Infinity" mnemonicParsing="false" onAction="#insertarPista" styleClass="boton" stylesheets="@../Styles/style.css" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -380,7 +380,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarPista" mnemonicParsing="false" onAction="#actualizarPista" text="Actualizar">
+                                    <Button fx:id="btnActualizarPista" mnemonicParsing="false" onAction="#actualizarPista" styleClass="boton" stylesheets="@../Styles/style.css" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -389,7 +389,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarPista" mnemonicParsing="false" onAction="#eliminarPista" text="Eliminar">
+                                    <Button fx:id="btnEliminarPista" mnemonicParsing="false" onAction="#eliminarPista" styleClass="boton" stylesheets="@../Styles/style.css" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -398,7 +398,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarPista" mnemonicParsing="false" onAction="#cargarPista" text="Cargar">
+                                    <Button fx:id="btnCargarPista" mnemonicParsing="false" onAction="#cargarPista" styleClass="boton" stylesheets="@../Styles/style.css" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -421,8 +421,8 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label />
-                                          <Button fx:id="btnRestPistas" mnemonicParsing="false" onAction="#restPistas" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarPistas" mnemonicParsing="false" onAction="#buscarPistas">
+                                          <Button fx:id="btnRestPistas" mnemonicParsing="false" onAction="#restPistas" styleClass="boton" stylesheets="@../Styles/style.css" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarPistas" mnemonicParsing="false" onAction="#buscarPistas" styleClass="boton" stylesheets="@../Styles/style.css">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -437,7 +437,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvPistas" prefHeight="550.0" prefWidth="1130.0">
+                        <TableView fx:id="tvPistas" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2">
                            <columns>
                               <TableColumn fx:id="tcIdPista" prefWidth="75.0" text="ID Pista" />
                               <TableColumn fx:id="tcPrecioH" prefWidth="75.0" text="Precio / Hora" />
@@ -451,7 +451,7 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab text="Usuarios">
+            <Tab fx:id="tabUsuarios" styleClass="fondo" text="Usuarios">
                 <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
@@ -508,7 +508,7 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarUsuario" mnemonicParsing="false" onAction="#insertarUsuario" text="Insertar">
+                                    <Button fx:id="btnInsertarUsuario" mnemonicParsing="false" onAction="#insertarUsuario" styleClass="boton" stylesheets="@../Styles/style.css" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -517,7 +517,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarUsuario" mnemonicParsing="false" onAction="#actualizarUsuario" text="Actualizar">
+                                    <Button fx:id="btnActualizarUsuario" mnemonicParsing="false" onAction="#actualizarUsuario" styleClass="boton" stylesheets="@../Styles/style.css" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -526,7 +526,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarUsuario" mnemonicParsing="false" onAction="#eliminarUsuario" text="Eliminar">
+                                    <Button fx:id="btnEliminarUsuario" mnemonicParsing="false" onAction="#eliminarUsuario" styleClass="boton" stylesheets="@../Styles/style.css" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -535,7 +535,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarUsuario" mnemonicParsing="false" onAction="#cargarUsuario" text="Cargar">
+                                    <Button fx:id="btnCargarUsuario" mnemonicParsing="false" onAction="#cargarUsuario" styleClass="boton" stylesheets="@../Styles/style.css" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -558,8 +558,8 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label text="Label" />
-                                          <Button fx:id="btnRestUsuarios" mnemonicParsing="false" onAction="#restUsuarios" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarUsuarios" mnemonicParsing="false" onAction="#buscarUsuarios">
+                                          <Button fx:id="btnRestUsuarios" mnemonicParsing="false" onAction="#restUsuarios" styleClass="boton" stylesheets="@../Styles/style.css" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarUsuarios" mnemonicParsing="false" onAction="#buscarUsuarios" styleClass="boton" stylesheets="@../Styles/style.css">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -574,7 +574,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvUsuarios" prefHeight="550.0" prefWidth="1130.0">
+                        <TableView fx:id="tvUsuarios" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2">
                            <columns>
                               <TableColumn fx:id="tcDNIUsu" prefWidth="75.0" text="DNI" />
                               <TableColumn fx:id="tcNombreUsu" prefWidth="75.0" text="Nombre" />
@@ -591,7 +591,7 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab text="Empleados">
+            <Tab fx:id="tabEmpleados" styleClass="fondo" text="Empleados">
                 <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
@@ -654,7 +654,7 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="121.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarEmple" mnemonicParsing="false" onAction="#insertarEmple" text="Insertar">
+                                    <Button fx:id="btnInsertarEmple" mnemonicParsing="false" onAction="#insertarEmple" styleClass="boton" stylesheets="@../Styles/style.css" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -663,7 +663,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarEmple" mnemonicParsing="false" onAction="#actualizarEmple" text="Actualizar">
+                                    <Button fx:id="btnActualizarEmple" mnemonicParsing="false" onAction="#actualizarEmple" styleClass="boton" stylesheets="@../Styles/style.css" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -672,7 +672,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarEmple" mnemonicParsing="false" onAction="#eliminarEmple" text="Eliminar">
+                                    <Button fx:id="btnEliminarEmple" mnemonicParsing="false" onAction="#eliminarEmple" styleClass="boton" stylesheets="@../Styles/style.css" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -681,7 +681,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarEmple" mnemonicParsing="false" onAction="#cargarEmple" text="Cargar">
+                                    <Button fx:id="btnCargarEmple" mnemonicParsing="false" onAction="#cargarEmple" styleClass="boton" stylesheets="@../Styles/style.css" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -704,8 +704,8 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label text="Label" />
-                                          <Button fx:id="btnRestEmpleados" mnemonicParsing="false" onAction="#restEmpleados" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarEmpleados" mnemonicParsing="false" onAction="#buscarEmpleados">
+                                          <Button fx:id="btnRestEmpleados" mnemonicParsing="false" onAction="#restEmpleados" styleClass="boton" stylesheets="@../Styles/style.css" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarEmpleados" mnemonicParsing="false" onAction="#buscarEmpleados" styleClass="boton" stylesheets="@../Styles/style.css">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -720,7 +720,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvEmpleados" prefHeight="550.0" prefWidth="1130.0">
+                        <TableView fx:id="tvEmpleados" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2">
                            <columns>
                               <TableColumn fx:id="tcDNIEmple" prefWidth="75.0" text="DNI" />
                               <TableColumn fx:id="tcNombreEmple" prefWidth="75.0" text="Nombre" />
@@ -737,7 +737,7 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab text="Mantenimiento">
+            <Tab fx:id="tabMantenimiento" styleClass="fondo" text="Mantenimiento">
                 <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
@@ -788,7 +788,7 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="150.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarManteni" mnemonicParsing="false" onAction="#insertarManteni" text="Insertar">
+                                    <Button fx:id="btnInsertarManteni" mnemonicParsing="false" onAction="#insertarManteni" styleClass="boton" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -797,7 +797,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarManteni" mnemonicParsing="false" onAction="#actualizarManteni" text="Actualizar">
+                                    <Button fx:id="btnActualizarManteni" mnemonicParsing="false" onAction="#actualizarManteni" styleClass="boton" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -806,7 +806,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarManteni" mnemonicParsing="false" onAction="#eliminarManteni" text="Eliminar">
+                                    <Button fx:id="btnEliminarManteni" mnemonicParsing="false" onAction="#eliminarManteni" styleClass="boton" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -815,7 +815,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarManteni" mnemonicParsing="false" onAction="#cargarManteni" text="Cargar">
+                                    <Button fx:id="btnCargarManteni" mnemonicParsing="false" onAction="#cargarManteni" styleClass="boton" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -838,8 +838,8 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label text="Label" />
-                                          <Button fx:id="btnRestMantienen" mnemonicParsing="false" onAction="#restMantienen" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarMantienen" mnemonicParsing="false" onAction="#buscarMantienen">
+                                          <Button fx:id="btnRestMantienen" mnemonicParsing="false" onAction="#restMantienen" styleClass="boton" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarMantienen" mnemonicParsing="false" onAction="#buscarMantienen" styleClass="boton">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -854,7 +854,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvMantenimiento" prefHeight="550.0" prefWidth="1130.0">
+                        <TableView fx:id="tvMantenimiento" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2">
                            <columns>
                               <TableColumn fx:id="tcDNIManteni" prefWidth="75.0" text="DNI" />
                               <TableColumn fx:id="tcIdPistaManteni" prefWidth="75.0" text="ID Pista" />
@@ -870,7 +870,7 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab text="Trabajan">
+            <Tab fx:id="tabTrabajan" styleClass="fondo" text="Trabajan">
                <graphic>
                   <ImageView fitWidth="16" preserveRatio="true">
                      <image>
@@ -913,7 +913,7 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="55.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarTrabajan" mnemonicParsing="false" onAction="#insertarTrabajan" text="Insertar">
+                                    <Button fx:id="btnInsertarTrabajan" mnemonicParsing="false" onAction="#insertarTrabajan" styleClass="boton" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -922,7 +922,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarTrabajan" mnemonicParsing="false" onAction="#actualizarTrabajan" text="Actualizar">
+                                    <Button fx:id="btnActualizarTrabajan" mnemonicParsing="false" onAction="#actualizarTrabajan" styleClass="boton" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -931,7 +931,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarTrabajan" mnemonicParsing="false" onAction="#eliminarTrabajan" text="Eliminar">
+                                    <Button fx:id="btnEliminarTrabajan" mnemonicParsing="false" onAction="#eliminarTrabajan" styleClass="boton" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -940,7 +940,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarTrabajan" mnemonicParsing="false" onAction="#cargarTrabajan" text="Cargar">
+                                    <Button fx:id="btnCargarTrabajan" mnemonicParsing="false" onAction="#cargarTrabajan" styleClass="boton" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -963,8 +963,8 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label text="Label" />
-                                          <Button fx:id="btnRestTrabajan" mnemonicParsing="false" onAction="#restTrabajan" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarTrabajan" mnemonicParsing="false" onAction="#buscarTrabajan">
+                                          <Button fx:id="btnRestTrabajan" mnemonicParsing="false" onAction="#restTrabajan" styleClass="boton" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarTrabajan" mnemonicParsing="false" onAction="#buscarTrabajan" styleClass="boton">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -979,7 +979,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvTrabajan" prefHeight="550.0" prefWidth="1130.0">
+                        <TableView fx:id="tvTrabajan" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2">
                            <columns>
                               <TableColumn fx:id="tcDNITrabaja" prefWidth="75.0" text="DNI" />
                               <TableColumn fx:id="tcIdSucursalTrabajan" prefWidth="75.0" text="ID Sucursal" />
@@ -994,7 +994,7 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab text="Roles">
+            <Tab fx:id="tabRoles" styleClass="fondo" text="Roles">
                <graphic>
                   <ImageView fitWidth="16" preserveRatio="true">
                      <image>
@@ -1025,7 +1025,7 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarRol" mnemonicParsing="false" onAction="#insertarRol" text="Insertar">
+                                    <Button fx:id="btnInsertarRol" mnemonicParsing="false" onAction="#insertarRol" styleClass="boton" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -1034,7 +1034,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarRol" mnemonicParsing="false" onAction="#actualizarRol" text="Actualizar">
+                                    <Button fx:id="btnActualizarRol" mnemonicParsing="false" onAction="#actualizarRol" styleClass="boton" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -1043,7 +1043,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarRol" mnemonicParsing="false" onAction="#eliminarRol" text="Eliminar">
+                                    <Button fx:id="btnEliminarRol" mnemonicParsing="false" onAction="#eliminarRol" styleClass="boton" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -1052,7 +1052,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarRol" mnemonicParsing="false" onAction="#cargarRol" text="Cargar">
+                                    <Button fx:id="btnCargarRol" mnemonicParsing="false" onAction="#cargarRol" styleClass="boton" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -1065,7 +1065,7 @@
                               </FlowPane>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvRol" prefHeight="550.0" prefWidth="1130.0">
+                        <TableView fx:id="tvRol" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2">
                            <columns>
                               <TableColumn fx:id="tcIdRol" prefWidth="75.0" text="idRol" />
                               <TableColumn fx:id="tcDenominacion" prefWidth="75.0" text="Denominacion" />
@@ -1078,7 +1078,7 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab text="Modulos">
+            <Tab fx:id="tabModulos" styleClass="fondo" text="Modulos">
                <graphic>
                   <ImageView fitWidth="16" preserveRatio="true">
                      <image>
@@ -1089,7 +1089,7 @@
                <content>
                   <FlowPane alignment="CENTER" orientation="VERTICAL" prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tvModulo" prefHeight="614.0" prefWidth="870.0">
+                        <TableView fx:id="tvModulo" prefHeight="614.0" prefWidth="870.0" styleClass="fondo2">
                            <columns>
                               <TableColumn fx:id="tcIdModulo" prefWidth="75.0" text="idModulo" />
                               <TableColumn fx:id="tcModulo" prefWidth="75.0" text="Modulo" />
@@ -1102,7 +1102,7 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab text="Permisos">
+            <Tab fx:id="tabPermisos" styleClass="fondo" text="Permisos">
                <graphic>
                   <ImageView fitWidth="16" preserveRatio="true">
                      <image>
@@ -1146,7 +1146,7 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="120.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarPermiso" mnemonicParsing="false" onAction="#insertarPermiso" text="Insertar">
+                                    <Button fx:id="btnInsertarPermiso" mnemonicParsing="false" onAction="#insertarPermiso" styleClass="boton" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -1155,7 +1155,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarPermiso" mnemonicParsing="false" onAction="#actualizarPermiso" text="Actualizar">
+                                    <Button fx:id="btnActualizarPermiso" mnemonicParsing="false" onAction="#actualizarPermiso" styleClass="boton" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -1164,7 +1164,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarPermiso" mnemonicParsing="false" onAction="#eliminarPermiso" text="Eliminar">
+                                    <Button fx:id="btnEliminarPermiso" mnemonicParsing="false" onAction="#eliminarPermiso" styleClass="boton" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -1173,7 +1173,7 @@
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarPermiso" mnemonicParsing="false" onAction="#cargarPermiso" text="Cargar">
+                                    <Button fx:id="btnCargarPermiso" mnemonicParsing="false" onAction="#cargarPermiso" styleClass="boton" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
@@ -1196,8 +1196,8 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label text="Label" />
-                                          <Button fx:id="btnRestPermisos" mnemonicParsing="false" onAction="#restPermisos" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarPermisos" mnemonicParsing="false" onAction="#buscarPermisos">
+                                          <Button fx:id="btnRestPermisos" mnemonicParsing="false" onAction="#restPermisos" styleClass="boton" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarPermisos" mnemonicParsing="false" onAction="#buscarPermisos" styleClass="boton">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
@@ -1212,7 +1212,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvPermisos" prefHeight="550.0" prefWidth="1130.0">
+                        <TableView fx:id="tvPermisos" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2">
                            <columns>
                               <TableColumn fx:id="tcIdRolPer" prefWidth="75.0" text="idRol" />
                               <TableColumn fx:id="tcIdModuloPer" prefWidth="75.0" text="idModulo" />

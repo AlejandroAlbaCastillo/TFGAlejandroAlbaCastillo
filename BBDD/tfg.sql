@@ -6,7 +6,7 @@ CREATE TABLE sucursal (
   id_sucursal INT UNSIGNED AUTO_INCREMENT,
   ciudad VARCHAR(50) NOT NULL,
   codigo_postal INT UNSIGNED NOT NULL,
-  direccion VARCHAR(50) UNSIGNED NOT NULL,
+  direccion VARCHAR(50) NOT NULL,
   telefono INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_sucursal)
 );
@@ -26,7 +26,7 @@ CREATE TABLE modulos(
 CREATE TABLE permisos(
   id_rol INT UNSIGNED,
   id_modulo INT UNSIGNED,
-  permisos VARCHAR(4),
+  permisos VARCHAR(6),
   PRIMARY KEY (id_rol, id_modulo, permisos),
   FOREIGN KEY (id_rol) REFERENCES rol (id_rol) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (id_modulo) REFERENCES modulos (id_modulo) ON DELETE CASCADE ON UPDATE CASCADE
@@ -38,6 +38,7 @@ CREATE TABLE personas(
   apellidos VARCHAR(100) NOT NULL,
   correo VARCHAR(50) NOT NULL,
   telefono int(9) NOT NULL,
+  contrasena VARCHAR(50) NOT NULL,
   rol INT UNSIGNED NOT NULL,
   PRIMARY KEY (dni),
   FOREIGN KEY (rol) REFERENCES rol (id_rol) ON DELETE CASCADE ON UPDATE CASCADE
@@ -82,7 +83,7 @@ CREATE TABLE mantienen (
   id_pista INT UNSIGNED NOT NULL,
   tipo_trabajo VARCHAR(50) NOT NULL,
   fecha_ini DATE NOT NULL,
-  duracion DECIMAL(4,2) UNSIGNED NOT NULL,
+  duracion DECIMAL(10,2) UNSIGNED NOT NULL,
   PRIMARY KEY (id_mantenimiento),
   FOREIGN KEY (dni) REFERENCES empleados (dni_empleado) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (id_pista) REFERENCES pistas (id_pista) ON DELETE CASCADE ON UPDATE CASCADE
@@ -93,11 +94,53 @@ CREATE TABLE reservas (
   id_pista INT UNSIGNED,
   dni VARCHAR(9),
   hora_inicio VARCHAR(50),
-  duracion DECIMAL(4,2) UNSIGNED NOT NULL,
+  duracion DECIMAL(10,2) UNSIGNED NOT NULL,
   fecha DATE,
   precio_reserva DECIMAL(4,2) UNSIGNED NOT NULL,
   PRIMARY KEY (id_reserva, id_pista,dni,hora_inicio,fecha),
   FOREIGN KEY (dni) REFERENCES usuarios (dni_usuario) ON DELETE CASCADE ON UPDATE CASCADE,
   FOREIGN KEY (id_pista) REFERENCES pistas (id_pista) ON DELETE CASCADE ON UPDATE CASCADE
 );
+-- Inserción de Roles
+INSERT INTO rol VALUES(null, "Admin");
+INSERT INTO rol VALUES(null, "Director");
+INSERT INTO rol VALUES(null, "Empleado");
+INSERT INTO rol VALUES(null, "Usuario");
 
+-- Inserción de Modulos
+INSERT INTO modulos VALUES(null, "sucursal");
+INSERT INTO modulos VALUES(null, "rol");
+INSERT INTO modulos VALUES(null, "modulos");
+INSERT INTO modulos VALUES(null, "permisos");
+INSERT INTO modulos VALUES(null, "personas");
+INSERT INTO modulos VALUES(null, "empleados");
+INSERT INTO modulos VALUES(null, "trabajan");
+INSERT INTO modulos VALUES(null, "usuarios");
+INSERT INTO modulos VALUES(null, "pistas");
+INSERT INTO modulos VALUES(null, "mantienen");
+INSERT INTO modulos VALUES(null, "reservas");
+-- Inserción de Permisos
+INSERT INTO permisos VALUES(1, 1, "CRUD");
+INSERT INTO permisos VALUES(1, 2, "CRUD");
+INSERT INTO permisos VALUES(1, 3, "CRUD");
+INSERT INTO permisos VALUES(1, 4, "CRUD");
+INSERT INTO permisos VALUES(1, 5, "CRUD");
+INSERT INTO permisos VALUES(1, 6, "CRUD");
+INSERT INTO permisos VALUES(1, 7, "CRUD");
+INSERT INTO permisos VALUES(1, 8, "CRUD");
+INSERT INTO permisos VALUES(1, 9, "CRUD");
+INSERT INTO permisos VALUES(1, 10, "CRUD");
+INSERT INTO permisos VALUES(1, 11, "CRUD");
+INSERT INTO permisos VALUES(4, 1, "");
+INSERT INTO permisos VALUES(4, 2, "");
+INSERT INTO permisos VALUES(4, 3, "");
+INSERT INTO permisos VALUES(4, 4, "");
+INSERT INTO permisos VALUES(4, 5, "CRUD *");
+INSERT INTO permisos VALUES(4, 6, "");
+INSERT INTO permisos VALUES(4, 7, "");
+INSERT INTO permisos VALUES(4, 8, "CRUD *");
+INSERT INTO permisos VALUES(4, 9, "");
+INSERT INTO permisos VALUES(4, 10, "");
+INSERT INTO permisos VALUES(4, 11, "CRUD *");
+
+INSERT INTO personas VALUES("21027174E","Alejandro","Alba Castillo","alejandroalba02@gmail.com",628332813,"proyectoSportify",1);

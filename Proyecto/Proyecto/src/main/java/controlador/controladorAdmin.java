@@ -129,6 +129,9 @@ public class controladorAdmin implements Initializable {
 
     //################################Reservas################################//
     @FXML
+    private Tab tabReservas;
+
+    @FXML
     private ComboBox cbIdPistaReserva;
 
     @FXML
@@ -176,6 +179,9 @@ public class controladorAdmin implements Initializable {
 
     //################################Pistas################################//
     @FXML
+    private Tab tabPistas;
+
+    @FXML
     private TextField tfIdPista;
 
     @FXML
@@ -214,6 +220,9 @@ public class controladorAdmin implements Initializable {
     private MenuItem itemPista = new MenuItem("Eliminar");
 
     //################################Usuarios################################//
+    @FXML
+    private Tab tabUsuarios;
+
     @FXML
     private TextField tfDNIUsu;
 
@@ -268,6 +277,9 @@ public class controladorAdmin implements Initializable {
 
     //################################Empleados################################//
     @FXML
+    private Tab tabEmpleados;
+
+    @FXML
     private TextField tfDNIEmple;
     @FXML
     private TextField tfNombreEmple;
@@ -318,6 +330,9 @@ public class controladorAdmin implements Initializable {
 
     //################################Mantenimiento################################//
     @FXML
+    private Tab tabMantenimiento;
+
+    @FXML
     private ComboBox cbDniManteni;
 
     @FXML
@@ -364,6 +379,9 @@ public class controladorAdmin implements Initializable {
 
     //################################Rol################################//
     @FXML
+    private Tab tabRoles;
+
+    @FXML
     private TextField tfIdRol;
 
     @FXML
@@ -394,6 +412,9 @@ public class controladorAdmin implements Initializable {
 
     //################################Modulo################################//
     @FXML
+    private Tab tabModulos;
+
+    @FXML
     private TextField tfIdModulo;
 
     @FXML
@@ -420,6 +441,9 @@ public class controladorAdmin implements Initializable {
     private MenuItem itemModulo = new MenuItem("Eliminar");
 
     //################################Permisos################################//
+    @FXML
+    private Tab tabPermisos;
+
     @FXML
     private ComboBox cbModuloPer;
     @FXML
@@ -463,6 +487,9 @@ public class controladorAdmin implements Initializable {
     private MenuItem itemPermiso = new MenuItem("Eliminar");
 
     //################################Trabajan################################//
+    @FXML
+    private Tab tabTrabajan;
+
     @FXML
     private ComboBox cbDNITrabajan;
 
@@ -613,7 +640,7 @@ public class controladorAdmin implements Initializable {
 
     @FXML
     void restReservas() {
-        tvReservas.setItems(dameListaReservas());
+        tvReservas.setItems(dameListaReservas(sacarPermiso(11, persona.getRol())));
     }
 
     @FXML
@@ -659,7 +686,7 @@ public class controladorAdmin implements Initializable {
 
     @FXML
     void restUsuarios() {
-        tvUsuarios.setItems(dameListaUsuarios());
+        tvUsuarios.setItems(dameListaUsuarios(sacarPermiso(8, persona.getRol())));
     }
 
     @FXML
@@ -1260,7 +1287,7 @@ public class controladorAdmin implements Initializable {
         Empleado emp = new Empleado();
         Pista pista = new Pista();
         if (cbDniManteni.getValue() != null && cbIdPistaManteni.getValue() != null && !tfTipoT.getText().isEmpty() && dpFechaManteni.getValue() != null && !tfDuracionManteni.getText().isEmpty()) {
-            
+
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText(null);
             alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
@@ -1271,29 +1298,29 @@ public class controladorAdmin implements Initializable {
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
                 String query = "UPDATE mantienen SET dni = ?, id_pista = ?, tipo_trabajo = ?, fecha_ini = ?, duracion = ? WHERE id_mantenimiento = ?";
-            emp = (Empleado) cbDniManteni.getValue();
-            pista = (Pista) cbIdPistaManteni.getValue();
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, emp.getDni());
-                preparedStatement.setString(2, pista.getIdPista() + "");
-                preparedStatement.setString(3, tfTipoT.getText());
-                preparedStatement.setString(4, dpFechaManteni.getValue().format(DateTimeFormatter.ISO_DATE).toString());
-                preparedStatement.setString(5, tfDuracionManteni.getText());
-                preparedStatement.setString(6, this.mantenimiento.getIdMantenimiento() + "");
-                preparedStatement.executeUpdate();
-                darMensaje("Mantenimiento actualizado");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
+                emp = (Empleado) cbDniManteni.getValue();
+                pista = (Pista) cbIdPistaManteni.getValue();
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, emp.getDni());
+                    preparedStatement.setString(2, pista.getIdPista() + "");
+                    preparedStatement.setString(3, tfTipoT.getText());
+                    preparedStatement.setString(4, dpFechaManteni.getValue().format(DateTimeFormatter.ISO_DATE).toString());
+                    preparedStatement.setString(5, tfDuracionManteni.getText());
+                    preparedStatement.setString(6, this.mantenimiento.getIdMantenimiento() + "");
+                    preparedStatement.executeUpdate();
+                    darMensaje("Mantenimiento actualizado");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
 
-            tvMantenimiento.setItems(dameListaMantenimiento());
-            cbDniManteni.setValue(null);
-            cbIdPistaManteni.setValue(null);
-            tfTipoT.setText("");
-            dpFechaManteni.setValue(null);
-            tfDuracionManteni.setText("");
+                tvMantenimiento.setItems(dameListaMantenimiento());
+                cbDniManteni.setValue(null);
+                cbIdPistaManteni.setValue(null);
+                tfTipoT.setText("");
+                dpFechaManteni.setValue(null);
+                tfDuracionManteni.setText("");
             }
 
         } else {
@@ -1316,27 +1343,27 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            
-                String query = "UPDATE pistas SET precioHora = ?, actividad = ?, id_sucursal = ? WHERE id_pista = ?";
-            suc = (Sucursal) cbSucursalPista.getValue();
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, tfPrecioH.getText());
-                preparedStatement.setString(2, tfActividad.getText());
-                preparedStatement.setString(3, suc.getIdSucursal() + "");
-                preparedStatement.setString(4, tfIdPista.getText());
-                preparedStatement.executeUpdate();
-                darMensaje("Pista actualizada");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
 
-            tvPistas.setItems(dameListaPista());
-            tfIdPista.setText("");
-            tfActividad.setText("");
-            tfPrecioH.setText("");
-            cbSucursalPista.setValue(null);
+                String query = "UPDATE pistas SET precioHora = ?, actividad = ?, id_sucursal = ? WHERE id_pista = ?";
+                suc = (Sucursal) cbSucursalPista.getValue();
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, tfPrecioH.getText());
+                    preparedStatement.setString(2, tfActividad.getText());
+                    preparedStatement.setString(3, suc.getIdSucursal() + "");
+                    preparedStatement.setString(4, tfIdPista.getText());
+                    preparedStatement.executeUpdate();
+                    darMensaje("Pista actualizada");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+
+                tvPistas.setItems(dameListaPista());
+                tfIdPista.setText("");
+                tfActividad.setText("");
+                tfPrecioH.setText("");
+                cbSucursalPista.setValue(null);
             }
 
         } else {
@@ -1359,44 +1386,44 @@ public class controladorAdmin implements Initializable {
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
                 String query = "UPDATE  reservas SET id_pista = ?, dni = ?, hora_inicio = ?, duracion = ?, fecha = ?, precio_reserva = ? WHERE id_reserva = ? ";
-            usu = (Usuario) cbDNIReserva.getValue();
-            pista = (Pista) cbIdPistaReserva.getValue();
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, pista.getIdPista() + "");
-                preparedStatement.setString(2, usu.getDni());
-                preparedStatement.setString(3, tfHoraIni.getText());
-                preparedStatement.setString(4, tfDuracionReserva.getText());
-                preparedStatement.setString(5, dpFechaReserva.getValue().format(DateTimeFormatter.ISO_DATE).toString());
-                String query2 = "SELECT * FROM pistas WHERE id_pista = ?";
-                PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
-                preparedStatement2.setString(1, pista.getIdPista() + "");
-                System.out.println(query2);
-                ResultSet resultado1 = preparedStatement2.executeQuery();
-                float retorno = 0;
-                System.out.println("Aqui");
-                if (resultado1.next()) {
-                    retorno = resultado1.getFloat("precioHora");
-                    System.out.println(retorno);
+                usu = (Usuario) cbDNIReserva.getValue();
+                pista = (Pista) cbIdPistaReserva.getValue();
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, pista.getIdPista() + "");
+                    preparedStatement.setString(2, usu.getDni());
+                    preparedStatement.setString(3, tfHoraIni.getText());
+                    preparedStatement.setString(4, tfDuracionReserva.getText());
+                    preparedStatement.setString(5, dpFechaReserva.getValue().format(DateTimeFormatter.ISO_DATE).toString());
+                    String query2 = "SELECT * FROM pistas WHERE id_pista = ?";
+                    PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
+                    preparedStatement2.setString(1, pista.getIdPista() + "");
+                    System.out.println(query2);
+                    ResultSet resultado1 = preparedStatement2.executeQuery();
+                    float retorno = 0;
+                    System.out.println("Aqui");
+                    if (resultado1.next()) {
+                        retorno = resultado1.getFloat("precioHora");
+                        System.out.println(retorno);
+                    }
+
+                    float precio = (Float.parseFloat(tfDuracionReserva.getText()) / 60) * retorno;
+                    preparedStatement.setString(6, precio + "");
+                    preparedStatement.setString(7, reserva.getIdReserva() + "");
+
+                    preparedStatement.executeUpdate();
+                    darMensaje("Reserva actualizada");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
                 }
 
-                float precio = (Float.parseFloat(tfDuracionReserva.getText()) / 60) * retorno;
-                preparedStatement.setString(6, precio + "");
-                preparedStatement.setString(7, reserva.getIdReserva() + "");
-
-                preparedStatement.executeUpdate();
-                darMensaje("Reserva actualizada");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
-
-            tvReservas.setItems(dameListaReservas());
-            cbDNIReserva.setValue(null);
-            cbIdPistaReserva.setValue(null);
-            tfHoraIni.setText("");
-            dpFechaReserva.setValue(null);
-            tfDuracionReserva.setText("");
+                tvReservas.setItems(dameListaReservas(sacarPermiso(11, persona.getRol())));
+                cbDNIReserva.setValue(null);
+                cbIdPistaReserva.setValue(null);
+                tfHoraIni.setText("");
+                dpFechaReserva.setValue(null);
+                tfDuracionReserva.setText("");
             }
 
         } else {
@@ -1417,28 +1444,28 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            
-                String query = "UPDATE sucursal SET ciudad = ?, codigo_postal = ?, direccion = ?, telefono = ? WHERE id_sucursal = ?";
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, tfCiudad.getText());
-                preparedStatement.setString(2, tfCodigoPostal.getText());
-                preparedStatement.setString(3, tfDireccion.getText());
-                preparedStatement.setString(4, tfTelSucursal.getText());
-                preparedStatement.setString(5, tfIdSucursal.getText());
-                preparedStatement.executeUpdate();
 
-                darMensaje("Sucursal actualizada");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
-            tvSucursal.setItems(dameListaSucursal());
-            tfCiudad.setText("");
-            tfCodigoPostal.setText("");
-            tfDireccion.setText("");
-            tfTelSucursal.setText("");
-            
+                String query = "UPDATE sucursal SET ciudad = ?, codigo_postal = ?, direccion = ?, telefono = ? WHERE id_sucursal = ?";
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, tfCiudad.getText());
+                    preparedStatement.setString(2, tfCodigoPostal.getText());
+                    preparedStatement.setString(3, tfDireccion.getText());
+                    preparedStatement.setString(4, tfTelSucursal.getText());
+                    preparedStatement.setString(5, tfIdSucursal.getText());
+                    preparedStatement.executeUpdate();
+
+                    darMensaje("Sucursal actualizada");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvSucursal.setItems(dameListaSucursal());
+                tfCiudad.setText("");
+                tfCodigoPostal.setText("");
+                tfDireccion.setText("");
+                tfTelSucursal.setText("");
+
             }
         } else {
             darAlerta(true, "Inserta un nombre");
@@ -1457,40 +1484,40 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            
+
                 String query = "UPDATE personas SET nombre = ?, apellidos = ?, correo = ?, telefono = ?, contrasena = ?, rol = 4 WHERE dni = ?";
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
 
-                preparedStatement.setString(1, tfNombreUsu.getText());
-                preparedStatement.setString(2, tfApellidosUsu.getText());
-                preparedStatement.setString(3, tfCorreoUsu.getText());
-                preparedStatement.setString(4, tfTelUsu.getText());
-                preparedStatement.setString(5, tfDNIUsu.getText());
-                preparedStatement.setString(6, tfDNIUsu.getText());
-                preparedStatement.executeUpdate();
-                String query2 = "UPDATE usuarios SET usuario = ? WHERE dni_usuario = ?";
+                    preparedStatement.setString(1, tfNombreUsu.getText());
+                    preparedStatement.setString(2, tfApellidosUsu.getText());
+                    preparedStatement.setString(3, tfCorreoUsu.getText());
+                    preparedStatement.setString(4, tfTelUsu.getText());
+                    preparedStatement.setString(5, tfDNIUsu.getText());
+                    preparedStatement.setString(6, tfDNIUsu.getText());
+                    preparedStatement.executeUpdate();
+                    String query2 = "UPDATE usuarios SET usuario = ? WHERE dni_usuario = ?";
 
-                PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
+                    PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
 
-                preparedStatement2.setString(1, tfUsuario.getText());
-                preparedStatement2.setString(2, tfDNIUsu.getText());
-                preparedStatement2.executeUpdate();
+                    preparedStatement2.setString(1, tfUsuario.getText());
+                    preparedStatement2.setString(2, tfDNIUsu.getText());
+                    preparedStatement2.executeUpdate();
 
-                tvUsuarios.setItems(dameListaUsuarios());
-                tfDNIUsu.setText("");
-                tfNombreUsu.setText("");
-                tfApellidosUsu.setText("");
-                tfCorreoUsu.setText("");
-                tfTelUsu.setText("");
-                tfUsuario.setText("");
-                //MODIFICAR
-                darMensaje("Usuario actualizado");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
+                    tvUsuarios.setItems(dameListaUsuarios(sacarPermiso(8, persona.getRol())));
+                    tfDNIUsu.setText("");
+                    tfNombreUsu.setText("");
+                    tfApellidosUsu.setText("");
+                    tfCorreoUsu.setText("");
+                    tfTelUsu.setText("");
+                    tfUsuario.setText("");
+                    //MODIFICAR
+                    darMensaje("Usuario actualizado");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
             }
         } else {
             darAlerta(true, "Algun campo vacío");
@@ -1515,18 +1542,18 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            String query = "DELETE FROM mantienen WHERE id_mantenimiento = ? ";
+                String query = "DELETE FROM mantienen WHERE id_mantenimiento = ? ";
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, mantenimiento.getIdMantenimiento() + "");
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
-            tvMantenimiento.setItems(dameListaMantenimiento());
-            darMensaje("Mantenimiento eliminado");
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, mantenimiento.getIdMantenimiento() + "");
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvMantenimiento.setItems(dameListaMantenimiento());
+                darMensaje("Mantenimiento eliminado");
             }
         } else {
             darAlerta(true, "Debes seleccionar un elemento de la tabla");
@@ -1546,18 +1573,18 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            String query = "DELETE FROM pistas WHERE id_pista = ? ";
+                String query = "DELETE FROM pistas WHERE id_pista = ? ";
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, pista.getIdPista() + "");
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
-            tvPistas.setItems(dameListaPista());
-            darMensaje("Pista eliminada");
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, pista.getIdPista() + "");
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvPistas.setItems(dameListaPista());
+                darMensaje("Pista eliminada");
             }
         } else {
             darAlerta(true, "Debes seleccionar un elemento de la tabla");
@@ -1577,18 +1604,18 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            String query = "DELETE FROM reservas WHERE id_reserva = ? ";
+                String query = "DELETE FROM reservas WHERE id_reserva = ? ";
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, reserva.getIdReserva() + "");
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
-            tvReservas.setItems(dameListaReservas());
-            darMensaje("Reserva eliminada");
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, reserva.getIdReserva() + "");
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvReservas.setItems(dameListaReservas(sacarPermiso(11, persona.getRol())));
+                darMensaje("Reserva eliminada");
             }
         } else {
             darAlerta(true, "Debes seleccionar un elemento de la tabla");
@@ -1613,18 +1640,19 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            String query = "DELETE FROM sucursal WHERE id_sucursal = ? ";
+                String query = "DELETE FROM sucursal WHERE id_sucursal = ? ";
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, sucursal.getIdSucursal() + "");
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, sucursal.getIdSucursal() + "");
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvSucursal.setItems(dameListaSucursal());
+                darMensaje("Sucursal eliminada");
             }
-            tvSucursal.setItems(dameListaSucursal());
-            darMensaje("Sucursal eliminada");}
         } else {
             darAlerta(true, "Debes seleccionar un elemento de la tabla");
         }
@@ -1740,6 +1768,7 @@ public class controladorAdmin implements Initializable {
 
     @FXML
     void insertarReserva() {
+        System.out.println("Entra en insertar");
         Usuario usu = new Usuario();
         Pista pista = new Pista();
         if (cbDNIReserva.getValue() != null && cbIdPistaReserva.getValue() != null && !tfHoraIni.getText().isEmpty() && dpFechaReserva.getValue() != null && !tfDuracionReserva.getText().isEmpty()) {
@@ -1757,7 +1786,7 @@ public class controladorAdmin implements Initializable {
                 String query2 = "SELECT * FROM pistas WHERE id_pista = ?";
                 PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
                 preparedStatement2.setString(1, pista.getIdPista() + "");
-                System.out.println(query2);
+
                 ResultSet resultado = preparedStatement2.executeQuery();
                 float retorno = 0;
                 System.out.println("Aqui");
@@ -1775,7 +1804,7 @@ public class controladorAdmin implements Initializable {
                 darAlerta(false, e.getLocalizedMessage());
             }
 
-            tvReservas.setItems(dameListaReservas());
+            tvReservas.setItems(dameListaReservas(sacarPermiso(11, persona.getRol())));
             cbDNIReserva.setValue(null);
             cbIdPistaReserva.setValue(null);
             tfHoraIni.setText("");
@@ -1839,7 +1868,7 @@ public class controladorAdmin implements Initializable {
                 preparedStatement2.setString(2, tfUsuario.getText());
                 preparedStatement2.executeUpdate();
 
-                tvUsuarios.setItems(dameListaUsuarios());
+                tvUsuarios.setItems(dameListaUsuarios(sacarPermiso(8, persona.getRol())));
                 tfDNIUsu.setText("");
                 tfNombreUsu.setText("");
                 tfApellidosUsu.setText("");
@@ -1888,19 +1917,19 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            String query = "UPDATE rol SET denominacion = ? WHERE id_rol = ? ";
+                String query = "UPDATE rol SET denominacion = ? WHERE id_rol = ? ";
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, tfDenominacion.getText());
-                preparedStatement.setString(2, tfIdRol.getText());
-                preparedStatement.executeUpdate();
-                darMensaje("Rol Actualizado");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
-            tvRol.setItems(dameListaRol());
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, tfDenominacion.getText());
+                    preparedStatement.setString(2, tfIdRol.getText());
+                    preparedStatement.executeUpdate();
+                    darMensaje("Rol Actualizado");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvRol.setItems(dameListaRol());
             }
         } else {
             darAlerta(true, "Inserta una denominacion");
@@ -1920,18 +1949,18 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            String query = "DELETE FROM rol WHERE id_rol = ? ";
+                String query = "DELETE FROM rol WHERE id_rol = ? ";
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, rol.getIdRol() + "");
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
-            tvRol.setItems(dameListaRol());
-            darMensaje("Rol eliminado");
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, rol.getIdRol() + "");
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvRol.setItems(dameListaRol());
+                darMensaje("Rol eliminado");
             }
         } else {
             darAlerta(true, "Debes seleccionar un elemento de la tabla");
@@ -2013,42 +2042,42 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            String query = "UPDATE permisos SET permisos = ? WHERE id_rol = ? && id_modulo = ?  ";
+                String query = "UPDATE permisos SET permisos = ? WHERE id_rol = ? && id_modulo = ?  ";
 
-            String permiso = "";
-            if (cbxCrear.isSelected()) {
-                permiso += "C";
-            }
-            if (cbxListar.isSelected()) {
-                permiso += "R";
-            }
-            if (cbxActualizar.isSelected()) {
-                permiso += "U";
-            }
-            if (cbxEliminar.isSelected()) {
-                permiso += "D";
-            }
-            rol = (Rol) cbIdRolPer.getValue();
-            modulo = (Modulo) cbModuloPer.getValue();
+                String permiso = "";
+                if (cbxCrear.isSelected()) {
+                    permiso += "C";
+                }
+                if (cbxListar.isSelected()) {
+                    permiso += "R";
+                }
+                if (cbxActualizar.isSelected()) {
+                    permiso += "U";
+                }
+                if (cbxEliminar.isSelected()) {
+                    permiso += "D";
+                }
+                rol = (Rol) cbIdRolPer.getValue();
+                modulo = (Modulo) cbModuloPer.getValue();
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, permiso);
-                preparedStatement.setString(2, rol.getIdRol() + "");
-                preparedStatement.setString(3, modulo.getIdModulo() + "");
-                preparedStatement.executeUpdate();
-                darMensaje("Permiso actualizado");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
-            tvPermisos.setItems(dameListaPermisos());
-            cbModuloPer.setValue(null);
-            cbIdRolPer.setValue(null);
-            cbxCrear.setSelected(false);
-            cbxListar.setSelected(false);
-            cbxActualizar.setSelected(false);
-            cbxEliminar.setSelected(false);
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, permiso);
+                    preparedStatement.setString(2, rol.getIdRol() + "");
+                    preparedStatement.setString(3, modulo.getIdModulo() + "");
+                    preparedStatement.executeUpdate();
+                    darMensaje("Permiso actualizado");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvPermisos.setItems(dameListaPermisos());
+                cbModuloPer.setValue(null);
+                cbIdRolPer.setValue(null);
+                cbxCrear.setSelected(false);
+                cbxListar.setSelected(false);
+                cbxActualizar.setSelected(false);
+                cbxEliminar.setSelected(false);
             }
         } else {
             darAlerta(true, "Inserta un nombre");
@@ -2068,19 +2097,19 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-            String query = "DELETE FROM permisos WHERE id_modulo = ? AND id_rol = ?";
+                String query = "DELETE FROM permisos WHERE id_modulo = ? AND id_rol = ?";
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, permiso.getIdModulo() + "");
-                preparedStatement.setString(2, permiso.getIdRol() + "");
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
-            tvPermisos.setItems(dameListaPermisos());
-            darMensaje("Permiso eliminado");
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, permiso.getIdModulo() + "");
+                    preparedStatement.setString(2, permiso.getIdRol() + "");
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvPermisos.setItems(dameListaPermisos());
+                darMensaje("Permiso eliminado");
             }
         } else {
             darAlerta(true, "Debes seleccionar un elemento de la tabla");
@@ -2312,25 +2341,43 @@ public class controladorAdmin implements Initializable {
         return null;
     }
 
-    public ObservableList<Usuario> dameListaUsuarios() {
+    public ObservableList<Usuario> dameListaUsuarios(String permiso) {
         ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
         Connection connection = getConnection();
         if (connection != null) {
-            String query = "SELECT * FROM usuarios, personas where usuarios.dni_usuario = personas.dni";
-            Statement st;
-            ResultSet rs;
+            String query = "";
+            if (permiso.contains("*")) {
+                try {
+                    query = "SELECT * FROM usuarios, personas where usuarios.dni_usuario = personas.dni AND usuarios.dni_usuario = ?";
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, persona.getDni());
+                    ResultSet resultado = preparedStatement.executeQuery();
+                    Usuario usuario;
+                    while (resultado.next()) { //Se usan los identificadores propios en la BBDD
 
-            try {
-                st = connection.createStatement();
-                rs = st.executeQuery(query);
-                Usuario usuario;
-                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                        usuario = new Usuario(resultado.getString("personas.dni"), resultado.getString("nombre"), resultado.getString("apellidos"), resultado.getString("correo"), resultado.getInt("telefono"), resultado.getString("contrasena"), resultado.getInt("rol"), resultado.getString("usuario"));
 
-                    usuario = new Usuario(rs.getString("personas.dni"), rs.getString("nombre"), rs.getString("apellidos"), rs.getString("correo"), rs.getInt("telefono"), rs.getString("contrasena"), rs.getInt("rol"), rs.getString("usuario"));
-
-                    listaUsuarios.add(usuario);
+                        listaUsuarios.add(usuario);
+                    }
+                } catch (SQLException e) {
                 }
-            } catch (SQLException e) {
+            } else {
+                query = "SELECT * FROM usuarios, personas where usuarios.dni_usuario = personas.dni";
+                Statement st;
+                ResultSet rs;
+
+                try {
+                    st = connection.createStatement();
+                    rs = st.executeQuery(query);
+                    Usuario usuario;
+                    while (rs.next()) { //Se usan los identificadores propios en la BBDD
+
+                        usuario = new Usuario(rs.getString("personas.dni"), rs.getString("nombre"), rs.getString("apellidos"), rs.getString("correo"), rs.getInt("telefono"), rs.getString("contrasena"), rs.getInt("rol"), rs.getString("usuario"));
+
+                        listaUsuarios.add(usuario);
+                    }
+                } catch (SQLException e) {
+                }
             }
             return listaUsuarios;
         }
@@ -2362,26 +2409,49 @@ public class controladorAdmin implements Initializable {
         return null;
     }
 
-    public ObservableList<Reserva> dameListaReservas() {
+    public ObservableList<Reserva> dameListaReservas(String permiso) {
         ObservableList<Reserva> listaReservas = FXCollections.observableArrayList();
         Connection connection = getConnection();
         if (connection != null) {
-            String query = "SELECT * FROM reservas";
-            Statement st;
-            ResultSet rs;
+            String query = "";
+            if (permiso.contains("*")) {
+                query = "SELECT * FROM reservas WHERE dni = ?";
+                
+                try {
 
-            try {
-                st = connection.createStatement();
-                rs = st.executeQuery(query);
-                Reserva reserva;
-                while (rs.next()) { //Se usan los identificadores propios en la BBDD
-
-                    reserva = new Reserva(rs.getInt("id_reserva"), rs.getInt("id_pista"), rs.getString("dni"), rs.getString("hora_inicio"), rs.getFloat("duracion"), rs.getString("fecha"), rs.getInt("precio_reserva"));
-
-                    listaReservas.add(reserva);
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, persona.getDni());
+                    ResultSet resultado = preparedStatement.executeQuery();
+                    System.out.println(preparedStatement);
+                    Reserva res;
+                    while (resultado.next()) {
+                        res = new Reserva(resultado.getInt("id_reserva"), resultado.getInt("id_pista"), resultado.getString("dni"), resultado.getString("hora_inicio"), resultado.getFloat("duracion"), resultado.getString("fecha"), resultado.getFloat("precio_reserva"));
+                        System.out.println(res);
+                        listaReservas.add(res);
+                    }
+                } catch (SQLException e) {
+                    System.out.println(e.getLocalizedMessage());
                 }
-            } catch (SQLException e) {
+
+            } else {
+                query = "SELECT * FROM reservas";
+                Statement st;
+                ResultSet rs;
+
+                try {
+                    st = connection.createStatement();
+                    rs = st.executeQuery(query);
+                    Reserva reserva;
+                    while (rs.next()) { //Se usan los identificadores propios en la BBDD
+
+                        reserva = new Reserva(rs.getInt("id_reserva"), rs.getInt("id_pista"), rs.getString("dni"), rs.getString("hora_inicio"), rs.getFloat("duracion"), rs.getString("fecha"), rs.getFloat("precio_reserva"));
+
+                        listaReservas.add(reserva);
+                    }
+                } catch (SQLException e) {
+                }
             }
+
             return listaReservas;
         }
         return null;
@@ -2546,7 +2616,7 @@ public class controladorAdmin implements Initializable {
 
         tvPermisos.setItems(listaPermisos);
 
-        ObservableList<Usuario> listaUsuarios = dameListaUsuarios();
+        ObservableList<Usuario> listaUsuarios = dameListaUsuarios(sacarPermiso(8, persona.getRol()));
 
         //Los campos han de coincidir con los campos del objeto Libros
         tcDNIUsu.setCellValueFactory(new PropertyValueFactory<Usuario, String>("dni"));
@@ -2571,7 +2641,7 @@ public class controladorAdmin implements Initializable {
         tvEmpleados.setItems(listaEmpleados);
         cbDniManteni.setItems(listaEmpleados);
         cbDNITrabajan.setItems(listaEmpleados);
-        ObservableList<Reserva> listaReservas = dameListaReservas();
+        ObservableList<Reserva> listaReservas = dameListaReservas(sacarPermiso(11, persona.getRol()));
 
         //Los campos han de coincidir con los campos del objeto Libros
         tcIDPistaReserva.setCellValueFactory(new PropertyValueFactory<Reserva, Integer>("idPista"));
@@ -2744,6 +2814,59 @@ public class controladorAdmin implements Initializable {
                 cargarPermiso();
             }
         });
+
+        System.out.println("Id rol: " + persona.getRol());
+        System.out.println("Permiso: " + sacarPermiso(1, persona.getRol()));
+        if (!sacarPermiso(1, persona.getRol()).contains("R")) {
+            tbGeneral.getTabs().remove(tabSucursal);
+        }
+        if (!sacarPermiso(2, persona.getRol()).contains("R")) {
+            tbGeneral.getTabs().remove(tabRoles);
+        }
+        if (!sacarPermiso(3, persona.getRol()).contains("R")) {
+            tbGeneral.getTabs().remove(tabModulos);
+        }
+        if (!sacarPermiso(4, persona.getRol()).contains("R")) {
+            tbGeneral.getTabs().remove(tabPermisos);
+        }
+        if (!sacarPermiso(6, persona.getRol()).contains("R")) {
+            tbGeneral.getTabs().remove(tabEmpleados);
+        }
+        if (!sacarPermiso(7, persona.getRol()).contains("R")) {
+            tbGeneral.getTabs().remove(tabTrabajan);
+        }
+        if (!sacarPermiso(8, persona.getRol()).contains("R")) {
+            tbGeneral.getTabs().remove(tabUsuarios);
+        }
+        if (!sacarPermiso(9, persona.getRol()).contains("R")) {
+            tbGeneral.getTabs().remove(tabPistas);
+        }
+        if (!sacarPermiso(10, persona.getRol()).contains("R")) {
+            tbGeneral.getTabs().remove(tabMantenimiento);
+        }
+        if (!sacarPermiso(11, persona.getRol()).contains("R")) {
+            tbGeneral.getTabs().remove(tabReservas);
+        }
+
+    }
+
+    public String sacarPermiso(int modulo, int rol) {
+        String retorno = null;
+        try {
+            Connection connection = getConnection();
+            String query = "SELECT * FROM permisos WHERE id_rol = ? AND id_modulo = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, rol);
+            preparedStatement.setInt(2, modulo);
+            ResultSet resultado = preparedStatement.executeQuery();
+
+            if (resultado.next()) {
+                retorno = resultado.getString("permisos");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+        return retorno;
     }
 
     public String permisosFaltantes(String permisos) {

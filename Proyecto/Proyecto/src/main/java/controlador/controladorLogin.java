@@ -32,6 +32,7 @@ public class controladorLogin implements Initializable{
     private controladorAdmin cvfc;
     @FXML
     private Button btnEntrar;
+    
 
     @FXML
     private PasswordField pfContrasena;
@@ -63,6 +64,7 @@ public class controladorLogin implements Initializable{
                     // Crear una nueva ventana para mostrar el contenido
                     Stage nuevoContenidoStage = new Stage();
                     nuevoContenidoStage.setTitle("Sportify");
+                    nuevoContenidoStage.setResizable(false);
                     nuevoContenidoStage.getIcons().add(new Image("/Imagenes/Miscelanea/tenis.png"));
                     nuevoContenidoStage.initModality(Modality.WINDOW_MODAL);
 

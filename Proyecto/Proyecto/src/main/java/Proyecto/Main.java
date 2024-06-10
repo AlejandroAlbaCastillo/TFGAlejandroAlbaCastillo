@@ -27,11 +27,12 @@ public class Main extends Application {
         Scene scene = new Scene(root);
          //Cargar el archivo CSS
         
-        //scene.getStylesheets().add(getClass().getResource("/estilos/inmotion.css").toExternalForm());
-
+        scene.getStylesheets().add(getClass().getResource("/Styles/style.css").toExternalForm());
+        
         stage.setScene(scene);
         stage.setTitle("Sportify");
         stage.getIcons().add(new Image("/Imagenes/Miscelanea/tenis.png"));
+        stage.setResizable(false);
         stage.show(); 
         
         
