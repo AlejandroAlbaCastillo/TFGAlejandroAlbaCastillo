@@ -2210,7 +2210,9 @@ public class controladorAdmin implements Initializable {
         Connection conn;
         try {
             //conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libreria", "root", "root");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfg2", "admin", "gwo47BRcHwGE");
+             //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfg2", "admin", "gwo47BRcHwGE");
+                       conn = DriverManager.getConnection("jdbc:mysql://tfg.cb0ik4amuule.us-east-1.rds.amazonaws.com/tfg", "admin", "gwo47BRcHwGE");
+
             return conn;
         } catch (SQLException e) {
             System.out.println("Error SQL: " + e.getMessage());
@@ -2817,6 +2819,7 @@ public class controladorAdmin implements Initializable {
 
         System.out.println("Id rol: " + persona.getRol());
         System.out.println("Permiso: " + sacarPermiso(1, persona.getRol()));
+        
         if (!sacarPermiso(1, persona.getRol()).contains("R")) {
             tbGeneral.getTabs().remove(tabSucursal);
         }
