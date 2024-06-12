@@ -152,10 +152,9 @@ public class controladorLogin implements Initializable{
     public Connection getConnection() {
         Connection conn;
         try {
-            //conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libreria", "root", "root");
-            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfg2", "admin", "gwo47BRcHwGE");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfg2", "admin", "gwo47BRcHwGE");
             
-            conn = DriverManager.getConnection("jdbc:mysql://tfg.cb0ik4amuule.us-east-1.rds.amazonaws.com/tfg", "admin", "gwo47BRcHwGE");
+            //conn = DriverManager.getConnection("jdbc:mysql://proyecto-instance-1.cb0ik4amuule.us-east-1.rds.amazonaws.com/tfg", "admin", "gwo47BRcHwGE");
             return conn;
         } catch (SQLException e) {
             System.out.println("Error SQL: " + e.getMessage());
@@ -168,10 +167,12 @@ public class controladorLogin implements Initializable{
         }
     }
     
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        tfDNI.setText("21027174E");
-       pfContrasena.setText("proyectoSportify");
+       pfContrasena.setText("abcd");
+        //pfContrasena.setText("proyectoSportify");
     }
 
 }
