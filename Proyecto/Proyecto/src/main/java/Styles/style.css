@@ -9,6 +9,29 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 
 .boton{
     -fx-background-color: #95D2B3;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+}
+
+.boton:hover{
+    -fx-background-color: green;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+}
+
+.tab{
+    -fx-font-weight: bold;
+    -fx-margin-inline: 1px;
+    -fx-border-color: black;
+}
+
+.tab:hover{
+    -fx-cursor: hand;
+}
+
+.tab:selected{
+    -fx-background-color: #F1F8E8;
+    -fx-text-fill: white;
 }
 .fondo{
     -fx-background-color: #F1F8E8;

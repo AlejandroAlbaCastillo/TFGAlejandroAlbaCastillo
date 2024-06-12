@@ -25,41 +25,37 @@
    <top>
       <MenuBar prefWidth="934.0" BorderPane.alignment="CENTER">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="miCerrar" mnemonicParsing="false" onAction="#cerrar" text="Cerrar" />
+                  <MenuItem fx:id="miCerrarSesion" mnemonicParsing="false" onAction="#cerrar" text="Cerrar Sesion" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
+          <Menu mnemonicParsing="false" text="Acerca de">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" onAction="#manual" text="Manual de usuario" />
             </items>
           </Menu>
         </menus>
       </MenuBar>
    </top>
    <bottom>
-      <FlowPane alignment="CENTER" prefHeight="41.0" prefWidth="876.0" styleClass="fondo2" stylesheets="@../Styles/style.css" BorderPane.alignment="CENTER">
+      <FlowPane alignment="CENTER" prefHeight="41.0" prefWidth="876.0" styleClass="fondo2" stylesheets="/Styles/style.css" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="message" text="Texto retroalimentario" />
          </children>
       </FlowPane>
    </bottom>
    <center>
-      <TabPane fx:id="tbGeneral" prefHeight="200.0" prefWidth="200.0" styleClass="fondo" stylesheets="@../Styles/style.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+      <TabPane fx:id="tbGeneral" prefHeight="200.0" prefWidth="200.0" styleClass="fondo" stylesheets="/Styles/style.css" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
         <tabs>
-          <Tab fx:id="tabSucursal" styleClass="fondo" text="Sucursal">
+          <Tab fx:id="tabSucursal" text="Sucursal">
               <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
                       <preserveRatio>true</preserveRatio>
                       <image>
-                          <Image url="@../Imagenes/Iconos/sucursal.png" />
+                          <Image url="/Imagenes/Iconos/sucursal.png" />
                       </image>
                   </ImageView>
               </graphic>
@@ -110,38 +106,38 @@
                            <children>
                               <FlowPane fx:id="accionesSucursal" alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarSucursal" mnemonicParsing="false" onAction="#insertarSucursal" styleClass="boton" stylesheets="@../Styles/style.css" text="Insertar">
+                                    <Button fx:id="btnInsertarSucursal" mnemonicParsing="false" onAction="#insertarSucursal" styleClass="boton" stylesheets="/Styles/style.css" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/insertar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarSucursal" mnemonicParsing="false" onAction="#actualizarSucursal" styleClass="boton" stylesheets="@../Styles/style.css" text="Actualizar">
+                                    <Button fx:id="btnActualizarSucursal" mnemonicParsing="false" onAction="#actualizarSucursal" styleClass="boton" stylesheets="/Styles/style.css" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/actualizar-flecha.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarSucursal" mnemonicParsing="false" onAction="#eliminarSucursal" styleClass="boton" stylesheets="@../Styles/style.css" text="Eliminar">
+                                    <Button fx:id="btnEliminarSucursal" mnemonicParsing="false" onAction="#eliminarSucursal" styleClass="boton" stylesheets="/Styles/style.css" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/eliminar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarSucursal" mnemonicParsing="false" onAction="#cargarSucursal" styleClass="boton" stylesheets="@../Styles/style.css" text="Cargar">
+                                    <Button fx:id="btnCargarSucursal" mnemonicParsing="false" onAction="#cargarSucursal" styleClass="boton" stylesheets="/Styles/style.css" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/cargar.png" />
+                                                <Image url="/Imagenes/Iconos/cargar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -160,12 +156,12 @@
                                     <VBox prefHeight="100.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label />
-                                          <Button fx:id="btnRestSuc" mnemonicParsing="false" onAction="#restSuc" prefHeight="25.0" prefWidth="132.0" styleClass="boton" stylesheets="@../Styles/style.css" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarSucursal" mnemonicParsing="false" onAction="#buscarSucursal" prefHeight="8.0" prefWidth="16.0" styleClass="boton" stylesheets="@../Styles/style.css">
+                                          <Button fx:id="btnRestSuc" mnemonicParsing="false" onAction="#restSuc" prefHeight="25.0" prefWidth="132.0" styleClass="boton" stylesheets="/Styles/style.css" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarSucursal" mnemonicParsing="false" onAction="#buscarSucursal" prefHeight="8.0" prefWidth="16.0" styleClass="boton" stylesheets="/Styles/style.css">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                      <Image url="/Imagenes/Iconos/buscar.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
@@ -176,7 +172,7 @@
                               </HBox>
                            </children>
                         </HBox>
-                        <TableView fx:id="tvSucursal" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2" stylesheets="@../Styles/style.css">
+                        <TableView fx:id="tvSucursal" prefHeight="550.0" prefWidth="1130.0" styleClass="fondo2" stylesheets="/Styles/style.css">
                           <columns>
                             <TableColumn fx:id="tcIDSucursal" prefWidth="75.0" text="ID Sucursal" />
                             <TableColumn fx:id="tcCiudad" prefWidth="75.0" text="Ciudad" />
@@ -192,13 +188,13 @@
                   </FlowPane>
                </content>
           </Tab>
-            <Tab fx:id="tabReservas" styleClass="fondo" text="Reservas">
+            <Tab fx:id="tabReservas" text="Reservas">
                 <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
                       <preserveRatio>true</preserveRatio>
                       <image>
-                          <Image url="@../Imagenes/Iconos/reserva.png" />
+                          <Image url="/Imagenes/Iconos/reserva.png" />
                       </image>
                   </ImageView>
               </graphic>
@@ -234,7 +230,7 @@
                               <VBox prefWidth="100.0">
                                  <children>
                                     <Label text="Fecha" />
-                                    <DatePicker fx:id="dpFechaReserva" />
+                                    <DatePicker fx:id="dpFechaReserva" editable="false" />
                                  </children>
                               </VBox>
                            </children>
@@ -243,38 +239,38 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarReserva" mnemonicParsing="false" onAction="#insertarReserva" styleClass="boton" stylesheets="@../Styles/style.css" text="Insertar">
+                                    <Button fx:id="btnInsertarReserva" mnemonicParsing="false" onAction="#insertarReserva" styleClass="boton" stylesheets="/Styles/style.css" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/insertar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarReserva" mnemonicParsing="false" onAction="#actualizarReserva" styleClass="boton" stylesheets="@../Styles/style.css" text="Actualizar">
+                                    <Button fx:id="btnActualizarReserva" mnemonicParsing="false" onAction="#actualizarReserva" styleClass="boton" stylesheets="/Styles/style.css" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/actualizar-flecha.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarReserva" mnemonicParsing="false" onAction="#eliminarReserva" styleClass="boton" stylesheets="@../Styles/style.css" text="Eliminar">
+                                    <Button fx:id="btnEliminarReserva" mnemonicParsing="false" onAction="#eliminarReserva" styleClass="boton" stylesheets="/Styles/style.css" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="150.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/eliminar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarReserva" mnemonicParsing="false" onAction="#cargarReserva" styleClass="boton" stylesheets="@../Styles/style.css" text="Cargar">
+                                    <Button fx:id="btnCargarReserva" mnemonicParsing="false" onAction="#cargarReserva" styleClass="boton" stylesheets="/Styles/style.css" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/cargar.png" />
+                                                <Image url="/Imagenes/Iconos/cargar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -293,12 +289,12 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label />
-                                          <Button fx:id="btnRestReservas" mnemonicParsing="false" onAction="#restReservas" styleClass="boton" stylesheets="@../Styles/style.css" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarReservas" mnemonicParsing="false" onAction="#buscarReservas" styleClass="boton" stylesheets="@../Styles/style.css">
+                                          <Button fx:id="btnRestReservas" mnemonicParsing="false" onAction="#restReservas" styleClass="boton" stylesheets="/Styles/style.css" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarReservas" mnemonicParsing="false" onAction="#buscarReservas" styleClass="boton" stylesheets="/Styles/style.css">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                      <Image url="/Imagenes/Iconos/buscar.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
@@ -326,13 +322,13 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab fx:id="tabPistas" styleClass="fondo" text="Pistas">
+            <Tab fx:id="tabPistas" text="Pistas">
                 <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
                       <preserveRatio>true</preserveRatio>
                       <image>
-                          <Image url="@../Imagenes/Iconos/pista.png" />
+                          <Image url="/Imagenes/Iconos/pista.png" />
                       </image>
                   </ImageView>
               </graphic>
@@ -371,38 +367,38 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" prefHeight="127.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarPista" minWidth="-Infinity" mnemonicParsing="false" onAction="#insertarPista" styleClass="boton" stylesheets="@../Styles/style.css" text="Insertar">
+                                    <Button fx:id="btnInsertarPista" minWidth="-Infinity" mnemonicParsing="false" onAction="#insertarPista" styleClass="boton" stylesheets="/Styles/style.css" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/insertar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarPista" mnemonicParsing="false" onAction="#actualizarPista" styleClass="boton" stylesheets="@../Styles/style.css" text="Actualizar">
+                                    <Button fx:id="btnActualizarPista" mnemonicParsing="false" onAction="#actualizarPista" styleClass="boton" stylesheets="/Styles/style.css" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/actualizar-flecha.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarPista" mnemonicParsing="false" onAction="#eliminarPista" styleClass="boton" stylesheets="@../Styles/style.css" text="Eliminar">
+                                    <Button fx:id="btnEliminarPista" mnemonicParsing="false" onAction="#eliminarPista" styleClass="boton" stylesheets="/Styles/style.css" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/eliminar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarPista" mnemonicParsing="false" onAction="#cargarPista" styleClass="boton" stylesheets="@../Styles/style.css" text="Cargar">
+                                    <Button fx:id="btnCargarPista" mnemonicParsing="false" onAction="#cargarPista" styleClass="boton" stylesheets="/Styles/style.css" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/cargar.png" />
+                                                <Image url="/Imagenes/Iconos/cargar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -421,12 +417,12 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label />
-                                          <Button fx:id="btnRestPistas" mnemonicParsing="false" onAction="#restPistas" styleClass="boton" stylesheets="@../Styles/style.css" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarPistas" mnemonicParsing="false" onAction="#buscarPistas" styleClass="boton" stylesheets="@../Styles/style.css">
+                                          <Button fx:id="btnRestPistas" mnemonicParsing="false" onAction="#restPistas" styleClass="boton" stylesheets="/Styles/style.css" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarPistas" mnemonicParsing="false" onAction="#buscarPistas" styleClass="boton" stylesheets="/Styles/style.css">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                      <Image url="/Imagenes/Iconos/buscar.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
@@ -451,13 +447,13 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab fx:id="tabUsuarios" styleClass="fondo" text="Usuarios">
+            <Tab fx:id="tabUsuarios" text="Usuarios">
                 <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
                       <preserveRatio>true</preserveRatio>
                       <image>
-                          <Image url="@../Imagenes/Iconos/usuario.png" />
+                          <Image url="/Imagenes/Iconos/usuario.png" />
                       </image>
                   </ImageView>
               </graphic>
@@ -508,38 +504,38 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarUsuario" mnemonicParsing="false" onAction="#insertarUsuario" styleClass="boton" stylesheets="@../Styles/style.css" text="Insertar">
+                                    <Button fx:id="btnInsertarUsuario" mnemonicParsing="false" onAction="#insertarUsuario" styleClass="boton" stylesheets="/Styles/style.css" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/insertar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarUsuario" mnemonicParsing="false" onAction="#actualizarUsuario" styleClass="boton" stylesheets="@../Styles/style.css" text="Actualizar">
+                                    <Button fx:id="btnActualizarUsuario" mnemonicParsing="false" onAction="#actualizarUsuario" styleClass="boton" stylesheets="/Styles/style.css" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/actualizar-flecha.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarUsuario" mnemonicParsing="false" onAction="#eliminarUsuario" styleClass="boton" stylesheets="@../Styles/style.css" text="Eliminar">
+                                    <Button fx:id="btnEliminarUsuario" mnemonicParsing="false" onAction="#eliminarUsuario" styleClass="boton" stylesheets="/Styles/style.css" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/eliminar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarUsuario" mnemonicParsing="false" onAction="#cargarUsuario" styleClass="boton" stylesheets="@../Styles/style.css" text="Cargar">
+                                    <Button fx:id="btnCargarUsuario" mnemonicParsing="false" onAction="#cargarUsuario" styleClass="boton" stylesheets="/Styles/style.css" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/cargar.png" />
+                                                <Image url="/Imagenes/Iconos/cargar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -558,12 +554,12 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label text="Label" />
-                                          <Button fx:id="btnRestUsuarios" mnemonicParsing="false" onAction="#restUsuarios" styleClass="boton" stylesheets="@../Styles/style.css" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarUsuarios" mnemonicParsing="false" onAction="#buscarUsuarios" styleClass="boton" stylesheets="@../Styles/style.css">
+                                          <Button fx:id="btnRestUsuarios" mnemonicParsing="false" onAction="#restUsuarios" styleClass="boton" stylesheets="/Styles/style.css" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarUsuarios" mnemonicParsing="false" onAction="#buscarUsuarios" styleClass="boton" stylesheets="/Styles/style.css">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                      <Image url="/Imagenes/Iconos/buscar.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
@@ -591,13 +587,13 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab fx:id="tabEmpleados" styleClass="fondo" text="Empleados">
+            <Tab fx:id="tabEmpleados" text="Empleados">
                 <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
                       <preserveRatio>true</preserveRatio>
                       <image>
-                          <Image url="@../Imagenes/Iconos/empleado.png" />
+                          <Image url="/Imagenes/Iconos/empleado.png" />
                       </image>
                   </ImageView>
               </graphic>
@@ -654,38 +650,38 @@
                            <children>
                               <FlowPane alignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="121.0" prefWidth="554.0">
                                  <children>
-                                    <Button fx:id="btnInsertarEmple" mnemonicParsing="false" onAction="#insertarEmple" styleClass="boton" stylesheets="@../Styles/style.css" text="Insertar">
+                                    <Button fx:id="btnInsertarEmple" mnemonicParsing="false" onAction="#insertarEmple" styleClass="boton" stylesheets="/Styles/style.css" text="Insertar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/insertar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnActualizarEmple" mnemonicParsing="false" onAction="#actualizarEmple" styleClass="boton" stylesheets="@../Styles/style.css" text="Actualizar">
+                                    <Button fx:id="btnActualizarEmple" mnemonicParsing="false" onAction="#actualizarEmple" styleClass="boton" stylesheets="/Styles/style.css" text="Actualizar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/actualizar-flecha.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnEliminarEmple" mnemonicParsing="false" onAction="#eliminarEmple" styleClass="boton" stylesheets="@../Styles/style.css" text="Eliminar">
+                                    <Button fx:id="btnEliminarEmple" mnemonicParsing="false" onAction="#eliminarEmple" styleClass="boton" stylesheets="/Styles/style.css" text="Eliminar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/eliminar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
                                     </Button>
-                                    <Button fx:id="btnCargarEmple" mnemonicParsing="false" onAction="#cargarEmple" styleClass="boton" stylesheets="@../Styles/style.css" text="Cargar">
+                                    <Button fx:id="btnCargarEmple" mnemonicParsing="false" onAction="#cargarEmple" styleClass="boton" stylesheets="/Styles/style.css" text="Cargar">
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/cargar.png" />
+                                                <Image url="/Imagenes/Iconos/cargar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -704,12 +700,12 @@
                                     <VBox prefHeight="200.0" prefWidth="150.0" spacing="5.0">
                                        <children>
                                           <Label text="Label" />
-                                          <Button fx:id="btnRestEmpleados" mnemonicParsing="false" onAction="#restEmpleados" styleClass="boton" stylesheets="@../Styles/style.css" text="Restablecer Filtros" />
-                                          <Button fx:id="btnBuscarEmpleados" mnemonicParsing="false" onAction="#buscarEmpleados" styleClass="boton" stylesheets="@../Styles/style.css">
+                                          <Button fx:id="btnRestEmpleados" mnemonicParsing="false" onAction="#restEmpleados" styleClass="boton" stylesheets="/Styles/style.css" text="Restablecer Filtros" />
+                                          <Button fx:id="btnBuscarEmpleados" mnemonicParsing="false" onAction="#buscarEmpleados" styleClass="boton" stylesheets="/Styles/style.css">
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                      <Image url="/Imagenes/Iconos/buscar.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
@@ -737,13 +733,13 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab fx:id="tabMantenimiento" styleClass="fondo" text="Mantenimiento">
+            <Tab fx:id="tabMantenimiento" text="Mantenimiento">
                 <graphic>
                   <ImageView>
                       <fitWidth>16</fitWidth>
                       <preserveRatio>true</preserveRatio>
                       <image>
-                          <Image url="@../Imagenes/Iconos/mantenimiento.png" />
+                          <Image url="/Imagenes/Iconos/mantenimiento.png" />
                       </image>
                   </ImageView>
               </graphic>
@@ -773,7 +769,7 @@
                               <VBox prefWidth="100.0">
                                  <children>
                                     <Label text="Fecha" />
-                                    <DatePicker fx:id="dpFechaManteni" />
+                                    <DatePicker fx:id="dpFechaManteni" editable="false" />
                                  </children>
                               </VBox>
                               <VBox prefWidth="100.0">
@@ -792,7 +788,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/insertar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -801,7 +797,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/actualizar-flecha.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -810,7 +806,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/eliminar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -819,7 +815,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/cargar.png" />
+                                                <Image url="/Imagenes/Iconos/cargar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -843,7 +839,7 @@
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                      <Image url="/Imagenes/Iconos/buscar.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
@@ -870,11 +866,11 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab fx:id="tabTrabajan" styleClass="fondo" text="Trabajan">
+            <Tab fx:id="tabTrabajan" text="Trabajan">
                <graphic>
                   <ImageView fitWidth="16" preserveRatio="true">
                      <image>
-                        <Image url="@../Imagenes/Iconos/trabajan.png" />
+                        <Image url="/Imagenes/Iconos/trabajan.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -917,7 +913,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/insertar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -926,7 +922,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/actualizar-flecha.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -935,7 +931,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/eliminar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -944,7 +940,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/cargar.png" />
+                                                <Image url="/Imagenes/Iconos/cargar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -968,7 +964,7 @@
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                      <Image url="/Imagenes/Iconos/buscar.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>
@@ -994,11 +990,11 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab fx:id="tabRoles" styleClass="fondo" text="Roles">
+            <Tab fx:id="tabRoles" text="Roles">
                <graphic>
                   <ImageView fitWidth="16" preserveRatio="true">
                      <image>
-                        <Image url="@../Imagenes/Iconos/rol.png" />
+                        <Image url="/Imagenes/Iconos/rol.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -1010,10 +1006,10 @@
                               <VBox prefWidth="100.0">
                                  <children>
                                     <Label text="idRol" />
-                                    <TextField fx:id="tfIdRol" />
+                                    <TextField fx:id="tfIdRol" disable="true" editable="false" />
                                  </children>
                               </VBox>
-                              <VBox prefWidth="100.0">
+                              <VBox prefHeight="42.0" prefWidth="162.0">
                                  <children>
                                     <Label text="Denominacion" />
                                     <TextField fx:id="tfDenominacion" />
@@ -1029,7 +1025,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/insertar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -1038,7 +1034,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/actualizar-flecha.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -1047,7 +1043,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/eliminar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -1056,7 +1052,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/cargar.png" />
+                                                <Image url="/Imagenes/Iconos/cargar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -1078,11 +1074,11 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab fx:id="tabModulos" styleClass="fondo" text="Modulos">
+            <Tab fx:id="tabModulos" text="Modulos">
                <graphic>
                   <ImageView fitWidth="16" preserveRatio="true">
                      <image>
-                        <Image url="@../Imagenes/Iconos/modulo.png" />
+                        <Image url="/Imagenes/Iconos/modulo.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -1102,11 +1098,11 @@
                   </FlowPane>
                </content>
             </Tab>
-            <Tab fx:id="tabPermisos" styleClass="fondo" text="Permisos">
+            <Tab fx:id="tabPermisos" text="Permisos">
                <graphic>
                   <ImageView fitWidth="16" preserveRatio="true">
                      <image>
-                        <Image url="@../Imagenes/Iconos/permisos.png" />
+                        <Image url="/Imagenes/Iconos/permisos.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -1115,10 +1111,10 @@
                      <children>
                         <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="50.0" maxWidth="1.7976931348623157E308" prefHeight="84.0" prefWidth="1130.0">
                            <children>
-                              <VBox alignment="CENTER_LEFT" prefWidth="100.0">
+                              <VBox alignment="CENTER_LEFT" prefHeight="85.0" prefWidth="137.0">
                                  <children>
                                     <Label text="Rol" />
-                                    <ComboBox fx:id="cbIdRolPer" prefWidth="150.0" />
+                                    <ComboBox fx:id="cbIdRolPer" prefHeight="25.0" prefWidth="136.0" />
                                  </children>
                               </VBox>
                               <VBox alignment="CENTER_LEFT" prefWidth="100.0">
@@ -1127,15 +1123,16 @@
                                     <ComboBox fx:id="cbModuloPer" prefWidth="150.0" />
                                  </children>
                               </VBox>
-                              <VBox alignment="CENTER_LEFT" prefHeight="85.0" prefWidth="289.0">
+                              <VBox alignment="CENTER_LEFT" prefHeight="85.0" prefWidth="384.0">
                                  <children>
                                     <Label text="Permisos" />
-                                    <HBox prefHeight="26.0" prefWidth="290.0" spacing="15.0">
+                                    <HBox prefHeight="26.0" prefWidth="376.0" spacing="15.0">
                                        <children>
                                           <CheckBox fx:id="cbxCrear" mnemonicParsing="false" text="Crear" />
                                           <CheckBox fx:id="cbxListar" mnemonicParsing="false" text="Listar" />
                                           <CheckBox fx:id="cbxActualizar" mnemonicParsing="false" text="Actualizar" />
                                           <CheckBox fx:id="cbxEliminar" mnemonicParsing="false" text="Eliminar" />
+                                          <CheckBox fx:id="cbxRestringido" mnemonicParsing="false" text="Restringido" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -1150,7 +1147,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/insertar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/insertar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -1159,7 +1156,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/actualizar-flecha.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/actualizar-flecha.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -1168,7 +1165,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/Acciones/eliminar.png" />
+                                                <Image url="/Imagenes/Iconos/Acciones/eliminar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -1177,7 +1174,7 @@
                                        <graphic>
                                           <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../Imagenes/Iconos/cargar.png" />
+                                                <Image url="/Imagenes/Iconos/cargar.png" />
                                              </image>
                                           </ImageView>
                                        </graphic>
@@ -1201,7 +1198,7 @@
                                              <graphic>
                                                 <ImageView fitHeight="32.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
-                                                      <Image url="@../Imagenes/Iconos/buscar.png" />
+                                                      <Image url="/Imagenes/Iconos/buscar.png" />
                                                    </image>
                                                 </ImageView>
                                              </graphic>

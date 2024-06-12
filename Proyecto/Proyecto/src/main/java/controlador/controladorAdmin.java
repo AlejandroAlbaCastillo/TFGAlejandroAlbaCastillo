@@ -22,7 +22,9 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -30,6 +32,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -47,6 +50,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class controladorAdmin implements Initializable {
 
@@ -71,6 +79,12 @@ public class controladorAdmin implements Initializable {
 
     @FXML
     private TabPane tbGeneral;
+
+    @FXML
+    private MenuItem miCerrar;
+
+    @FXML
+    private MenuItem miCerrarSesion;
 
     //################################Sucursal################################//
     @FXML
@@ -464,6 +478,9 @@ public class controladorAdmin implements Initializable {
     private CheckBox cbxListar;
 
     @FXML
+    private CheckBox cbxRestringido;
+
+    @FXML
     private Button btnInsertarPermiso;
 
     @FXML
@@ -479,7 +496,7 @@ public class controladorAdmin implements Initializable {
     private TableColumn<Permiso, Integer> tcIdModuloPer;
 
     @FXML
-    private TableColumn<Permiso, Integer> tcIdRolPer;
+    private TableColumn<Permiso, Rol> tcIdRolPer;
 
     @FXML
     private TableColumn<Permiso, String> tcPermisos;
@@ -532,6 +549,18 @@ public class controladorAdmin implements Initializable {
     private MenuItem itemTrabajan = new MenuItem("Eliminar");
 
 ///////////////////////////Eventos de la vista///////////////////////////
+    @FXML
+    void cerrar(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Confirmar salida");
+        alert.setHeaderText("¿Estás seguro de que quieres salir?");
+        alert.showAndWait().ifPresent(response -> {
+            if (response == javafx.scene.control.ButtonType.OK) {
+                System.exit(0);
+            }
+        });
+    }
+
     //////////////////////Filtros//////////////////////
     @FXML
     private ComboBox cbBuscarSucursales;
@@ -548,33 +577,39 @@ public class controladorAdmin implements Initializable {
     @FXML
     void restSuc() {
         tvSucursal.setItems(dameListaSucursal());
+        cbBuscarSucursales.setValue(null);
+        tfBuscarSucursales.setText("");
     }
 
     @FXML
     void buscarSucursal() {
-        ObservableList<Sucursal> listaSucursales = FXCollections.observableArrayList();
-        Connection connection = getConnection();
+        if (cbBuscarSucursales.getValue() != null && !tfBuscarSucursales.getText().isBlank()) {
+            ObservableList<Sucursal> listaSucursales = FXCollections.observableArrayList();
+            Connection connection = getConnection();
+            String[] mods = {"id_sucursal", "ciudad", "codigo_postal", "direccion", "telefono"};
+            String query = "SELECT * FROM sucursal WHERE " + mods[cbBuscarSucursales.getSelectionModel().getSelectedIndex()] + " = ?";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, tfBuscarSucursales.getText());
+                ResultSet rs = preparedStatement.executeQuery();
+                Sucursal sucursal;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    sucursal = new Sucursal(rs.getInt("id_sucursal"), rs.getString("ciudad"), rs.getInt("codigo_postal"), rs.getString("direccion"), rs.getInt("telefono"));
+                    listaSucursales.add(sucursal);
+                }
 
-        String query = "SELECT * FROM sucursal WHERE " + cbBuscarSucursales.getValue().toString() + " = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, tfBuscarSucursales.getText());
-            ResultSet rs = preparedStatement.executeQuery();
-            Sucursal sucursal;
-            while (rs.next()) { //Se usan los identificadores propios en la BBDD
-                sucursal = new Sucursal(rs.getInt("id_sucursal"), rs.getString("ciudad"), rs.getInt("codigo_postal"), rs.getString("direccion"), rs.getInt("telefono"));
-                listaSucursales.add(sucursal);
+                if (listaSucursales.size() == 0) {
+                    darAlerta(true, "No se ha encontrado nada para: " + cbBuscarSucursales.getValue().toString() + " = " + tfBuscarSucursales.getText());
+                    restSuc();
+                } else {
+                    tvSucursal.setItems(listaSucursales);
+                }
+
+            } catch (SQLException e) {
+                darAlerta(false, e.getLocalizedMessage());
             }
-
-            if (listaSucursales.size() == 0) {
-                darAlerta(true, "No se ha encontrado nada para: " + cbBuscarSucursales.getValue().toString() + " = " + tfBuscarSucursales.getText());
-                restSuc();
-            } else {
-                tvSucursal.setItems(listaSucursales);
-            }
-
-        } catch (SQLException e) {
-            darAlerta(false, e.getLocalizedMessage());
+        } else {
+            darAlerta(true, "No se ha aplicado ningun prámetro de busqueda");
         }
         cbBuscarSucursales.setValue(null);
         tfBuscarSucursales.setText("");
@@ -595,32 +630,41 @@ public class controladorAdmin implements Initializable {
     @FXML
     void restPistas() {
         tvPistas.setItems(dameListaPista());
+        cbBuscarPistas.setValue(null);
+        tfBuscarPistas.setText("");
     }
 
     @FXML
     void buscarPistas() {
-        ObservableList<Pista> listaPistas = FXCollections.observableArrayList();
-        Connection connection = getConnection();
+        if (cbBuscarPistas.getValue() != null && !tfBuscarPistas.getText().isBlank()) {
+            ObservableList<Pista> listaPistas = FXCollections.observableArrayList();
+            Connection connection = getConnection();
 
-        String query = "SELECT * FROM pistas WHERE " + cbBuscarPistas.getValue().toString() + " = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, tfBuscarPistas.getText());
-            ResultSet rs = preparedStatement.executeQuery();
-            Pista pista;
-            while (rs.next()) { //Se usan los identificadores propios en la BBDD
-                pista = new Pista(rs.getInt("id_pista"), rs.getInt("precioHora"), rs.getString("actividad"), rs.getInt("id_sucursal"));
-                listaPistas.add(pista);
-            }
-            if (listaPistas.size() == 0) {
-                darAlerta(true, "No se ha encontrado nada para: " + cbBuscarPistas.getValue().toString() + " = " + tfBuscarPistas.getText());
-                restPistas();
-            } else {
-                tvPistas.setItems(listaPistas);
+            String[] mods = {"id_pista", "precioHora", "actividad", "id_sucursal"};
+
+            String query = "SELECT * FROM pistas WHERE " + mods[cbBuscarPistas.getSelectionModel().getSelectedIndex()] + " = ?";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, tfBuscarPistas.getText());
+                ResultSet rs = preparedStatement.executeQuery();
+                Pista pista;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    pista = new Pista(rs.getInt("id_pista"), rs.getInt("precioHora"), rs.getString("actividad"), rs.getInt("id_sucursal"));
+                    listaPistas.add(pista);
+                }
+                if (listaPistas.size() == 0) {
+                    darAlerta(true, "No se ha encontrado nada para: " + cbBuscarPistas.getValue().toString() + " = " + tfBuscarPistas.getText());
+                    restPistas();
+                } else {
+                    tvPistas.setItems(listaPistas);
+                }
+
+            } catch (SQLException e) {
+                darAlerta(false, e.getLocalizedMessage());
             }
 
-        } catch (SQLException e) {
-            darAlerta(false, e.getLocalizedMessage());
+        } else {
+            darAlerta(true, "No se ha aplicado ningun prámetro de busqueda");
         }
         cbBuscarPistas.setValue(null);
         tfBuscarPistas.setText("");
@@ -641,32 +685,40 @@ public class controladorAdmin implements Initializable {
     @FXML
     void restReservas() {
         tvReservas.setItems(dameListaReservas(sacarPermiso(11, persona.getRol())));
+        cbBuscarReservas.setValue(null);
+        tfBuscarReservas.setText("");
     }
 
     @FXML
     void buscarReservas() {
-        ObservableList<Reserva> listaReservas = FXCollections.observableArrayList();
-        Connection connection = getConnection();
+        if (cbBuscarReservas.getValue() != null && !tfBuscarReservas.getText().isBlank()) {
+            ObservableList<Reserva> listaReservas = FXCollections.observableArrayList();
+            Connection connection = getConnection();
+            String[] mods = {"id_pista", "dni", "hora_inicio", "duracion", "fecha", "precio_reserva"};
 
-        String query = "SELECT * FROM reservas WHERE " + cbBuscarReservas.getValue().toString() + " = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, tfBuscarReservas.getText());
-            ResultSet rs = preparedStatement.executeQuery();
-            Reserva reserva;
-            while (rs.next()) { //Se usan los identificadores propios en la BBDD
-                reserva = new Reserva(rs.getInt("id_reserva"), rs.getInt("id_pista"), rs.getString("dni"), rs.getString("hora_inicio"), rs.getFloat("duracion"), rs.getString("fecha"), rs.getFloat("precio_reserva"));
-                listaReservas.add(reserva);
-            }
-            if (listaReservas.size() == 0) {
-                darAlerta(true, "No se ha encontrado nada para: " + cbBuscarReservas.getValue().toString() + " = " + tfBuscarReservas.getText());
-                restReservas();
-            } else {
-                tvReservas.setItems(listaReservas);
+            String query = "SELECT * FROM reservas WHERE " + mods[cbBuscarReservas.getSelectionModel().getSelectedIndex()] + " = ?";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, tfBuscarReservas.getText());
+                ResultSet rs = preparedStatement.executeQuery();
+                Reserva reserva;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    reserva = new Reserva(rs.getInt("id_reserva"), rs.getInt("id_pista"), rs.getString("dni"), rs.getString("hora_inicio"), rs.getFloat("duracion"), rs.getString("fecha"), rs.getFloat("precio_reserva"));
+                    listaReservas.add(reserva);
+                }
+                if (listaReservas.size() == 0) {
+                    darAlerta(true, "No se ha encontrado nada para: " + cbBuscarReservas.getValue().toString() + " = " + tfBuscarReservas.getText());
+                    restReservas();
+                } else {
+                    tvReservas.setItems(listaReservas);
+                }
+
+            } catch (SQLException e) {
+                darAlerta(false, e.getLocalizedMessage());
             }
 
-        } catch (SQLException e) {
-            darAlerta(false, e.getLocalizedMessage());
+        } else {
+            darAlerta(true, "No se ha aplicado ningun prámetro de busqueda");
         }
         cbBuscarReservas.setValue(null);
         tfBuscarReservas.setText("");
@@ -687,33 +739,44 @@ public class controladorAdmin implements Initializable {
     @FXML
     void restUsuarios() {
         tvUsuarios.setItems(dameListaUsuarios(sacarPermiso(8, persona.getRol())));
+
+        cbBuscarUsuarios.setValue(null);
+        tfBuscarUsuarios.setText("");
     }
 
     @FXML
     void buscarUsuarios() {
-        ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
-        Connection connection = getConnection();
 
-        String query = "SELECT * FROM usuarios, personas where usuarios.dni_usuario = personas.dni AND " + cbBuscarUsuarios.getValue().toString() + " = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, tfBuscarUsuarios.getText());
-            ResultSet rs = preparedStatement.executeQuery();
-            Usuario usuario;
-            while (rs.next()) { //Se usan los identificadores propios en la BBDD
-                usuario = new Usuario(rs.getString("personas.dni"), rs.getString("nombre"), rs.getString("apellidos"), rs.getString("correo"), rs.getInt("telefono"), rs.getString("contrasena"), rs.getInt("rol"), rs.getString("usuario"));
-                listaUsuarios.add(usuario);
-            }
-            if (listaUsuarios.size() == 0) {
-                darAlerta(true, "No se ha encontrado nada para: " + cbBuscarUsuarios.getValue().toString() + " = " + tfBuscarUsuarios.getText());
-                restUsuarios();
-            } else {
-                tvUsuarios.setItems(listaUsuarios);
+        if (cbBuscarUsuarios.getValue() != null && !tfBuscarUsuarios.getText().isBlank()) {
+            ObservableList<Usuario> listaUsuarios = FXCollections.observableArrayList();
+            Connection connection = getConnection();
+
+            String[] mods = {"dni", "nombre", "apellidos", "correo", "telefono", "usuario"};
+
+            String query = "SELECT * FROM usuarios, personas where usuarios.dni_usuario = personas.dni AND " + mods[cbBuscarUsuarios.getSelectionModel().getSelectedIndex()] + " = ?";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, tfBuscarUsuarios.getText());
+                ResultSet rs = preparedStatement.executeQuery();
+                Usuario usuario;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    usuario = new Usuario(rs.getString("personas.dni"), rs.getString("nombre"), rs.getString("apellidos"), rs.getString("correo"), rs.getInt("telefono"), rs.getString("contrasena"), rs.getInt("rol"), rs.getString("usuario"));
+                    listaUsuarios.add(usuario);
+                }
+                if (listaUsuarios.size() == 0) {
+                    darAlerta(true, "No se ha encontrado nada para: " + cbBuscarUsuarios.getValue().toString() + " = " + tfBuscarUsuarios.getText());
+                    restUsuarios();
+                } else {
+                    tvUsuarios.setItems(listaUsuarios);
+                }
+            } catch (SQLException e) {
+                darAlerta(false, e.getLocalizedMessage());
             }
 
-        } catch (SQLException e) {
-            darAlerta(false, e.getLocalizedMessage());
+        } else {
+            darAlerta(true, "No se ha aplicado ningun prámetro de busqueda");
         }
+
         cbBuscarUsuarios.setValue(null);
         tfBuscarUsuarios.setText("");
     }
@@ -733,32 +796,41 @@ public class controladorAdmin implements Initializable {
     @FXML
     void restEmpleados() {
         tvEmpleados.setItems(dameListaEmpleados());
+        cbBuscarEmpleados.setValue(null);
+        tfBuscarEmpleados.setText("");
     }
 
     @FXML
     void buscarEmpleados() {
-        ObservableList<Empleado> listaEmpleados = FXCollections.observableArrayList();
-        Connection connection = getConnection();
 
-        String query = "SELECT * FROM empleados, personas where empleados.dni_empleado = personas.dni AND " + cbBuscarEmpleados.getValue().toString() + " = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, tfBuscarEmpleados.getText());
-            ResultSet rs = preparedStatement.executeQuery();
-            Empleado empleado;
-            while (rs.next()) { //Se usan los identificadores propios en la BBDD
-                empleado = new Empleado(rs.getString("personas.dni"), rs.getString("nombre"), rs.getString("apellidos"), rs.getString("correo"), rs.getInt("telefono"), rs.getString("contrasena"), rs.getInt("rol"), rs.getFloat("sueldo"));
-                listaEmpleados.add(empleado);
-            }
-            if (listaEmpleados.size() == 0) {
-                darAlerta(true, "No se ha encontrado nada para: " + cbBuscarEmpleados.getValue().toString() + " = " + tfBuscarEmpleados.getText());
-                restEmpleados();
-            } else {
-                tvEmpleados.setItems(listaEmpleados);
+        if (cbBuscarEmpleados.getValue() != null && !tfBuscarEmpleados.getText().isBlank()) {
+            ObservableList<Empleado> listaEmpleados = FXCollections.observableArrayList();
+            Connection connection = getConnection();
+
+            String[] mods = {"dni", "nombre", "apellidos", "correo", "telefono", "sueldo"};
+
+            String query = "SELECT * FROM empleados, personas where empleados.dni_empleado = personas.dni AND " + mods[cbBuscarEmpleados.getSelectionModel().getSelectedIndex()] + " = ?";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, tfBuscarEmpleados.getText());
+                ResultSet rs = preparedStatement.executeQuery();
+                Empleado empleado;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    empleado = new Empleado(rs.getString("personas.dni"), rs.getString("nombre"), rs.getString("apellidos"), rs.getString("correo"), rs.getInt("telefono"), rs.getString("contrasena"), rs.getInt("rol"), rs.getFloat("sueldo"));
+                    listaEmpleados.add(empleado);
+                }
+                if (listaEmpleados.size() == 0) {
+                    darAlerta(true, "No se ha encontrado nada para: " + cbBuscarEmpleados.getValue().toString() + " = " + tfBuscarEmpleados.getText());
+                    restEmpleados();
+                } else {
+                    tvEmpleados.setItems(listaEmpleados);
+                }
+            } catch (SQLException e) {
+                darAlerta(false, e.getLocalizedMessage());
             }
 
-        } catch (SQLException e) {
-            darAlerta(false, e.getLocalizedMessage());
+        } else {
+            darAlerta(true, "No se ha aplicado ningun prámetro de busqueda");
         }
         cbBuscarEmpleados.setValue(null);
         tfBuscarEmpleados.setText("");
@@ -779,34 +851,45 @@ public class controladorAdmin implements Initializable {
     @FXML
     void restMantienen() {
         tvMantenimiento.setItems(dameListaMantenimiento());
+        cbBuscarMantienen.setValue(null);
+        tfBuscarMantienen.setText("");
     }
 
     @FXML
     void buscarMantienen() {
-        ObservableList<Mantenimiento> listaMantenimientos = FXCollections.observableArrayList();
-        Connection connection = getConnection();
 
-        String query = "SELECT * FROM mantienen WHERE " + cbBuscarMantienen.getValue().toString() + " = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, tfBuscarMantienen.getText());
-            ResultSet rs = preparedStatement.executeQuery();
-            Mantenimiento mantenimiento;
-            while (rs.next()) { //Se usan los identificadores propios en la BBDD
-                mantenimiento = new Mantenimiento(rs.getInt("id_mantenimiento"), rs.getInt("id_pista"), rs.getString("dni"), rs.getString("tipo_trabajo"), rs.getFloat("duracion"), rs.getString("fecha_ini"));
-                listaMantenimientos.add(mantenimiento);
+        if (cbBuscarMantienen.getValue() != null && !tfBuscarMantienen.getText().isBlank()) {
+            ObservableList<Mantenimiento> listaMantenimientos = FXCollections.observableArrayList();
+            Connection connection = getConnection();
+
+            String[] mods = {"dni", "id_pista", "tipo_trabajo", "fecha_ini", "duracion"};
+
+            String query = "SELECT * FROM mantienen WHERE " + mods[cbBuscarMantienen.getSelectionModel().getSelectedIndex()] + " = ?";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, tfBuscarMantienen.getText());
+                ResultSet rs = preparedStatement.executeQuery();
+                Mantenimiento mantenimiento;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    mantenimiento = new Mantenimiento(rs.getInt("id_mantenimiento"), rs.getInt("id_pista"), rs.getString("dni"), rs.getString("tipo_trabajo"), rs.getFloat("duracion"), rs.getString("fecha_ini"));
+                    listaMantenimientos.add(mantenimiento);
+                }
+                if (listaMantenimientos.size() == 0) {
+                    darAlerta(true, "No se ha encontrado nada para: " + cbBuscarMantienen.getValue().toString() + " = " + tfBuscarMantienen.getText());
+                    restMantienen();
+                } else {
+                    tvMantenimiento.setItems(listaMantenimientos);
+                }
+                cbBuscarMantienen.setValue(null);
+                tfBuscarMantienen.setText("");
+            } catch (SQLException e) {
+                darAlerta(false, e.getLocalizedMessage());
             }
-            if (listaMantenimientos.size() == 0) {
-                darAlerta(true, "No se ha encontrado nada para: " + cbBuscarMantienen.getValue().toString() + " = " + tfBuscarMantienen.getText());
-                restMantienen();
-            } else {
-                tvMantenimiento.setItems(listaMantenimientos);
-            }
-            cbBuscarMantienen.setValue(null);
-            tfBuscarMantienen.setText("");
-        } catch (SQLException e) {
-            darAlerta(false, e.getLocalizedMessage());
+        } else {
+            darAlerta(true, "No se ha aplicado ningun prámetro de busqueda");
         }
+        cbBuscarMantienen.setValue(null);
+        tfBuscarMantienen.setText("");
 
     }
 
@@ -825,34 +908,44 @@ public class controladorAdmin implements Initializable {
     @FXML
     void restTrabajan() {
         tvTrabajan.setItems(dameListaTrabajan());
+        cbBuscarTrabajan.setValue(null);
+        tfBuscarTrabajan.setText("");
     }
 
     @FXML
     void buscarTrabajan() {
-        ObservableList<Trabajan> listaTrabajan = FXCollections.observableArrayList();
-        Connection connection = getConnection();
+        if (cbBuscarTrabajan.getValue() != null && !tfBuscarTrabajan.getText().isBlank()) {
+            ObservableList<Trabajan> listaTrabajan = FXCollections.observableArrayList();
+            Connection connection = getConnection();
 
-        String query = "SELECT * FROM trabajan WHERE " + cbBuscarTrabajan.getValue().toString() + " = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, tfBuscarTrabajan.getText());
-            ResultSet rs = preparedStatement.executeQuery();
-            Trabajan trabajan;
-            while (rs.next()) { //Se usan los identificadores propios en la BBDD
-                trabajan = new Trabajan(rs.getString("dni_empleado"), rs.getInt("id_sucursal"), rs.getString("fecha_ini"), rs.getString("fecha_fin"));
-                listaTrabajan.add(trabajan);
+            String[] mods = {"dni_empleado", "id_sucursal", "fecha_ini", "fecha_fin"};
+
+            String query = "SELECT * FROM trabajan WHERE " + mods[cbBuscarTrabajan.getSelectionModel().getSelectedIndex()] + " = ?";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, tfBuscarTrabajan.getText());
+                ResultSet rs = preparedStatement.executeQuery();
+                Trabajan trabajan;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    trabajan = new Trabajan(rs.getString("dni_empleado"), rs.getInt("id_sucursal"), rs.getString("fecha_ini"), rs.getString("fecha_fin"));
+                    listaTrabajan.add(trabajan);
+                }
+                if (listaTrabajan.size() == 0) {
+                    darAlerta(true, "No se ha encontrado nada para: " + cbBuscarTrabajan.getValue().toString() + " = " + tfBuscarTrabajan.getText());
+                    restTrabajan();
+                } else {
+                    tvTrabajan.setItems(listaTrabajan);
+                }
+                cbBuscarTrabajan.setValue(null);
+                tfBuscarTrabajan.setText("");
+            } catch (SQLException e) {
+                darAlerta(false, e.getLocalizedMessage());
             }
-            if (listaTrabajan.size() == 0) {
-                darAlerta(true, "No se ha encontrado nada para: " + cbBuscarTrabajan.getValue().toString() + " = " + tfBuscarTrabajan.getText());
-                restTrabajan();
-            } else {
-                tvTrabajan.setItems(listaTrabajan);
-            }
-            cbBuscarTrabajan.setValue(null);
-            tfBuscarTrabajan.setText("");
-        } catch (SQLException e) {
-            darAlerta(false, e.getLocalizedMessage());
+        } else {
+            darAlerta(true, "No se ha aplicado ningun prámetro de busqueda");
         }
+        cbBuscarTrabajan.setValue(null);
+        tfBuscarTrabajan.setText("");
 
     }
 
@@ -871,34 +964,44 @@ public class controladorAdmin implements Initializable {
     @FXML
     void restPermisos() {
         tvPermisos.setItems(dameListaPermisos());
+        cbBuscarPermisos.setValue(null);
+        tfBuscarPermisos.setText("");
+    }
+
+    public boolean esValido(String contenido, String exp) {
+        return contenido.matches(exp);
     }
 
     @FXML
     void buscarPermisos() {
-        ObservableList<Permiso> listaPermisos = FXCollections.observableArrayList();
-        Connection connection = getConnection();
-
-        String query = "SELECT * FROM permisos WHERE " + cbBuscarPermisos.getValue().toString() + " = ?";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, tfBuscarPermisos.getText());
-            ResultSet rs = preparedStatement.executeQuery();
-            Permiso permiso;
-            while (rs.next()) { //Se usan los identificadores propios en la BBDD
-                permiso = new Permiso(rs.getInt("id_rol"), rs.getInt("id_modulo"), rs.getString("permisos"));
-                listaPermisos.add(permiso);
+        if (cbBuscarPermisos.getValue() != null && !tfBuscarPermisos.getText().isBlank()) {
+            ObservableList<Permiso> listaPermisos = FXCollections.observableArrayList();
+            Connection connection = getConnection();
+            String[] mods = {"id_rol", "id_modulo", "permisos"};
+            String query = "SELECT * FROM permisos WHERE " + mods[cbBuscarPermisos.getSelectionModel().getSelectedIndex()] + " = ?";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, tfBuscarPermisos.getText());
+                ResultSet rs = preparedStatement.executeQuery();
+                Permiso permiso;
+                while (rs.next()) { //Se usan los identificadores propios en la BBDD
+                    permiso = new Permiso(rs.getInt("id_rol"), rs.getInt("id_modulo"), rs.getString("permisos"));
+                    listaPermisos.add(permiso);
+                }
+                if (listaPermisos.size() == 0) {
+                    darAlerta(true, "No se ha encontrado nada para: " + cbBuscarPermisos.getValue().toString() + " = " + tfBuscarPermisos.getText());
+                    restPermisos();
+                } else {
+                    tvPermisos.setItems(listaPermisos);
+                }
+            } catch (SQLException e) {
+                darAlerta(false, e.getLocalizedMessage());
             }
-            if (listaPermisos.size() == 0) {
-                darAlerta(true, "No se ha encontrado nada para: " + cbBuscarPermisos.getValue().toString() + " = " + tfBuscarPermisos.getText());
-                restPermisos();
-            } else {
-                tvPermisos.setItems(listaPermisos);
-            }
-            cbBuscarPermisos.setValue(null);
-            tfBuscarPermisos.setText("");
-        } catch (SQLException e) {
-            darAlerta(false, e.getLocalizedMessage());
+        } else {
+            darAlerta(true, "No se ha aplicado ningun prámetro de busqueda");
         }
+        cbBuscarPermisos.setValue(null);
+        tfBuscarPermisos.setText("");
 
     }
 
@@ -941,6 +1044,11 @@ public class controladorAdmin implements Initializable {
                 cbxEliminar.setSelected(true);
             } else {
                 cbxEliminar.setSelected(false);
+            }
+            if (per.getPermiso().contains("*")) {
+                cbxRestringido.setSelected(true);
+            } else {
+                cbxRestringido.setSelected(false);
             }
             darMensaje("Permiso Cargado");
         } else {
@@ -998,6 +1106,7 @@ public class controladorAdmin implements Initializable {
     @FXML
     void cargarUsuario() {
         Usuario usuarios = tvUsuarios.getSelectionModel().getSelectedItem();
+        tfDNIUsu.setEditable(false);
         if (usuarios != null) {
             tfDNIUsu.setText(usuarios.getDni());
             tfNombreUsu.setText(usuarios.getNombre());
@@ -1015,6 +1124,7 @@ public class controladorAdmin implements Initializable {
     @FXML
     void cargarEmple() {
         Empleado empleados = tvEmpleados.getSelectionModel().getSelectedItem();
+        tfDNIEmple.setEditable(false);
         if (empleados != null) {
             tfDNIEmple.setText(empleados.getDni());
             tfNombreEmple.setText(empleados.getNombre());
@@ -1224,57 +1334,62 @@ public class controladorAdmin implements Initializable {
     void actualizarEmple() {
         Rol rol = new Rol();
         if (!tfDNIEmple.getText().isEmpty() && !tfNombreEmple.getText().isEmpty() && !tfApellidosEmple.getText().isEmpty() && !tfCorreoEmple.getText().isEmpty() && !tfTelEmple.getText().isEmpty() && !tfSueldo.getText().isEmpty() && !cbRolEmple.getValue().toString().isEmpty()) {
+            if (esValido(tfDNIEmple.getText(), "\\d{8}[A-Za-z]") && esValido(tfCorreoEmple.getText(), "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$") && esValido(tfTelEmple.getText(), "\\d{9}") && esValido(tfSueldo.getText(), "^\\d+(\\.\\d{1,2})?$")) {
+                // Crear y configurar el cuadro de diálogo de confirmación
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
 
-            // Crear y configurar el cuadro de diálogo de confirmación
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
+                // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
+                Optional<ButtonType> resultado = alert.showAndWait();
 
-            // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
-            Optional<ButtonType> resultado = alert.showAndWait();
+                // Verificar si el usuario confirmó la acción
+                if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                    String query = "UPDATE personas SET nombre = ?, apellidos = ?, correo = ?, telefono = ?, contrasena = ?, rol = ? WHERE dni = ?";
+                    rol = (Rol) cbRolEmple.getValue();
+                    try {
+                        // Establecer conexión con la base de datos
+                        Connection conexion = this.getConnection();
+                        PreparedStatement preparedStatement = conexion.prepareStatement(query);
 
-            // Verificar si el usuario confirmó la acción
-            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                String query = "UPDATE personas SET nombre = ?, apellidos = ?, correo = ?, telefono = ?, contrasena = ?, rol = ? WHERE dni = ?";
-                rol = (Rol) cbRolEmple.getValue();
-                try {
-                    // Establecer conexión con la base de datos
-                    Connection conexion = this.getConnection();
-                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                        // Configurar los parámetros de la consulta
+                        preparedStatement.setString(1, tfNombreEmple.getText());
+                        preparedStatement.setString(2, tfApellidosEmple.getText());
+                        preparedStatement.setString(3, tfCorreoEmple.getText());
+                        preparedStatement.setString(4, tfTelEmple.getText());
+                        preparedStatement.setString(5, tfDNIEmple.getText());
+                        preparedStatement.setString(6, rol.getIdRol() + "");
+                        preparedStatement.setString(7, tfDNIEmple.getText());
+                        preparedStatement.executeUpdate();
 
-                    // Configurar los parámetros de la consulta
-                    preparedStatement.setString(1, tfNombreEmple.getText());
-                    preparedStatement.setString(2, tfApellidosEmple.getText());
-                    preparedStatement.setString(3, tfCorreoEmple.getText());
-                    preparedStatement.setString(4, tfTelEmple.getText());
-                    preparedStatement.setString(5, tfDNIEmple.getText());
-                    preparedStatement.setString(6, rol.getIdRol() + "");
-                    preparedStatement.setString(7, tfDNIEmple.getText());
-                    preparedStatement.executeUpdate();
+                        String query2 = "UPDATE empleados SET sueldo = ? WHERE dni_empleado = ?";
 
-                    String query2 = "UPDATE empleados SET sueldo = ? WHERE dni_empleado = ?";
+                        PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
+                        preparedStatement2.setString(1, tfSueldo.getText());
+                        preparedStatement2.setString(2, tfDNIEmple.getText());
+                        preparedStatement2.executeUpdate();
 
-                    PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
-                    preparedStatement2.setString(1, tfSueldo.getText());
-                    preparedStatement2.setString(2, tfDNIEmple.getText());
-                    preparedStatement2.executeUpdate();
+                        // Actualizar la vista con la nueva lista de empleados
+                        tvEmpleados.setItems(dameListaEmpleados());
+                        // Limpiar los campos de entrada
+                        tfDNIEmple.setEditable(false);
+                        tfDNIEmple.setText("");
+                        tfNombreEmple.setText("");
+                        tfApellidosEmple.setText("");
+                        tfCorreoEmple.setText("");
+                        tfTelEmple.setText("");
+                        tfSueldo.setText("");
+                        cbRolEmple.setValue(null);
 
-                    // Actualizar la vista con la nueva lista de empleados
-                    tvEmpleados.setItems(dameListaEmpleados());
-                    // Limpiar los campos de entrada
-                    tfNombreEmple.setText("");
-                    tfApellidosEmple.setText("");
-                    tfCorreoEmple.setText("");
-                    tfTelEmple.setText("");
-                    tfSueldo.setText("");
-                    cbRolEmple.setValue(null);
-
-                    // Mostrar mensaje de éxito
-                    darMensaje("Empleado actualizado");
-                } catch (SQLException e) {
-                    // Mostrar mensaje de error
-                    darAlerta(false, e.getLocalizedMessage());
+                        // Mostrar mensaje de éxito
+                        darMensaje("Empleado actualizado");
+                    } catch (SQLException e) {
+                        // Mostrar mensaje de error
+                        darAlerta(false, e.getLocalizedMessage());
+                    }
                 }
+            } else {
+                darAlerta(true, "Algún campo esta mal escrito");
             }
         } else {
             // Mostrar alerta si algún campo está vacío
@@ -1288,39 +1403,44 @@ public class controladorAdmin implements Initializable {
         Pista pista = new Pista();
         if (cbDniManteni.getValue() != null && cbIdPistaManteni.getValue() != null && !tfTipoT.getText().isEmpty() && dpFechaManteni.getValue() != null && !tfDuracionManteni.getText().isEmpty()) {
 
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
+            if (esValido(tfDuracionManteni.getText(), "^\\d{1,3}\\.\\d{1}$")) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
 
-            // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
-            Optional<ButtonType> resultado = alert.showAndWait();
+                // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
+                Optional<ButtonType> resultado = alert.showAndWait();
 
-            // Verificar si el usuario confirmó la acción
-            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                String query = "UPDATE mantienen SET dni = ?, id_pista = ?, tipo_trabajo = ?, fecha_ini = ?, duracion = ? WHERE id_mantenimiento = ?";
-                emp = (Empleado) cbDniManteni.getValue();
-                pista = (Pista) cbIdPistaManteni.getValue();
-                try {
-                    Connection conexion = this.getConnection();
-                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                    preparedStatement.setString(1, emp.getDni());
-                    preparedStatement.setString(2, pista.getIdPista() + "");
-                    preparedStatement.setString(3, tfTipoT.getText());
-                    preparedStatement.setString(4, dpFechaManteni.getValue().format(DateTimeFormatter.ISO_DATE).toString());
-                    preparedStatement.setString(5, tfDuracionManteni.getText());
-                    preparedStatement.setString(6, this.mantenimiento.getIdMantenimiento() + "");
-                    preparedStatement.executeUpdate();
-                    darMensaje("Mantenimiento actualizado");
-                } catch (SQLException e) {
-                    darAlerta(false, e.getLocalizedMessage());
+                // Verificar si el usuario confirmó la acción
+                if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                    String query = "UPDATE mantienen SET dni = ?, id_pista = ?, tipo_trabajo = ?, fecha_ini = ?, duracion = ? WHERE id_mantenimiento = ?";
+                    emp = (Empleado) cbDniManteni.getValue();
+                    pista = (Pista) cbIdPistaManteni.getValue();
+                    try {
+                        Connection conexion = this.getConnection();
+                        PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                        preparedStatement.setString(1, emp.getDni());
+                        preparedStatement.setString(2, pista.getIdPista() + "");
+                        preparedStatement.setString(3, tfTipoT.getText());
+                        preparedStatement.setString(4, dpFechaManteni.getValue().format(DateTimeFormatter.ISO_DATE).toString());
+                        preparedStatement.setString(5, tfDuracionManteni.getText());
+                        preparedStatement.setString(6, this.mantenimiento.getIdMantenimiento() + "");
+                        preparedStatement.executeUpdate();
+                        darMensaje("Mantenimiento actualizado");
+                    } catch (SQLException e) {
+                        darAlerta(false, e.getLocalizedMessage());
+                    }
+
+                    tvMantenimiento.setItems(dameListaMantenimiento());
+                    cbDniManteni.setValue(null);
+                    cbIdPistaManteni.setValue(null);
+                    tfTipoT.setText("");
+                    dpFechaManteni.setValue(null);
+                    tfDuracionManteni.setText("");
                 }
 
-                tvMantenimiento.setItems(dameListaMantenimiento());
-                cbDniManteni.setValue(null);
-                cbIdPistaManteni.setValue(null);
-                tfTipoT.setText("");
-                dpFechaManteni.setValue(null);
-                tfDuracionManteni.setText("");
+            } else {
+                darAlerta(true, "Tienes que isertar una duración válida");
             }
 
         } else {
@@ -1334,38 +1454,42 @@ public class controladorAdmin implements Initializable {
         Sucursal suc = new Sucursal();
 
         if (!tfActividad.getText().isEmpty() && !tfPrecioH.getText().isEmpty() && cbSucursalPista.getValue() != null) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
+            if (esValido(tfPrecioH.getText(), "^\\d{1,2}$")) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
 
-            // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
-            Optional<ButtonType> resultado = alert.showAndWait();
+                // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
+                Optional<ButtonType> resultado = alert.showAndWait();
 
-            // Verificar si el usuario confirmó la acción
-            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                // Verificar si el usuario confirmó la acción
+                if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
 
-                String query = "UPDATE pistas SET precioHora = ?, actividad = ?, id_sucursal = ? WHERE id_pista = ?";
-                suc = (Sucursal) cbSucursalPista.getValue();
-                try {
-                    Connection conexion = this.getConnection();
-                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                    preparedStatement.setString(1, tfPrecioH.getText());
-                    preparedStatement.setString(2, tfActividad.getText());
-                    preparedStatement.setString(3, suc.getIdSucursal() + "");
-                    preparedStatement.setString(4, tfIdPista.getText());
-                    preparedStatement.executeUpdate();
-                    darMensaje("Pista actualizada");
-                } catch (SQLException e) {
-                    darAlerta(false, e.getLocalizedMessage());
+                    String query = "UPDATE pistas SET precioHora = ?, actividad = ?, id_sucursal = ? WHERE id_pista = ?";
+                    suc = (Sucursal) cbSucursalPista.getValue();
+                    try {
+                        Connection conexion = this.getConnection();
+                        PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                        preparedStatement.setString(1, tfPrecioH.getText());
+                        preparedStatement.setString(2, tfActividad.getText());
+                        preparedStatement.setString(3, suc.getIdSucursal() + "");
+                        preparedStatement.setString(4, tfIdPista.getText());
+                        preparedStatement.executeUpdate();
+                        darMensaje("Pista actualizada");
+                    } catch (SQLException e) {
+                        darAlerta(false, e.getLocalizedMessage());
+                    }
+
+                    tvPistas.setItems(dameListaPista());
+                    tfIdPista.setText("");
+                    tfActividad.setText("");
+                    tfPrecioH.setText("");
+                    cbSucursalPista.setValue(null);
                 }
 
-                tvPistas.setItems(dameListaPista());
-                tfIdPista.setText("");
-                tfActividad.setText("");
-                tfPrecioH.setText("");
-                cbSucursalPista.setValue(null);
+            } else {
+                darAlerta(true, "El precio esta mal escrito");
             }
-
         } else {
             darAlerta(true, "Algun valor esta vacio");
         }
@@ -1376,56 +1500,61 @@ public class controladorAdmin implements Initializable {
         Usuario usu = new Usuario();
         Pista pista = new Pista();
         if (cbDNIReserva.getValue() != null && cbIdPistaReserva.getValue() != null && !tfHoraIni.getText().isEmpty() && dpFechaReserva.getValue() != null && !tfDuracionReserva.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
+            String regex = "^([01]\\d|2[0-3]):[0-5]\\d$";
+            if (esValido(tfDuracionReserva.getText(), "^\\d{1,3}\\.\\d{1}$") && esValido(tfHoraIni.getText(), regex)) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
 
-            // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
-            Optional<ButtonType> resultado = alert.showAndWait();
+                // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
+                Optional<ButtonType> resultado = alert.showAndWait();
 
-            // Verificar si el usuario confirmó la acción
-            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-                String query = "UPDATE  reservas SET id_pista = ?, dni = ?, hora_inicio = ?, duracion = ?, fecha = ?, precio_reserva = ? WHERE id_reserva = ? ";
-                usu = (Usuario) cbDNIReserva.getValue();
-                pista = (Pista) cbIdPistaReserva.getValue();
-                try {
-                    Connection conexion = this.getConnection();
-                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                    preparedStatement.setString(1, pista.getIdPista() + "");
-                    preparedStatement.setString(2, usu.getDni());
-                    preparedStatement.setString(3, tfHoraIni.getText());
-                    preparedStatement.setString(4, tfDuracionReserva.getText());
-                    preparedStatement.setString(5, dpFechaReserva.getValue().format(DateTimeFormatter.ISO_DATE).toString());
-                    String query2 = "SELECT * FROM pistas WHERE id_pista = ?";
-                    PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
-                    preparedStatement2.setString(1, pista.getIdPista() + "");
-                    System.out.println(query2);
-                    ResultSet resultado1 = preparedStatement2.executeQuery();
-                    float retorno = 0;
-                    System.out.println("Aqui");
-                    if (resultado1.next()) {
-                        retorno = resultado1.getFloat("precioHora");
-                        System.out.println(retorno);
+                // Verificar si el usuario confirmó la acción
+                if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                    String query = "UPDATE  reservas SET id_pista = ?, dni = ?, hora_inicio = ?, duracion = ?, fecha = ?, precio_reserva = ? WHERE id_reserva = ? ";
+                    usu = (Usuario) cbDNIReserva.getValue();
+                    pista = (Pista) cbIdPistaReserva.getValue();
+                    try {
+                        Connection conexion = this.getConnection();
+                        PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                        preparedStatement.setString(1, pista.getIdPista() + "");
+                        preparedStatement.setString(2, usu.getDni());
+                        preparedStatement.setString(3, tfHoraIni.getText());
+                        preparedStatement.setString(4, tfDuracionReserva.getText());
+                        preparedStatement.setString(5, dpFechaReserva.getValue().format(DateTimeFormatter.ISO_DATE).toString());
+                        String query2 = "SELECT * FROM pistas WHERE id_pista = ?";
+                        PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
+                        preparedStatement2.setString(1, pista.getIdPista() + "");
+                        System.out.println(query2);
+                        ResultSet resultado1 = preparedStatement2.executeQuery();
+                        float retorno = 0;
+                        System.out.println("Aqui");
+                        if (resultado1.next()) {
+                            retorno = resultado1.getFloat("precioHora");
+                            System.out.println(retorno);
+                        }
+
+                        float precio = (Float.parseFloat(tfDuracionReserva.getText()) / 60) * retorno;
+                        preparedStatement.setString(6, precio + "");
+                        preparedStatement.setString(7, reserva.getIdReserva() + "");
+
+                        preparedStatement.executeUpdate();
+                        darMensaje("Reserva actualizada");
+                    } catch (SQLException e) {
+                        darAlerta(false, e.getLocalizedMessage());
                     }
 
-                    float precio = (Float.parseFloat(tfDuracionReserva.getText()) / 60) * retorno;
-                    preparedStatement.setString(6, precio + "");
-                    preparedStatement.setString(7, reserva.getIdReserva() + "");
-
-                    preparedStatement.executeUpdate();
-                    darMensaje("Reserva actualizada");
-                } catch (SQLException e) {
-                    darAlerta(false, e.getLocalizedMessage());
+                    tvReservas.setItems(dameListaReservas(sacarPermiso(11, persona.getRol())));
+                    cbDNIReserva.setValue(null);
+                    cbIdPistaReserva.setValue(null);
+                    tfHoraIni.setText("");
+                    dpFechaReserva.setValue(null);
+                    tfDuracionReserva.setText("");
                 }
 
-                tvReservas.setItems(dameListaReservas(sacarPermiso(11, persona.getRol())));
-                cbDNIReserva.setValue(null);
-                cbIdPistaReserva.setValue(null);
-                tfHoraIni.setText("");
-                dpFechaReserva.setValue(null);
-                tfDuracionReserva.setText("");
+            } else {
+                darAlerta(true, "Algun campo esta mal escrito");
             }
-
         } else {
             darAlerta(true, "Algun valor esta vacio");
         }
@@ -1435,37 +1564,43 @@ public class controladorAdmin implements Initializable {
     void actualizarSucursal() {
 
         if (!tfCiudad.getText().isEmpty() && !tfCodigoPostal.getText().isEmpty() && !tfDireccion.getText().isEmpty() && !tfTelSucursal.getText().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setHeaderText(null);
-            alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
+            if (esValido(tfCodigoPostal.getText(), "^\\d{4,6}$") && esValido(tfTelSucursal.getText(), "^\\d{9}$")) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
 
-            // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
-            Optional<ButtonType> resultado = alert.showAndWait();
+                // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
+                Optional<ButtonType> resultado = alert.showAndWait();
 
-            // Verificar si el usuario confirmó la acción
-            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                // Verificar si el usuario confirmó la acción
+                if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
 
-                String query = "UPDATE sucursal SET ciudad = ?, codigo_postal = ?, direccion = ?, telefono = ? WHERE id_sucursal = ?";
-                try {
-                    Connection conexion = this.getConnection();
-                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                    preparedStatement.setString(1, tfCiudad.getText());
-                    preparedStatement.setString(2, tfCodigoPostal.getText());
-                    preparedStatement.setString(3, tfDireccion.getText());
-                    preparedStatement.setString(4, tfTelSucursal.getText());
-                    preparedStatement.setString(5, tfIdSucursal.getText());
-                    preparedStatement.executeUpdate();
+                    String query = "UPDATE sucursal SET ciudad = ?, codigo_postal = ?, direccion = ?, telefono = ? WHERE id_sucursal = ?";
+                    try {
+                        Connection conexion = this.getConnection();
+                        PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                        preparedStatement.setString(1, tfCiudad.getText());
+                        preparedStatement.setString(2, tfCodigoPostal.getText());
+                        preparedStatement.setString(3, tfDireccion.getText());
+                        preparedStatement.setString(4, tfTelSucursal.getText());
+                        preparedStatement.setString(5, tfIdSucursal.getText());
+                        preparedStatement.executeUpdate();
 
-                    darMensaje("Sucursal actualizada");
-                } catch (SQLException e) {
-                    darAlerta(false, e.getLocalizedMessage());
+                        darMensaje("Sucursal actualizada");
+                    } catch (SQLException e) {
+                        darAlerta(false, e.getLocalizedMessage());
+                    }
+                    tvSucursal.setItems(dameListaSucursal());
+                    tfIdSucursal.setText("");
+                    tfCiudad.setText("");
+                    tfCodigoPostal.setText("");
+                    tfDireccion.setText("");
+                    tfTelSucursal.setText("");
+
                 }
-                tvSucursal.setItems(dameListaSucursal());
-                tfCiudad.setText("");
-                tfCodigoPostal.setText("");
-                tfDireccion.setText("");
-                tfTelSucursal.setText("");
 
+            } else {
+                darAlerta(true, "Algún campo está mal escrito");
             }
         } else {
             darAlerta(true, "Inserta un nombre");
@@ -1475,6 +1610,65 @@ public class controladorAdmin implements Initializable {
     @FXML
     void actualizarUsuario() {
         if (!tfDNIUsu.getText().isEmpty() && !tfNombreUsu.getText().isEmpty() && !tfApellidosUsu.getText().isEmpty() && !tfCorreoUsu.getText().isEmpty() && !tfTelUsu.getText().isEmpty() && !tfUsuario.getText().isEmpty()) {
+            if (esValido(tfDNIUsu.getText(), "\\d{8}[A-Za-z]") && esValido(tfCorreoUsu.getText(), "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$") && esValido(tfTelUsu.getText(), "\\d{9}")) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setHeaderText(null);
+                alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
+
+                // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
+                Optional<ButtonType> resultado = alert.showAndWait();
+
+                // Verificar si el usuario confirmó la acción
+                if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+
+                    String query = "UPDATE personas SET nombre = ?, apellidos = ?, correo = ?, telefono = ?, contrasena = ?, rol = 4 WHERE dni = ?";
+
+                    try {
+                        Connection conexion = this.getConnection();
+                        PreparedStatement preparedStatement = conexion.prepareStatement(query);
+
+                        preparedStatement.setString(1, tfNombreUsu.getText());
+                        preparedStatement.setString(2, tfApellidosUsu.getText());
+                        preparedStatement.setString(3, tfCorreoUsu.getText());
+                        preparedStatement.setString(4, tfTelUsu.getText());
+                        preparedStatement.setString(5, tfDNIUsu.getText());
+                        preparedStatement.setString(6, tfDNIUsu.getText());
+                        preparedStatement.executeUpdate();
+                        String query2 = "UPDATE usuarios SET usuario = ? WHERE dni_usuario = ?";
+
+                        PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
+
+                        preparedStatement2.setString(1, tfUsuario.getText());
+                        preparedStatement2.setString(2, tfDNIUsu.getText());
+                        preparedStatement2.executeUpdate();
+
+                        tvUsuarios.setItems(dameListaUsuarios(sacarPermiso(8, persona.getRol())));
+                        tfDNIUsu.setText("");
+                        tfDNIUsu.setEditable(true);
+                        tfNombreUsu.setText("");
+                        tfApellidosUsu.setText("");
+                        tfCorreoUsu.setText("");
+                        tfTelUsu.setText("");
+                        tfUsuario.setText("");
+                        //MODIFICAR
+                        darMensaje("Usuario actualizado");
+                    } catch (SQLException e) {
+                        darAlerta(false, e.getLocalizedMessage());
+                    }
+                }
+            } else {
+                darAlerta(true, "Algun campo está mal escrito");
+            }
+
+        } else {
+            darAlerta(true, "Algun campo vacío");
+        }
+    }
+
+    @FXML
+    void eliminarEmple() {
+            Empleado empleado = tvEmpleados.getSelectionModel().getSelectedItem();
+        if (empleado != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText(null);
             alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
@@ -1484,49 +1678,23 @@ public class controladorAdmin implements Initializable {
 
             // Verificar si el usuario confirmó la acción
             if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
-
-                String query = "UPDATE personas SET nombre = ?, apellidos = ?, correo = ?, telefono = ?, contrasena = ?, rol = 4 WHERE dni = ?";
+                String query = "DELETE FROM personas WHERE dni = ? ";
 
                 try {
                     Connection conexion = this.getConnection();
                     PreparedStatement preparedStatement = conexion.prepareStatement(query);
-
-                    preparedStatement.setString(1, tfNombreUsu.getText());
-                    preparedStatement.setString(2, tfApellidosUsu.getText());
-                    preparedStatement.setString(3, tfCorreoUsu.getText());
-                    preparedStatement.setString(4, tfTelUsu.getText());
-                    preparedStatement.setString(5, tfDNIUsu.getText());
-                    preparedStatement.setString(6, tfDNIUsu.getText());
+                    preparedStatement.setString(1, empleado.getDni());
                     preparedStatement.executeUpdate();
-                    String query2 = "UPDATE usuarios SET usuario = ? WHERE dni_usuario = ?";
-
-                    PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
-
-                    preparedStatement2.setString(1, tfUsuario.getText());
-                    preparedStatement2.setString(2, tfDNIUsu.getText());
-                    preparedStatement2.executeUpdate();
-
-                    tvUsuarios.setItems(dameListaUsuarios(sacarPermiso(8, persona.getRol())));
-                    tfDNIUsu.setText("");
-                    tfNombreUsu.setText("");
-                    tfApellidosUsu.setText("");
-                    tfCorreoUsu.setText("");
-                    tfTelUsu.setText("");
-                    tfUsuario.setText("");
-                    //MODIFICAR
-                    darMensaje("Usuario actualizado");
                 } catch (SQLException e) {
                     darAlerta(false, e.getLocalizedMessage());
                 }
-            }
+                tvEmpleados.setItems(dameListaEmpleados());
+                darMensaje("Empleado eliminado");
+            
         } else {
-            darAlerta(true, "Algun campo vacío");
+            darAlerta(true, "Debes seleccionar un elemento de la tabla");
         }
     }
-
-    @FXML
-    void eliminarEmple() {
-
     }
 
     @FXML
@@ -1624,7 +1792,34 @@ public class controladorAdmin implements Initializable {
 
     @FXML
     void eliminarUsuario() {
+        Usuario usuario = tvUsuarios.getSelectionModel().getSelectedItem();
+        if (usuario != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText(null);
+            alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
 
+            // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
+            Optional<ButtonType> resultado = alert.showAndWait();
+
+            // Verificar si el usuario confirmó la acción
+            if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+                String query = "DELETE FROM personas WHERE dni = ? ";
+
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, usuario.getDni());
+                    preparedStatement.executeUpdate();
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvUsuarios.setItems(dameListaUsuarios(sacarPermiso(11, persona.getRol())));
+                darMensaje("Usuario eliminado");
+
+            } else {
+                darAlerta(true, "Debes seleccionar un elemento de la tabla");
+            }
+        }
     }
 
     @FXML
@@ -1661,36 +1856,42 @@ public class controladorAdmin implements Initializable {
     @FXML
     void insertarEmple() {
         Rol rol = new Rol();
-        if (!tfDNIEmple.getText().isEmpty() && !tfNombreEmple.getText().isEmpty() && !tfApellidosEmple.getText().isEmpty() && !tfCorreoEmple.getText().isEmpty() && !tfTelEmple.getText().isEmpty() && !tfSueldo.getText().isEmpty() && !cbRolEmple.getValue().toString().isEmpty()) {
+        if (!tfDNIEmple.getText().isEmpty() && !tfNombreEmple.getText().isEmpty() && !tfApellidosEmple.getText().isEmpty() && !tfCorreoEmple.getText().isEmpty() && !tfTelEmple.getText().isEmpty() && !tfSueldo.getText().isEmpty() && cbRolEmple.getValue() != null) {
             String query = "INSERT INTO personas VALUES (?, ?, ?, ?, ?, ?, ?)";
             rol = (Rol) cbRolEmple.getValue();
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, tfDNIEmple.getText());
-                preparedStatement.setString(2, tfNombreEmple.getText());
-                preparedStatement.setString(3, tfApellidosEmple.getText());
-                preparedStatement.setString(4, tfCorreoEmple.getText());
-                preparedStatement.setString(5, tfTelEmple.getText());
-                preparedStatement.setString(6, tfDNIEmple.getText());
-                preparedStatement.setString(7, rol.getIdRol() + "");
-                preparedStatement.executeUpdate();
+            if (esValido(tfDNIEmple.getText(), "\\d{8}[A-Za-z]") && esValido(tfCorreoEmple.getText(), "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$") && esValido(tfTelEmple.getText(), "\\d{9}") && esValido(tfSueldo.getText(), "^\\d+(\\.\\d{1,2})?$")) {
+                try {
 
-                String query2 = "INSERT INTO empleados VALUES (?,?)";
-                PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
-                preparedStatement2.setString(1, tfDNIEmple.getText());
-                preparedStatement2.setString(2, tfSueldo.getText());
-                preparedStatement2.executeUpdate();
-                tvEmpleados.setItems(dameListaEmpleados());
-                tfNombreEmple.setText("");
-                tfApellidosEmple.setText("");
-                tfCorreoEmple.setText("");
-                tfTelEmple.setText("");
-                tfSueldo.setText("");
-                cbRolEmple.setValue(null);
-                darMensaje("Empleado insertado");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, tfDNIEmple.getText().toUpperCase());
+                    preparedStatement.setString(2, tfNombreEmple.getText());
+                    preparedStatement.setString(3, tfApellidosEmple.getText());
+                    preparedStatement.setString(4, tfCorreoEmple.getText());
+                    preparedStatement.setString(5, tfTelEmple.getText());
+                    preparedStatement.setString(6, tfDNIEmple.getText());
+                    preparedStatement.setString(7, rol.getIdRol() + "");
+                    preparedStatement.executeUpdate();
+
+                    String query2 = "INSERT INTO empleados VALUES (?,?)";
+                    PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
+                    preparedStatement2.setString(1, tfDNIEmple.getText());
+                    preparedStatement2.setString(2, tfSueldo.getText());
+                    preparedStatement2.executeUpdate();
+                    tvEmpleados.setItems(dameListaEmpleados());
+                    tfDNIEmple.setText("");
+                    tfNombreEmple.setText("");
+                    tfApellidosEmple.setText("");
+                    tfCorreoEmple.setText("");
+                    tfTelEmple.setText("");
+                    tfSueldo.setText("");
+                    cbRolEmple.setValue(null);
+                    darMensaje("Empleado insertado");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+            } else {
+                darAlerta(true, "Algun campo está mal escrito");
             }
 
         } else {
@@ -1704,33 +1905,37 @@ public class controladorAdmin implements Initializable {
         Empleado emp = new Empleado();
         Pista pista = new Pista();
         if (cbDniManteni.getValue() != null && cbIdPistaManteni.getValue() != null && !tfTipoT.getText().isEmpty() && dpFechaManteni.getValue() != null && !tfDuracionManteni.getText().isEmpty()) {
-            String query = "INSERT INTO mantienen VALUES (" + null + ", ?, ?, ?, ?, ?)";
-            emp = (Empleado) cbDniManteni.getValue();
-            pista = (Pista) cbIdPistaManteni.getValue();
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, emp.getDni());
-                preparedStatement.setString(2, pista.getIdPista() + "");
-                preparedStatement.setString(3, tfTipoT.getText());
-                preparedStatement.setString(4, dpFechaManteni.getValue().format(DateTimeFormatter.ISO_DATE).toString());
-                preparedStatement.setString(5, tfDuracionManteni.getText());
+            if (esValido(tfDuracionManteni.getText(), "^\\d{1,3}\\.\\d{1}$")) {
+                String query = "INSERT INTO mantienen VALUES (" + null + ", ?, ?, ?, ?, ?)";
+                emp = (Empleado) cbDniManteni.getValue();
+                pista = (Pista) cbIdPistaManteni.getValue();
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, emp.getDni());
+                    preparedStatement.setString(2, pista.getIdPista() + "");
+                    preparedStatement.setString(3, tfTipoT.getText());
+                    preparedStatement.setString(4, dpFechaManteni.getValue().format(DateTimeFormatter.ISO_DATE).toString());
+                    preparedStatement.setString(5, tfDuracionManteni.getText());
 
-                preparedStatement.executeUpdate();
-                darMensaje("Mantenimiento insertado");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
+                    preparedStatement.executeUpdate();
+                    darMensaje("Mantenimiento insertado");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+
+                tvMantenimiento.setItems(dameListaMantenimiento());
+                cbDniManteni.setValue(null);
+                cbIdPistaManteni.setValue(null);
+                tfTipoT.setText("");
+                dpFechaManteni.setValue(null);
+                tfDuracionManteni.setText("");
+            } else {
+                darAlerta(true, "Campo duración mal escrito");
             }
 
-            tvMantenimiento.setItems(dameListaMantenimiento());
-            cbDniManteni.setValue(null);
-            cbIdPistaManteni.setValue(null);
-            tfTipoT.setText("");
-            dpFechaManteni.setValue(null);
-            tfDuracionManteni.setText("");
-
         } else {
-            darAlerta(true, "Debes seleccionar un elemento de la tabla");
+            darAlerta(true, "Algún campo vacio");
         }
 
     }
@@ -1740,25 +1945,29 @@ public class controladorAdmin implements Initializable {
         Sucursal suc = new Sucursal();
 
         if (!tfActividad.getText().isEmpty() && !tfPrecioH.getText().isEmpty() && cbSucursalPista.getValue() != null) {
-            String query = "INSERT INTO pistas VALUES (" + null + ", ?, ?, ?)";
-            suc = (Sucursal) cbSucursalPista.getValue();
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, tfPrecioH.getText());
-                preparedStatement.setString(2, tfActividad.getText());
-                preparedStatement.setString(3, suc.getIdSucursal() + "");
-                preparedStatement.executeUpdate();
-                darMensaje("Pista insertada");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
-            }
+            if (esValido(tfPrecioH.getText(), "^\\d{1,2}$")) {
+                String query = "INSERT INTO pistas VALUES (" + null + ", ?, ?, ?)";
+                suc = (Sucursal) cbSucursalPista.getValue();
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, tfPrecioH.getText());
+                    preparedStatement.setString(2, tfActividad.getText());
+                    preparedStatement.setString(3, suc.getIdSucursal() + "");
+                    preparedStatement.executeUpdate();
+                    darMensaje("Pista insertada");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
 
-            tvPistas.setItems(dameListaPista());
-            tfIdPista.setText("");
-            tfActividad.setText("");
-            tfPrecioH.setText("");
-            cbSucursalPista.setValue(null);
+                tvPistas.setItems(dameListaPista());
+                tfIdPista.setText("");
+                tfActividad.setText("");
+                tfPrecioH.setText("");
+                cbSucursalPista.setValue(null);
+            } else {
+                darAlerta(true, "Formato de precio incorrecto");
+            }
 
         } else {
             darAlerta(true, "Falta algún campo");
@@ -1772,45 +1981,49 @@ public class controladorAdmin implements Initializable {
         Usuario usu = new Usuario();
         Pista pista = new Pista();
         if (cbDNIReserva.getValue() != null && cbIdPistaReserva.getValue() != null && !tfHoraIni.getText().isEmpty() && dpFechaReserva.getValue() != null && !tfDuracionReserva.getText().isEmpty()) {
-            String query = "INSERT INTO reservas VALUES (" + null + ", ?, ?, ?, ?, ?, ?)";
-            usu = (Usuario) cbDNIReserva.getValue();
-            pista = (Pista) cbIdPistaReserva.getValue();
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, pista.getIdPista() + "");
-                preparedStatement.setString(2, usu.getDni());
-                preparedStatement.setString(3, tfHoraIni.getText());
-                preparedStatement.setString(4, tfDuracionReserva.getText());
-                preparedStatement.setString(5, dpFechaReserva.getValue().format(DateTimeFormatter.ISO_DATE).toString());
-                String query2 = "SELECT * FROM pistas WHERE id_pista = ?";
-                PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
-                preparedStatement2.setString(1, pista.getIdPista() + "");
+            String regex = "^([01]\\d|2[0-3]):[0-5]\\d$";
+            if (esValido(tfDuracionReserva.getText(), "^\\d{1,3}\\.\\d{1}$") && esValido(tfHoraIni.getText(), regex)) {
+                String query = "INSERT INTO reservas VALUES (" + null + ", ?, ?, ?, ?, ?, ?)";
+                usu = (Usuario) cbDNIReserva.getValue();
+                pista = (Pista) cbIdPistaReserva.getValue();
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, pista.getIdPista() + "");
+                    preparedStatement.setString(2, usu.getDni());
+                    preparedStatement.setString(3, tfHoraIni.getText());
+                    preparedStatement.setString(4, tfDuracionReserva.getText());
+                    preparedStatement.setString(5, dpFechaReserva.getValue().format(DateTimeFormatter.ISO_DATE).toString());
+                    String query2 = "SELECT * FROM pistas WHERE id_pista = ?";
+                    PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
+                    preparedStatement2.setString(1, pista.getIdPista() + "");
 
-                ResultSet resultado = preparedStatement2.executeQuery();
-                float retorno = 0;
-                System.out.println("Aqui");
-                if (resultado.next()) {
-                    retorno = resultado.getFloat("precioHora");
-                    System.out.println(retorno);
+                    ResultSet resultado = preparedStatement2.executeQuery();
+                    float retorno = 0;
+                    System.out.println("Aqui");
+                    if (resultado.next()) {
+                        retorno = resultado.getFloat("precioHora");
+                        System.out.println(retorno);
+                    }
+
+                    float precio = (Float.parseFloat(tfDuracionReserva.getText()) / 60) * retorno;
+                    preparedStatement.setString(6, precio + "");
+
+                    preparedStatement.executeUpdate();
+                    darMensaje("Reserva insertada");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
                 }
 
-                float precio = (Float.parseFloat(tfDuracionReserva.getText()) / 60) * retorno;
-                preparedStatement.setString(6, precio + "");
-
-                preparedStatement.executeUpdate();
-                darMensaje("Reserva insertada");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
+                tvReservas.setItems(dameListaReservas(sacarPermiso(11, persona.getRol())));
+                cbDNIReserva.setValue(null);
+                cbIdPistaReserva.setValue(null);
+                tfHoraIni.setText("");
+                dpFechaReserva.setValue(null);
+                tfDuracionReserva.setText("");
+            } else {
+                darAlerta(true, "Algun valor esta mal escrito");
             }
-
-            tvReservas.setItems(dameListaReservas(sacarPermiso(11, persona.getRol())));
-            cbDNIReserva.setValue(null);
-            cbIdPistaReserva.setValue(null);
-            tfHoraIni.setText("");
-            dpFechaReserva.setValue(null);
-            tfDuracionReserva.setText("");
-
         } else {
             darAlerta(true, "Algun valor esta vacio");
         }
@@ -1820,25 +2033,30 @@ public class controladorAdmin implements Initializable {
     void insertarSucursal() {
 
         if (!tfCiudad.getText().isEmpty() && !tfCodigoPostal.getText().isEmpty() && !tfDireccion.getText().isEmpty() && !tfTelSucursal.getText().isEmpty()) {
-            String query = "INSERT INTO sucursal VALUES (" + null + ", ?, ?, ?, ?)";
+            if (esValido(tfCodigoPostal.getText(), "^\\d{4,6}$") && esValido(tfTelSucursal.getText(), "^\\d{9}$")) {
+                String query = "INSERT INTO sucursal VALUES (" + null + ", ?, ?, ?, ?)";
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, tfCiudad.getText());
-                preparedStatement.setString(2, tfCodigoPostal.getText());
-                preparedStatement.setString(3, tfDireccion.getText());
-                preparedStatement.setString(4, tfTelSucursal.getText());
-                preparedStatement.executeUpdate();
-                darMensaje("Sucursal insertada");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, tfCiudad.getText());
+                    preparedStatement.setString(2, tfCodigoPostal.getText());
+                    preparedStatement.setString(3, tfDireccion.getText());
+                    preparedStatement.setString(4, tfTelSucursal.getText());
+                    preparedStatement.executeUpdate();
+                    darMensaje("Sucursal insertada");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+                tvSucursal.setItems(dameListaSucursal());
+                tfIdSucursal.setText("");
+                tfCiudad.setText("");
+                tfCodigoPostal.setText("");
+                tfDireccion.setText("");
+                tfTelSucursal.setText("");
+            } else {
+                darAlerta(true, "Algún campo esta mal escrito");
             }
-            tvSucursal.setItems(dameListaSucursal());
-            tfCiudad.setText("");
-            tfCodigoPostal.setText("");
-            tfDireccion.setText("");
-            tfTelSucursal.setText("");
         } else {
             darAlerta(true, "Algún campo esta vacío");
         }
@@ -1848,36 +2066,40 @@ public class controladorAdmin implements Initializable {
     @FXML
     void insertarUsuario() {
         if (!tfDNIUsu.getText().isEmpty() && !tfNombreUsu.getText().isEmpty() && !tfApellidosUsu.getText().isEmpty() && !tfCorreoUsu.getText().isEmpty() && !tfTelUsu.getText().isEmpty() && !tfUsuario.getText().isEmpty()) {
-            String query = "INSERT INTO personas VALUES (?, ?, ?, ?, ?, ?, 4)";
+            if (esValido(tfDNIUsu.getText(), "\\d{8}[A-Za-z]") && esValido(tfCorreoUsu.getText(), "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$") && esValido(tfTelUsu.getText(), "\\d{9}")) {
+                String query = "INSERT INTO personas VALUES (?, ?, ?, ?, ?, ?, 4)";
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, tfDNIUsu.getText());
-                preparedStatement.setString(2, tfNombreUsu.getText());
-                preparedStatement.setString(3, tfApellidosUsu.getText());
-                preparedStatement.setString(4, tfCorreoUsu.getText());
-                preparedStatement.setString(5, tfTelUsu.getText());
-                preparedStatement.setString(6, tfDNIUsu.getText());
-                preparedStatement.executeUpdate();
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, tfDNIUsu.getText().toUpperCase());
+                    preparedStatement.setString(2, tfNombreUsu.getText());
+                    preparedStatement.setString(3, tfApellidosUsu.getText());
+                    preparedStatement.setString(4, tfCorreoUsu.getText());
+                    preparedStatement.setString(5, tfTelUsu.getText());
+                    preparedStatement.setString(6, tfDNIUsu.getText());
+                    preparedStatement.executeUpdate();
 
-                String query2 = "INSERT INTO usuarios VALUES (?,?)";
+                    String query2 = "INSERT INTO usuarios VALUES (?,?)";
 
-                PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
-                preparedStatement2.setString(1, tfDNIUsu.getText());
-                preparedStatement2.setString(2, tfUsuario.getText());
-                preparedStatement2.executeUpdate();
+                    PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
+                    preparedStatement2.setString(1, tfDNIUsu.getText());
+                    preparedStatement2.setString(2, tfUsuario.getText());
+                    preparedStatement2.executeUpdate();
 
-                tvUsuarios.setItems(dameListaUsuarios(sacarPermiso(8, persona.getRol())));
-                tfDNIUsu.setText("");
-                tfNombreUsu.setText("");
-                tfApellidosUsu.setText("");
-                tfCorreoUsu.setText("");
-                tfTelUsu.setText("");
-                tfUsuario.setText("");
-                darMensaje("Usuario insertado");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
+                    tvUsuarios.setItems(dameListaUsuarios(sacarPermiso(8, persona.getRol())));
+                    tfDNIUsu.setText("");
+                    tfNombreUsu.setText("");
+                    tfApellidosUsu.setText("");
+                    tfCorreoUsu.setText("");
+                    tfTelUsu.setText("");
+                    tfUsuario.setText("");
+                    darMensaje("Usuario insertado");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+            } else {
+                darAlerta(true, "Algún campo está mal escrito");
             }
 
         } else {
@@ -1900,6 +2122,8 @@ public class controladorAdmin implements Initializable {
                 darAlerta(false, e.getLocalizedMessage());
             }
             tvRol.setItems(dameListaRol());
+            tfDenominacion.setText("");
+            tfIdRol.setText("");
         } else {
             darAlerta(true, "Inserta una denominación");
         }
@@ -1930,6 +2154,8 @@ public class controladorAdmin implements Initializable {
                     darAlerta(false, e.getLocalizedMessage());
                 }
                 tvRol.setItems(dameListaRol());
+                tfDenominacion.setText("");
+                tfIdRol.setText("");
             }
         } else {
             darAlerta(true, "Inserta una denominacion");
@@ -1968,21 +2194,6 @@ public class controladorAdmin implements Initializable {
     }
 
     @FXML
-    void insertarModulo() {
-
-    }
-
-    @FXML
-    void actualizarModulo() {
-
-    }
-
-    @FXML
-    void eliminarModulo() {
-
-    }
-
-    @FXML
     void insertarPermiso() {
         Rol rol = new Rol();
         Modulo modulo = new Modulo();
@@ -2001,6 +2212,9 @@ public class controladorAdmin implements Initializable {
             }
             if (cbxEliminar.isSelected()) {
                 permiso += "D";
+            }
+            if (cbxRestringido.isSelected()) {
+                permiso += " *";
             }
             rol = (Rol) cbIdRolPer.getValue();
             modulo = (Modulo) cbModuloPer.getValue();
@@ -2022,6 +2236,7 @@ public class controladorAdmin implements Initializable {
             cbxListar.setSelected(false);
             cbxActualizar.setSelected(false);
             cbxEliminar.setSelected(false);
+            cbxRestringido.setSelected(false);
         } else {
             darAlerta(true, "Algún campo esta vacío");
         }
@@ -2057,6 +2272,9 @@ public class controladorAdmin implements Initializable {
                 if (cbxEliminar.isSelected()) {
                     permiso += "D";
                 }
+                if (cbxRestringido.isSelected()) {
+                    permiso += " *";
+                }
                 rol = (Rol) cbIdRolPer.getValue();
                 modulo = (Modulo) cbModuloPer.getValue();
 
@@ -2078,6 +2296,7 @@ public class controladorAdmin implements Initializable {
                 cbxListar.setSelected(false);
                 cbxActualizar.setSelected(false);
                 cbxEliminar.setSelected(false);
+                cbxRestringido.setSelected(false);
             }
         } else {
             darAlerta(true, "Inserta un nombre");
@@ -2150,58 +2369,80 @@ public class controladorAdmin implements Initializable {
 
     @FXML
     void actualizarTrabajan() {
-        Empleado emp = new Empleado();
-        Sucursal suc = new Sucursal();
-        if (cbDNITrabajan.getValue() != null && cbIDSucursalTrabajan.getValue() != null && dpInicioTrabajan.getValue() != null && dpFinTrabajan.getValue() != null) {
-            String query = "UPDATE trabajan set fecha_fin = ? WHERE dni_empleado = ? AND id_sucursal = ? AND fecha_ini = ?";
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
 
-            emp = (Empleado) cbDNITrabajan.getValue();
-            suc = (Sucursal) cbIDSucursalTrabajan.getValue();
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, dpFinTrabajan.getValue().format(DateTimeFormatter.ISO_DATE));
-                preparedStatement.setString(2, emp.getDni());
-                preparedStatement.setString(3, suc.getIdSucursal() + "");
-                preparedStatement.setString(4, dpInicioTrabajan.getValue().format(DateTimeFormatter.ISO_DATE));
-                preparedStatement.executeUpdate();
-                darMensaje("Periodo de trabajo actualizado");
+        // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
+        Optional<ButtonType> resultado = alert.showAndWait();
 
-                tvTrabajan.setItems(dameListaTrabajan());
-                cbDNITrabajan.setValue(null);
-                cbIDSucursalTrabajan.setValue(null);
-                dpInicioTrabajan.setValue(null);
-                dpFinTrabajan.setValue(null);
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
+        // Verificar si el usuario confirmó la acción
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+
+            Empleado emp = new Empleado();
+            Sucursal suc = new Sucursal();
+            if (cbDNITrabajan.getValue() != null && cbIDSucursalTrabajan.getValue() != null && dpInicioTrabajan.getValue() != null && dpFinTrabajan.getValue() != null) {
+                String query = "UPDATE trabajan set fecha_fin = ? WHERE dni_empleado = ? AND id_sucursal = ? AND fecha_ini = ?";
+
+                emp = (Empleado) cbDNITrabajan.getValue();
+                suc = (Sucursal) cbIDSucursalTrabajan.getValue();
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, dpFinTrabajan.getValue().format(DateTimeFormatter.ISO_DATE));
+                    preparedStatement.setString(2, emp.getDni());
+                    preparedStatement.setString(3, suc.getIdSucursal() + "");
+                    preparedStatement.setString(4, dpInicioTrabajan.getValue().format(DateTimeFormatter.ISO_DATE));
+                    preparedStatement.executeUpdate();
+                    darMensaje("Periodo de trabajo actualizado");
+
+                    tvTrabajan.setItems(dameListaTrabajan());
+                    cbDNITrabajan.setValue(null);
+                    cbIDSucursalTrabajan.setValue(null);
+                    dpInicioTrabajan.setValue(null);
+                    dpFinTrabajan.setValue(null);
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+            } else {
+                darAlerta(true, "Falta algún campo");
             }
-        } else {
-            darAlerta(true, "Falta algún campo");
         }
     }
 
     @FXML
     void eliminarTrabajan() {
-        Trabajan trabajan = tvTrabajan.getSelectionModel().getSelectedItem();
-        if (trabajan != null) {
-            String query = "DELETE FROM trabajan WHERE dni_empleado = ? AND id_sucursal = ? AND fecha_ini = ?";
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setHeaderText(null);
+        alert.setContentText("¿Está seguro de continuar con esta acción?, los cambios serán irreversibles");
 
-            try {
-                Connection conexion = this.getConnection();
-                PreparedStatement preparedStatement = conexion.prepareStatement(query);
-                preparedStatement.setString(1, trabajan.getDni() + "");
-                preparedStatement.setString(2, trabajan.getIdSucursal() + "");
-                preparedStatement.setString(3, trabajan.getFechaInicio());
-                preparedStatement.executeUpdate();
-                tvTrabajan.setItems(dameListaTrabajan());
-                darMensaje("Periodo de trabajo eliminado");
-            } catch (SQLException e) {
-                darAlerta(false, e.getLocalizedMessage());
+        // Mostrar el cuadro de diálogo y esperar la respuesta del usuario
+        Optional<ButtonType> resultado = alert.showAndWait();
+
+        // Verificar si el usuario confirmó la acción
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            Trabajan trabajan = tvTrabajan.getSelectionModel().getSelectedItem();
+            if (trabajan != null) {
+                String query = "DELETE FROM trabajan WHERE dni_empleado = ? AND id_sucursal = ? AND fecha_ini = ?";
+
+                try {
+                    Connection conexion = this.getConnection();
+                    PreparedStatement preparedStatement = conexion.prepareStatement(query);
+                    preparedStatement.setString(1, trabajan.getDni() + "");
+                    preparedStatement.setString(2, trabajan.getIdSucursal() + "");
+                    preparedStatement.setString(3, trabajan.getFechaInicio());
+                    preparedStatement.executeUpdate();
+                    tvTrabajan.setItems(dameListaTrabajan());
+                    darMensaje("Periodo de trabajo eliminado");
+                } catch (SQLException e) {
+                    darAlerta(false, e.getLocalizedMessage());
+                }
+
+            } else {
+                darAlerta(true, "Debes seleccionar un elemento de la tabla");
             }
-
-        } else {
-            darAlerta(true, "Debes seleccionar un elemento de la tabla");
         }
+
     }
 ///////////////////////////Funciones///////////////////////////
 
@@ -2209,10 +2450,9 @@ public class controladorAdmin implements Initializable {
     public Connection getConnection() {
         Connection conn;
         try {
-            //conn = DriverManager.getConnection("jdbc:mariadb://localhost:3306/libreria", "root", "root");
-             //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfg2", "admin", "gwo47BRcHwGE");
-                       conn = DriverManager.getConnection("jdbc:mysql://tfg.cb0ik4amuule.us-east-1.rds.amazonaws.com/tfg", "admin", "gwo47BRcHwGE");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfg2", "admin", "gwo47BRcHwGE");
 
+            //conn = DriverManager.getConnection("jdbc:mysql://proyecto-instance-1.cb0ik4amuule.us-east-1.rds.amazonaws.com/tfg", "admin", "gwo47BRcHwGE");
             return conn;
         } catch (SQLException e) {
             System.out.println("Error SQL: " + e.getMessage());
@@ -2418,7 +2658,7 @@ public class controladorAdmin implements Initializable {
             String query = "";
             if (permiso.contains("*")) {
                 query = "SELECT * FROM reservas WHERE dni = ?";
-                
+
                 try {
 
                     PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -2612,7 +2852,7 @@ public class controladorAdmin implements Initializable {
         ObservableList<Permiso> listaPermisos = dameListaPermisos();
 
         //Los campos han de coincidir con los campos del objeto Libros
-        tcIdRolPer.setCellValueFactory(new PropertyValueFactory<Permiso, Integer>("idRol"));
+        tcIdRolPer.setCellValueFactory(new PropertyValueFactory<Permiso, Rol>("idRol"));
         tcIdModuloPer.setCellValueFactory(new PropertyValueFactory<Permiso, Integer>("idModulo"));
         tcPermisos.setCellValueFactory(new PropertyValueFactory<Permiso, String>("permiso"));
 
@@ -2673,14 +2913,14 @@ public class controladorAdmin implements Initializable {
         tcFinTrabajan.setCellValueFactory(new PropertyValueFactory<Trabajan, Date>("fechaFin"));
         tvTrabajan.setItems(listaTrabajan);
 
-        cbBuscarSucursales.getItems().addAll("id_sucursal", "ciudad", "codigo_postal", "direccion", "telefono");
-        cbBuscarReservas.getItems().addAll("id_pista", "dni", "hora_inicio", "duracion", "fecha", "precio_reserva");
-        cbBuscarPistas.getItems().addAll("id_pista", "precioHora", "actividad", "id_sucursal");
-        cbBuscarUsuarios.getItems().addAll("dni", "nombre", "apellidos", "correo", "telefono", "usuario");
-        cbBuscarEmpleados.getItems().addAll("dni", "nombre", "apellidos", "correo", "telefono", "sueldo");
-        cbBuscarMantienen.getItems().addAll("dni", "id_pista", "tipo_trabajo", "fecha_ini", "duracion");
-        cbBuscarTrabajan.getItems().addAll("dni_empleado", "id_sucursal", "fecha_ini", "fecha_fin");
-        cbBuscarPermisos.getItems().addAll("id_rol", "id_modulo", "permisos");
+        cbBuscarSucursales.getItems().addAll("ID Sucursal", "Ciudad", "Código postal", "Dirección", "Teléfono");
+        cbBuscarReservas.getItems().addAll("ID Pista", "DNI", "Hora de inicio", "Duración", "Fecha", "Precio de reserva");
+        cbBuscarPistas.getItems().addAll("ID Pista", "Precio por hora", "Actividad", "ID Sucursal");
+        cbBuscarUsuarios.getItems().addAll("DNI", "Nombre", "Apellidos", "Correo", "Teléfono", "Usuario");
+        cbBuscarEmpleados.getItems().addAll("DNI", "Nombre", "Apellidos", "Correo", "Teléfono", "Sueldo");
+        cbBuscarMantienen.getItems().addAll("DNI", "ID Pista", "Tipo trabajo", "Fecha de inicio", "Duración");
+        cbBuscarTrabajan.getItems().addAll("DNI", "ID Sucursal", "Fecha de inicio", "Fecha de fin");
+        cbBuscarPermisos.getItems().addAll("ID Rol", "ID Módulo", "Permisos");
 
         contextMenuRol.setAutoHide(true);
         itemRol.setOnAction(event -> {
@@ -2727,20 +2967,7 @@ public class controladorAdmin implements Initializable {
             }
         });
 
-        contextMenuPista.setAutoHide(true);
-        itemPista.setOnAction(event -> {
-            //int selectedItem = tablaCasas.getSelectionModel().getSelectedItem().getIdCasa();
-            eliminarPista();
-        });
-        contextMenuPista.getItems().add(itemPista);
-        tvPistas.setContextMenu(contextMenuPista);
-
-        tvPistas.setOnMouseClicked(event -> {
-            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
-                // This is a double click
-                cargarPista();
-            }
-        });
+        
 
         contextMenuUsuario.setAutoHide(true);
         itemUsuario.setOnAction(event -> {
@@ -2819,7 +3046,7 @@ public class controladorAdmin implements Initializable {
 
         System.out.println("Id rol: " + persona.getRol());
         System.out.println("Permiso: " + sacarPermiso(1, persona.getRol()));
-        
+
         if (!sacarPermiso(1, persona.getRol()).contains("R")) {
             tbGeneral.getTabs().remove(tabSucursal);
         }
@@ -2872,16 +3099,35 @@ public class controladorAdmin implements Initializable {
         return retorno;
     }
 
-    public String permisosFaltantes(String permisos) {
-        String aux = "";
-        String todos = "CRUD";
-        for (char p : todos.toCharArray()) {
-            if (!permisos.contains(String.valueOf(p))) {
-                aux = aux + p;
-            }
-        }
-        return aux;
+    
+    @FXML
+    void manual(){
+        llamarAWeb();
     }
+    
+    private void llamarAWeb() {
+    WebView webView =new WebView();
+        
+        WebEngine webEngine = webView.getEngine();
+        URL url = getClass().getResource("/ManualUsuario/index.html");
+        webEngine.load(url.toExternalForm());
+
+        StackPane root = new StackPane();
+        root.getChildren().add(webView);
+
+        Scene scene = new Scene(root, 1000,800);
+        Stage stage = new Stage();
+
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        // Asigna la escena a la ventana y muestra la ventana
+        stage.setScene(scene);
+
+        stage.setTitle("Ayuda");
+
+        stage.show();
+    }
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
