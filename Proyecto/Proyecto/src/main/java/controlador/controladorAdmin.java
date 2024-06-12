@@ -1525,13 +1525,11 @@ public class controladorAdmin implements Initializable {
                         String query2 = "SELECT * FROM pistas WHERE id_pista = ?";
                         PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
                         preparedStatement2.setString(1, pista.getIdPista() + "");
-                        System.out.println(query2);
+                        
                         ResultSet resultado1 = preparedStatement2.executeQuery();
                         float retorno = 0;
-                        System.out.println("Aqui");
                         if (resultado1.next()) {
                             retorno = resultado1.getFloat("precioHora");
-                            System.out.println(retorno);
                         }
 
                         float precio = (Float.parseFloat(tfDuracionReserva.getText()) / 60) * retorno;
@@ -1977,7 +1975,6 @@ public class controladorAdmin implements Initializable {
 
     @FXML
     void insertarReserva() {
-        System.out.println("Entra en insertar");
         Usuario usu = new Usuario();
         Pista pista = new Pista();
         if (cbDNIReserva.getValue() != null && cbIdPistaReserva.getValue() != null && !tfHoraIni.getText().isEmpty() && dpFechaReserva.getValue() != null && !tfDuracionReserva.getText().isEmpty()) {
@@ -2000,10 +1997,8 @@ public class controladorAdmin implements Initializable {
 
                     ResultSet resultado = preparedStatement2.executeQuery();
                     float retorno = 0;
-                    System.out.println("Aqui");
                     if (resultado.next()) {
                         retorno = resultado.getFloat("precioHora");
-                        System.out.println(retorno);
                     }
 
                     float precio = (Float.parseFloat(tfDuracionReserva.getText()) / 60) * retorno;
@@ -2450,9 +2445,9 @@ public class controladorAdmin implements Initializable {
     public Connection getConnection() {
         Connection conn;
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfg2", "admin", "gwo47BRcHwGE");
+            //conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tfg2", "admin", "gwo47BRcHwGE");
 
-            //conn = DriverManager.getConnection("jdbc:mysql://proyecto-instance-1.cb0ik4amuule.us-east-1.rds.amazonaws.com/tfg", "admin", "gwo47BRcHwGE");
+            conn = DriverManager.getConnection("jdbc:mysql://proyecto-instance-1.cb0ik4amuule.us-east-1.rds.amazonaws.com/tfg", "admin", "gwo47BRcHwGE");
             return conn;
         } catch (SQLException e) {
             System.out.println("Error SQL: " + e.getMessage());
@@ -2527,7 +2522,6 @@ public class controladorAdmin implements Initializable {
                 Rol rol;
                 while (rs.next()) { //Se usan los identificadores propios en la BBDD
                     rol = new Rol(rs.getInt("id_rol"), rs.getString("denominacion"));
-                    System.out.println(rol.toString());
                     listaRoles.add(rol);
                 }
             } catch (SQLException e) {
@@ -2664,15 +2658,13 @@ public class controladorAdmin implements Initializable {
                     PreparedStatement preparedStatement = connection.prepareStatement(query);
                     preparedStatement.setString(1, persona.getDni());
                     ResultSet resultado = preparedStatement.executeQuery();
-                    System.out.println(preparedStatement);
                     Reserva res;
                     while (resultado.next()) {
                         res = new Reserva(resultado.getInt("id_reserva"), resultado.getInt("id_pista"), resultado.getString("dni"), resultado.getString("hora_inicio"), resultado.getFloat("duracion"), resultado.getString("fecha"), resultado.getFloat("precio_reserva"));
-                        System.out.println(res);
+                        
                         listaReservas.add(res);
                     }
                 } catch (SQLException e) {
-                    System.out.println(e.getLocalizedMessage());
                 }
 
             } else {
@@ -3044,9 +3036,6 @@ public class controladorAdmin implements Initializable {
             }
         });
 
-        System.out.println("Id rol: " + persona.getRol());
-        System.out.println("Permiso: " + sacarPermiso(1, persona.getRol()));
-
         if (!sacarPermiso(1, persona.getRol()).contains("R")) {
             tbGeneral.getTabs().remove(tabSucursal);
         }
@@ -3094,7 +3083,6 @@ public class controladorAdmin implements Initializable {
                 retorno = resultado.getString("permisos");
             }
         } catch (SQLException e) {
-            System.out.println(e.getLocalizedMessage());
         }
         return retorno;
     }
@@ -3107,7 +3095,6 @@ public class controladorAdmin implements Initializable {
     
     private void llamarAWeb() {
     WebView webView =new WebView();
-        
         WebEngine webEngine = webView.getEngine();
         URL url = getClass().getResource("/ManualUsuario/index.html");
         webEngine.load(url.toExternalForm());
