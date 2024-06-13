@@ -1,0 +1,48 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Introducción"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Esta es una aplicación desarrollada para el proyecto final de Desarrollo de Aplicaciones Multiplataforma.\n",
+    "\n",
+    "La idea general de la aplicación es que se pueda llevar un registro de las reservas de un complejo deportivo."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "En esta aplicación se va a poder manejar:\n",
+    "\n",
+    "- Para el usuario\n",
+    "    - Poder crear una nueva reserva, así como modificarla o eliminarla\n",
+    "    - Registro de todas las reservas que ha hecho\n",
+    "    - Buscar una reserva especifica"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "- Para el empleado (según sus permisos)\n",
+    "    - Llevar un registro de todo\n",
+    "    - Poder crear, modificar y eliminar cualquier elemento de la aplicación"
+   ]
+  }
+ ],
+ "metadata": {
+  "language_info": {
+   "name": "python"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}

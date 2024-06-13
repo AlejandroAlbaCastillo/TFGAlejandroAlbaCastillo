@@ -1,0 +1,50 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 10 jun 2024, 21:11:00
+    Author     : Alejandro
+*/
+
+.boton{
+    -fx-background-color: #95D2B3;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+}
+
+.boton:hover{
+    -fx-background-color: green;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+}
+
+.tab{
+    -fx-font-weight: bold;
+    -fx-margin-inline: 1px;
+    -fx-border-color: black;
+}
+
+.tab:hover{
+    -fx-cursor: hand;
+}
+
+.tab:selected{
+    -fx-background-color: #F1F8E8;
+    -fx-text-fill: white;
+}
+.fondo{
+    -fx-background-color: #F1F8E8;
+}
+
+.borde_redondeado{
+    -fx-border-radius: 10px;
+}
+
+.fondo2{
+     -fx-background-color: #D8EFD3;
+}
+
+button{
+    -fx-background-color: #95D2B3;
+}
