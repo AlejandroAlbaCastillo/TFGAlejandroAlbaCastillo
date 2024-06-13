@@ -1381,6 +1381,8 @@ public class controladorAdmin implements Initializable {
                         tfSueldo.setText("");
                         cbRolEmple.setValue(null);
 
+                        cbDniManteni.setItems(dameListaEmpleados());
+                        cbDNITrabajan.setItems(dameListaEmpleados());
                         // Mostrar mensaje de éxito
                         darMensaje("Empleado actualizado");
                     } catch (SQLException e) {
@@ -1485,6 +1487,8 @@ public class controladorAdmin implements Initializable {
                     tfActividad.setText("");
                     tfPrecioH.setText("");
                     cbSucursalPista.setValue(null);
+                    cbIdPistaManteni.setItems(dameListaPista());
+                    cbIdPistaReserva.setItems(dameListaPista());
                 }
 
             } else {
@@ -1525,7 +1529,7 @@ public class controladorAdmin implements Initializable {
                         String query2 = "SELECT * FROM pistas WHERE id_pista = ?";
                         PreparedStatement preparedStatement2 = conexion.prepareStatement(query2);
                         preparedStatement2.setString(1, pista.getIdPista() + "");
-                        
+
                         ResultSet resultado1 = preparedStatement2.executeQuery();
                         float retorno = 0;
                         if (resultado1.next()) {
@@ -1594,6 +1598,8 @@ public class controladorAdmin implements Initializable {
                     tfCodigoPostal.setText("");
                     tfDireccion.setText("");
                     tfTelSucursal.setText("");
+                    cbSucursalPista.setItems(dameListaSucursal());
+                    cbIDSucursalTrabajan.setItems(dameListaSucursal());
 
                 }
 
@@ -1648,6 +1654,8 @@ public class controladorAdmin implements Initializable {
                         tfCorreoUsu.setText("");
                         tfTelUsu.setText("");
                         tfUsuario.setText("");
+
+                        cbDNIReserva.setItems(dameListaUsuarios(sacarPermiso(11, persona.getRol())));
                         //MODIFICAR
                         darMensaje("Usuario actualizado");
                     } catch (SQLException e) {
@@ -1665,7 +1673,7 @@ public class controladorAdmin implements Initializable {
 
     @FXML
     void eliminarEmple() {
-            Empleado empleado = tvEmpleados.getSelectionModel().getSelectedItem();
+        Empleado empleado = tvEmpleados.getSelectionModel().getSelectedItem();
         if (empleado != null) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setHeaderText(null);
@@ -1687,12 +1695,15 @@ public class controladorAdmin implements Initializable {
                     darAlerta(false, e.getLocalizedMessage());
                 }
                 tvEmpleados.setItems(dameListaEmpleados());
+
+                cbDniManteni.setItems(dameListaEmpleados());
+                cbDNITrabajan.setItems(dameListaEmpleados());
                 darMensaje("Empleado eliminado");
-            
-        } else {
-            darAlerta(true, "Debes seleccionar un elemento de la tabla");
+
+            } else {
+                darAlerta(true, "Debes seleccionar un elemento de la tabla");
+            }
         }
-    }
     }
 
     @FXML
@@ -1750,6 +1761,8 @@ public class controladorAdmin implements Initializable {
                     darAlerta(false, e.getLocalizedMessage());
                 }
                 tvPistas.setItems(dameListaPista());
+                cbIdPistaManteni.setItems(dameListaPista());
+                cbIdPistaReserva.setItems(dameListaPista());
                 darMensaje("Pista eliminada");
             }
         } else {
@@ -1812,8 +1825,8 @@ public class controladorAdmin implements Initializable {
                     darAlerta(false, e.getLocalizedMessage());
                 }
                 tvUsuarios.setItems(dameListaUsuarios(sacarPermiso(11, persona.getRol())));
+                cbDNIReserva.setItems(dameListaUsuarios(sacarPermiso(11, persona.getRol())));
                 darMensaje("Usuario eliminado");
-
             } else {
                 darAlerta(true, "Debes seleccionar un elemento de la tabla");
             }
@@ -1844,6 +1857,8 @@ public class controladorAdmin implements Initializable {
                     darAlerta(false, e.getLocalizedMessage());
                 }
                 tvSucursal.setItems(dameListaSucursal());
+                cbSucursalPista.setItems(dameListaSucursal());
+                cbIDSucursalTrabajan.setItems(dameListaSucursal());
                 darMensaje("Sucursal eliminada");
             }
         } else {
@@ -1884,6 +1899,8 @@ public class controladorAdmin implements Initializable {
                     tfTelEmple.setText("");
                     tfSueldo.setText("");
                     cbRolEmple.setValue(null);
+                    cbDniManteni.setItems(dameListaEmpleados());
+                    cbDNITrabajan.setItems(dameListaEmpleados());
                     darMensaje("Empleado insertado");
                 } catch (SQLException e) {
                     darAlerta(false, e.getLocalizedMessage());
@@ -1963,6 +1980,8 @@ public class controladorAdmin implements Initializable {
                 tfActividad.setText("");
                 tfPrecioH.setText("");
                 cbSucursalPista.setValue(null);
+                cbIdPistaManteni.setItems(dameListaPista());
+                cbIdPistaReserva.setItems(dameListaPista());
             } else {
                 darAlerta(true, "Formato de precio incorrecto");
             }
@@ -2049,6 +2068,8 @@ public class controladorAdmin implements Initializable {
                 tfCodigoPostal.setText("");
                 tfDireccion.setText("");
                 tfTelSucursal.setText("");
+                cbSucursalPista.setItems(dameListaSucursal());
+                cbIDSucursalTrabajan.setItems(dameListaSucursal());
             } else {
                 darAlerta(true, "Algún campo esta mal escrito");
             }
@@ -2119,6 +2140,8 @@ public class controladorAdmin implements Initializable {
             tvRol.setItems(dameListaRol());
             tfDenominacion.setText("");
             tfIdRol.setText("");
+            cbIdRolPer.setItems(dameListaRol());
+            cbRolEmple.setItems(dameListaRol());
         } else {
             darAlerta(true, "Inserta una denominación");
         }
@@ -2151,6 +2174,8 @@ public class controladorAdmin implements Initializable {
                 tvRol.setItems(dameListaRol());
                 tfDenominacion.setText("");
                 tfIdRol.setText("");
+                cbIdRolPer.setItems(dameListaRol());
+                cbRolEmple.setItems(dameListaRol());
             }
         } else {
             darAlerta(true, "Inserta una denominacion");
@@ -2182,6 +2207,8 @@ public class controladorAdmin implements Initializable {
                 }
                 tvRol.setItems(dameListaRol());
                 darMensaje("Rol eliminado");
+                cbIdRolPer.setItems(dameListaRol());
+                cbRolEmple.setItems(dameListaRol());
             }
         } else {
             darAlerta(true, "Debes seleccionar un elemento de la tabla");
@@ -2661,7 +2688,7 @@ public class controladorAdmin implements Initializable {
                     Reserva res;
                     while (resultado.next()) {
                         res = new Reserva(resultado.getInt("id_reserva"), resultado.getInt("id_pista"), resultado.getString("dni"), resultado.getString("hora_inicio"), resultado.getFloat("duracion"), resultado.getString("fecha"), resultado.getFloat("precio_reserva"));
-                        
+
                         listaReservas.add(res);
                     }
                 } catch (SQLException e) {
@@ -2810,8 +2837,6 @@ public class controladorAdmin implements Initializable {
         tcTelSucu.setCellValueFactory(new PropertyValueFactory<Sucursal, Integer>("telefono"));
 
         tvSucursal.setItems(listaS);
-        cbSucursalPista.setItems(listaS);
-        cbIDSucursalTrabajan.setItems(listaS);
         ObservableList<Pista> listaP = dameListaPista();
 
         //Los campos han de coincidir con los campos del objeto Libros
@@ -2820,8 +2845,7 @@ public class controladorAdmin implements Initializable {
         tcActividad.setCellValueFactory(new PropertyValueFactory<Pista, String>("actividad"));
 
         tvPistas.setItems(listaP);
-        cbIdPistaManteni.setItems(listaP);
-        cbIdPistaReserva.setItems(listaP);
+
         ObservableList<Rol> listaRol = dameListaRol();
 
         //Los campos han de coincidir con los campos del objeto Libros
@@ -2829,16 +2853,13 @@ public class controladorAdmin implements Initializable {
         tcDenominacion.setCellValueFactory(new PropertyValueFactory<Rol, String>("denominacion"));
 
         tvRol.setItems(listaRol);
-        cbIdRolPer.setItems(listaRol);
-
-        cbRolEmple.setItems(listaRol);
 
         ObservableList<Modulo> listaModulo = dameListaModulo();
 
         //Los campos han de coincidir con los campos del objeto Libros
         tcIdModulo.setCellValueFactory(new PropertyValueFactory<Modulo, Integer>("idModulo"));
         tcModulo.setCellValueFactory(new PropertyValueFactory<Modulo, String>("modulo"));
-        cbModuloPer.setItems(listaModulo);
+
         tvModulo.setItems(listaModulo);
 
         ObservableList<Permiso> listaPermisos = dameListaPermisos();
@@ -2859,7 +2880,7 @@ public class controladorAdmin implements Initializable {
         tcCorreoUsu.setCellValueFactory(new PropertyValueFactory<Usuario, String>("correo"));
         tcTelUsu.setCellValueFactory(new PropertyValueFactory<Usuario, Integer>("telefono"));
         tcUsu.setCellValueFactory(new PropertyValueFactory<Usuario, String>("usuario"));
-        cbDNIReserva.setItems(listaUsuarios);
+
         tvUsuarios.setItems(listaUsuarios);
 
         ObservableList<Empleado> listaEmpleados = dameListaEmpleados();
@@ -2875,6 +2896,14 @@ public class controladorAdmin implements Initializable {
         tvEmpleados.setItems(listaEmpleados);
         cbDniManteni.setItems(listaEmpleados);
         cbDNITrabajan.setItems(listaEmpleados);
+        cbDNIReserva.setItems(listaUsuarios);
+        cbModuloPer.setItems(listaModulo);
+        cbIdRolPer.setItems(listaRol);
+        cbSucursalPista.setItems(listaS);
+        cbIDSucursalTrabajan.setItems(listaS);
+        cbIdPistaManteni.setItems(listaP);
+        cbIdPistaReserva.setItems(listaP);
+        cbRolEmple.setItems(listaRol);
         ObservableList<Reserva> listaReservas = dameListaReservas(sacarPermiso(11, persona.getRol()));
 
         //Los campos han de coincidir con los campos del objeto Libros
@@ -2904,6 +2933,17 @@ public class controladorAdmin implements Initializable {
         tcInicioTrabajan.setCellValueFactory(new PropertyValueFactory<Trabajan, Date>("fechaInicio"));
         tcFinTrabajan.setCellValueFactory(new PropertyValueFactory<Trabajan, Date>("fechaFin"));
         tvTrabajan.setItems(listaTrabajan);
+
+        cbDniManteni.setItems(listaEmpleados);
+        cbDNITrabajan.setItems(listaEmpleados);
+        cbDNIReserva.setItems(listaUsuarios);
+        cbModuloPer.setItems(listaModulo);
+        cbIdRolPer.setItems(listaRol);
+        cbRolEmple.setItems(listaRol);
+        cbSucursalPista.setItems(listaS);
+        cbIDSucursalTrabajan.setItems(listaS);
+        cbIdPistaManteni.setItems(listaP);
+        cbIdPistaReserva.setItems(listaP);
 
         cbBuscarSucursales.getItems().addAll("ID Sucursal", "Ciudad", "Código postal", "Dirección", "Teléfono");
         cbBuscarReservas.getItems().addAll("ID Pista", "DNI", "Hora de inicio", "Duración", "Fecha", "Precio de reserva");
@@ -2958,8 +2998,6 @@ public class controladorAdmin implements Initializable {
                 cargarReserva();
             }
         });
-
-        
 
         contextMenuUsuario.setAutoHide(true);
         itemUsuario.setOnAction(event -> {
@@ -3035,6 +3073,21 @@ public class controladorAdmin implements Initializable {
                 cargarPermiso();
             }
         });
+        
+         contextMenuPista.setAutoHide(true);
+        itemPista.setOnAction(event -> {
+            //int selectedItem = tablaCasas.getSelectionModel().getSelectedItem().getIdCasa();
+            eliminarPista();
+        });
+        contextMenuPista.getItems().add(itemPista);
+        tvPistas.setContextMenu(contextMenuPista);
+
+        tvPistas.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY && event.getClickCount() == 2) {
+                // This is a double click
+                cargarPista();
+            }
+        });
 
         if (!sacarPermiso(1, persona.getRol()).contains("R")) {
             tbGeneral.getTabs().remove(tabSucursal);
@@ -3087,14 +3140,13 @@ public class controladorAdmin implements Initializable {
         return retorno;
     }
 
-    
     @FXML
-    void manual(){
+    void manual() {
         llamarAWeb();
     }
-    
+
     private void llamarAWeb() {
-    WebView webView =new WebView();
+        WebView webView = new WebView();
         WebEngine webEngine = webView.getEngine();
         URL url = getClass().getResource("/ManualUsuario/index.html");
         webEngine.load(url.toExternalForm());
@@ -3102,7 +3154,7 @@ public class controladorAdmin implements Initializable {
         StackPane root = new StackPane();
         root.getChildren().add(webView);
 
-        Scene scene = new Scene(root, 1000,800);
+        Scene scene = new Scene(root, 1000, 800);
         Stage stage = new Stage();
 
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -3114,7 +3166,6 @@ public class controladorAdmin implements Initializable {
 
         stage.show();
     }
-    
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
